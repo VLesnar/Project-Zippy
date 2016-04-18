@@ -40,6 +40,7 @@ void MyBoundingObjectManager::render() {
 
 void MyBoundingObjectManager::checkColissions() {
 	for (int i = 0; i < floor(BOnum/2); i+=2)
+	//for (int i = 0; i < BOnum - 1; i++)
 	{
 		boundingObjects[i]->IsColliding(boundingObjects[i + 1]);
 	}

@@ -22,8 +22,15 @@ void AppClass::InitVariables(void)
 	
 	m_pGround = new PrimitiveClass();
 	m_pGround->GeneratePlane(10, REWHITE);
+
 	//Load a model onto the Mesh manager
-	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
+	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
+	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve");
+	bo_1 = new MyBoundingObjectClass(vertexList);
+	bo_2 = new MyBoundingObjectClass(vertexList);
+	center1 = bo_1->GetGlobalCenter();
+	center2 = bo_2->GetGlobalCenter();
 }
 
 void AppClass::Update(void)
@@ -41,12 +48,17 @@ void AppClass::Update(void)
 	//Call the arcball method
 	ArcBall();
 	
-	//Set the model matrix for the first model to be the arcball
-	//m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
+	//Set the model matrix for the the objects and bounding objects
+	m_pMeshMngr->SetModelMatrix(glm::translate(center1) * ToMatrix4(m_qArcBall), "Steve");
+	bo_1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
+	m_pMeshMngr->SetModelMatrix(glm::translate(center2) * ToMatrix4(m_qArcBall), "Steve2");
+	bo_2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve2"));
 	
 	//Adds all loaded instance to the render list
-	m_pMeshMngr->AddInstanceToRenderList("ALL");
+	m_pMeshMngr->AddInstanceToRenderList("ALL"); // Renders everything in the Mesh Manager
 	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
+	m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), RERED, WIRE);
+	m_pMeshMngr->AddSphereToQueue(bo_2->GetModelMatrix() * glm::scale(vector3(bo_2->GetRadius() * 2.0f)), RERED, WIRE);
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 
@@ -89,6 +101,15 @@ void AppClass::Release(void)
 		m_pGround = nullptr;
 	}
 
+	if (bo_1 != nullptr) {
+		delete bo_1;
+		bo_1 = nullptr;
+	}
+
+	if (bo_2 != nullptr) {
+		delete bo_2;
+		bo_2 = nullptr;
+	}
 
 	super::Release(); //release the memory of the inherited fields
 }

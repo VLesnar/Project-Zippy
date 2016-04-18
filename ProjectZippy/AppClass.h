@@ -14,13 +14,19 @@ Application: Project Zippy
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
 #include "Camera.h"
+#include "MyBoundingObjectManager.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
 	Camera* cam = Camera::GetInstance();
+	MyBoundingObjectManager* manager = MyBoundingObjectManager::GetInstance();
 	PrimitiveClass* m_pGround = nullptr;
+	MyBoundingObjectClass* bo_1 = nullptr;
+	MyBoundingObjectClass* bo_2 = nullptr;
+	vector3 center1 = vector3(0.0f, 0.0f, 0.0f);
+	vector3 center2 = vector3(0.0f, 0.0f, 0.0f);
 public:
 	typedef ReEngAppClass super;
 

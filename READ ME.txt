@@ -1,9 +1,9 @@
 ***Note***
 For homework A10 and the Project Milestone 1 we've worked on both assignments in tandem and are
-thus internally considering contributions of both as a cohesive unit.
+thus internally considering contributions for both as a cohesive unit.
 
 Homework A10 Contributions:
-Alex Bronner: Debugging
+Alex Bronner: Debugging, General Assistance
 Joseph Horsmann: MyBoundingObjectClass, MyBoundingObjectManager
 Veronica Lesnar: MyBoundingObjectClass
 Steven Siewert: MyBoundingObjectManager
