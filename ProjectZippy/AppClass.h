@@ -13,11 +13,13 @@ Application: Project Zippy
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
+#include "Camera.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
+	Camera* cam = Camera::GetInstance();
 public:
 	typedef ReEngAppClass super;
 
