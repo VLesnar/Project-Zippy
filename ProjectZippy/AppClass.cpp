@@ -19,9 +19,14 @@ void AppClass::InitVariables(void)
 		vector3(0.0f, 2.5f, 15.0f),//Camera position
 		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
 		REAXISY);//What is up
-	
+
+	cam->SetPosition(vector3(0.0f, 0.0f, -4.0f));
+	cam->SetTarget(vector3(0.0f, 0.0f, 0.0f));
+	cam->SetUp(vector3(0.0f, 1.0f, 0.0f));
+
 	m_pGround = new PrimitiveClass();
-	m_pGround->GeneratePlane(10, REWHITE);
+	m_pGround->GeneratePlane(5, REWHITE);
+
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 }
@@ -34,6 +39,10 @@ void AppClass::Update(void)
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
 
+	//Stuff
+	m_m4Projection = cam->GetProjection();
+	m_m4View = cam->GetView();
+
 	//First person camera movement
 	if (m_bFPC == true)
 		CameraRotation();
@@ -43,10 +52,8 @@ void AppClass::Update(void)
 	
 	//Set the model matrix for the first model to be the arcball
 	//m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
+	m_pGround->Render(m_m4Projection, m_m4View, IDENTITY_M4);
 	
-	//Adds all loaded instance to the render list
-	m_pMeshMngr->AddInstanceToRenderList("ALL");
-	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 
@@ -59,6 +66,9 @@ void AppClass::Display(void)
 {
 	//clear the screen
 	ClearScreen();
+
+	//Render the plane
+	m_pGround->Render(m_m4Projection, m_m4View, IDENTITY_M4);
 
 	//Render the grid based on the camera's mode:
 	/*switch (m_pCameraMngr->GetCameraMode())

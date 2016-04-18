@@ -21,6 +21,8 @@ class AppClass : public ReEngAppClass
 {
 	Camera* cam = Camera::GetInstance();
 	PrimitiveClass* m_pGround = nullptr;
+	matrix4 m_m4Projection;
+	matrix4 m_m4View;
 public:
 	typedef ReEngAppClass super;
 
