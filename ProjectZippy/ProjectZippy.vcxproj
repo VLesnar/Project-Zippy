@@ -161,12 +161,14 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyBoundingObjectClass.cpp" />
+    <ClCompile Include="MyBoundingObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\res\Resource.h" />
     <ClInclude Include="AppClass.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="MyBoundingObjectClass.h" />
+    <ClInclude Include="MyBoundingObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc" />

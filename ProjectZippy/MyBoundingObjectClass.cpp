@@ -17,6 +17,7 @@ void MyBoundingObjectClass::Init() {
 	m_v3ChangingSize = vector3(0.0f);
 	m_m4ToWorld = IDENTITY_M4;
 	m_bIsVisible = true;
+	meshManager->GetInstance();
 }
 
 // Changes the object's contents with another
@@ -212,4 +213,12 @@ vector3 MyBoundingObjectClass::GetColor(void) {
 // Sets the color of the bounding object
 void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 	m_v3Color = a_v3Color;
+}
+
+// Renders the bounding object
+void MyBoundingObjectClass::Render(void) {
+	if (m_bIsVisible) {
+		meshManager->AddSphereToQueue(m_m4ToWorld, m_v3Color, WIRE);
+		meshManager->AddCubeToQueue(m_m4ToWorld, m_v3Color, WIRE);
+	}
 }
