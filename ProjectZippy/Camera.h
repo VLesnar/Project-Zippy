@@ -109,7 +109,7 @@ private:
 	void TransformByMatrix(matrix4 mat)
 	{
 		forward = vector3(mat * vector4(forward, 1.0f));
-		up = vector3(mat * vector4(forward, 1.0f));
+		up = vector3(mat * vector4(up, 1.0f));
 	}
 	Camera() {};
 };

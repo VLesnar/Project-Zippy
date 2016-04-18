@@ -41,6 +41,45 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
+
+	//x-axis rot
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		if (!bModifier)
+		{
+			cam->ChangePitch(5);
+		}
+		else
+		{
+			cam->ChangePitch(-5);
+		}
+	}
+
+	//y-axis rot
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+	{
+		if (!bModifier)
+		{
+			cam->ChangeYaw(5);
+		}
+		else
+		{
+			cam->ChangeYaw(-5);
+		}
+	}
+
+	//z-axis rot
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	{
+		if (!bModifier)
+		{
+			cam->ChangeRoll(5);
+		}
+		else
+		{
+			cam->ChangeRoll(5);
+		}
+	}
 #pragma endregion
 
 #pragma region Other Actions

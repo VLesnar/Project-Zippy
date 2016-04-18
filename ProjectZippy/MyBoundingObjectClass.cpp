@@ -14,7 +14,10 @@ void MyBoundingObjectClass::Init() {
 	m_v3Center = vector3(0.0f);
 	m_fRadius = 0.0f;
 	m_v3Size = vector3(0.0f);
+	m_bList = vector<vector3>();
 	m_v3ChangingSize = vector3(0.0f);
+	m_v3ChangingMin = vector3(0.0f);
+	m_v3ChangingMax = vector3(0.0f);
 	m_m4ToWorld = IDENTITY_M4;
 	m_bIsVisible = true;
 	meshManager->GetInstance();
@@ -28,6 +31,10 @@ void MyBoundingObjectClass::Swap(MyBoundingObjectClass& other) {
 	swap(m_v3Center, other.m_v3Center);
 	swap(m_fRadius, other.m_fRadius);
 	swap(m_v3Size, other.m_v3Size);
+	swap(m_bList, other.m_bList);
+	swap(m_v3ChangingSize, other.m_v3ChangingSize);
+	swap(m_v3ChangingMin, other.m_v3ChangingMin);
+	swap(m_v3ChangingMax, other.m_v3ChangingMax);
 	swap(m_m4ToWorld, other.m_m4ToWorld);
 }
 
@@ -78,6 +85,17 @@ MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList) {
 	m_v3Size.x = glm::distance(vector3(m_v3Min.x, 0.0, 0.0), vector3(m_v3Max.x, 0.0, 0.0));
 	m_v3Size.y = glm::distance(vector3(0.0, m_v3Min.y, 0.0), vector3(0.0, m_v3Max.y, 0.0));
 	m_v3Size.z = glm::distance(vector3(0.0f, 0.0, m_v3Min.z), vector3(0.0, 0.0, m_v3Max.z));
+
+	m_bList.push_back(vector3(m_v3Size.x, m_v3Size.y, m_v3Size.z));
+	m_bList.push_back(vector3(m_v3Size.x, m_v3Size.y, -m_v3Size.z));
+	m_bList.push_back(vector3(m_v3Size.x, -m_v3Size.y, m_v3Size.z));
+	m_bList.push_back(vector3(m_v3Size.x, -m_v3Size.y, -m_v3Size.z));
+	m_bList.push_back(vector3(-m_v3Size.x, m_v3Size.y, m_v3Size.z));
+	m_bList.push_back(vector3(-m_v3Size.x, m_v3Size.y, -m_v3Size.z));
+	m_bList.push_back(vector3(-m_v3Size.x, -m_v3Size.y, m_v3Size.z));
+	m_bList.push_back(vector3(-m_v3Size.x, -m_v3Size.y, -m_v3Size.z));
+
+	SetChangingCubeSize();
 }
 
 // Copy Constructor
@@ -88,6 +106,10 @@ MyBoundingObjectClass::MyBoundingObjectClass(MyBoundingObjectClass const& other)
 	m_v3Center = other.m_v3Center;
 	m_fRadius = other.m_fRadius;
 	m_v3Size = other.m_v3Size;
+	m_bList = other.m_bList;
+	m_v3ChangingSize = other.m_v3ChangingSize;
+	m_v3ChangingMin = other.m_v3ChangingMin;
+	m_v3ChangingMax = other.m_v3ChangingMax;
 	m_m4ToWorld = other.m_m4ToWorld;
 }
 
@@ -135,9 +157,32 @@ vector3 MyBoundingObjectClass::GetChangingSize() {
 
 // Changes the size of the axis-aligned bounding box
 void MyBoundingObjectClass::SetChangingCubeSize() {
-	m_v3ChangingSize.x = glm::distance(vector3(m_v3Min.x, 0.0, 0.0), vector3(m_v3Max.x, 0.0, 0.0));
-	m_v3ChangingSize.y = glm::distance(vector3(0.0, m_v3Min.y, 0.0), vector3(0.0, m_v3Max.y, 0.0));
-	m_v3ChangingSize.z = glm::distance(vector3(0.0f, 0.0, m_v3Min.z), vector3(0.0, 0.0, m_v3Max.z));
+	for (int i = 0; i < m_bList.size(); i++)
+	{
+		vector3 tempVect = vector3(GetGlobalCenterMatrix() * vector4(m_bList[i], 1.0f)) - vector3(GetGlobalCenterMatrix()[3]);
+
+		if (tempVect.x > m_v3ChangingMax.x)
+			m_v3ChangingMax.x = tempVect.x;
+		else if (tempVect.x < m_v3ChangingMin.x)
+			m_v3ChangingMin.x = tempVect.x;
+
+		if (tempVect.y > m_v3ChangingMax.y)
+			m_v3ChangingMax.y = tempVect.y;
+		else if (tempVect.y < m_v3ChangingMin.y)
+			m_v3ChangingMin.y = tempVect.y;
+
+		if (tempVect.z > m_v3ChangingMax.z)
+			m_v3ChangingMax.z = tempVect.z;
+		else if (tempVect.z < m_v3ChangingMin.z)
+			m_v3ChangingMin.z = tempVect.z;
+	}
+
+	m_v3ChangingMin /= 2;
+	m_v3ChangingMax /= 2;
+
+	m_v3ChangingSize.x = glm::distance(vector3(m_v3ChangingMin.x, 0.0, 0.0), vector3(m_v3ChangingMax.x, 0.0, 0.0));
+	m_v3ChangingSize.y = glm::distance(vector3(0.0, m_v3ChangingMin.y, 0.0), vector3(0.0, m_v3ChangingMax.y, 0.0));
+	m_v3ChangingSize.z = glm::distance(vector3(0.0, 0.0, m_v3ChangingMin.z), vector3(0.0, 0.0, m_v3ChangingMax.z));
 }
 
 // Gets the object's matrix
@@ -162,12 +207,10 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 	// Two spheres have collided
 	if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
 		// Box collision detection
-		// First object's min & max
-		vector3 vMin1 = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
-		vector3 vMax1 = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
-		// Second object's min & max
-		vector3 vMin2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Min, 1.0f));
-		vector3 vMax2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Max, 1.0f));
+		vector3 vMin1 = v3Temp1 + m_v3ChangingMin;
+		vector3 vMax1 = v3Temp1 + m_v3ChangingMax;
+		vector3 vMin2 = v3Temp2 + a_pOther->m_v3ChangingMin;
+		vector3 vMax2 = v3Temp2 + a_pOther->m_v3ChangingMax;
 
 		//Check for X
 		if (vMax1.x < vMin2.x)
