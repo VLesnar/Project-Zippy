@@ -1,6 +1,6 @@
 ***Note***
 For homework A10 and the Project Milestone 1 we've worked on both assignments in tandem and are
-thus internally considering contributions for both as a cohesive unit.
+thus considering contributions for both as a cohesive unit amongst ourselves.
 
 Homework A10 Contributions:
 Alex Bronner: Debugging, General Assistance
