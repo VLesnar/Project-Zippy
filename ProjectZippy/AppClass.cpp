@@ -20,6 +20,8 @@ void AppClass::InitVariables(void)
 		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
 		REAXISY);//What is up
 	
+	m_pGround = new PrimitiveClass();
+	m_pGround->GeneratePlane(10, REWHITE);
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 }
@@ -44,7 +46,7 @@ void AppClass::Update(void)
 	
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
-
+	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 
@@ -74,7 +76,6 @@ void AppClass::Display(void)
 		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XY, REBLUE * 0.75f); //renders the XY grid with a 100% scale
 		break;
 	}*/
-	
 	m_pMeshMngr->Render(); //renders the render list
 
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
@@ -82,5 +83,12 @@ void AppClass::Display(void)
 
 void AppClass::Release(void)
 {
+	if (m_pGround != nullptr)
+	{
+		delete m_pGround;
+		m_pGround = nullptr;
+	}
+
+
 	super::Release(); //release the memory of the inherited fields
 }

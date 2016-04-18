@@ -20,6 +20,7 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 class AppClass : public ReEngAppClass
 {
 	Camera* cam = Camera::GetInstance();
+	PrimitiveClass* m_pGround = nullptr;
 public:
 	typedef ReEngAppClass super;
 
