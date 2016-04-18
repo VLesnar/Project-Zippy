@@ -26,11 +26,12 @@ void AppClass::InitVariables(void)
 	//Load a model onto the Mesh manager
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
+	m_pMeshMngr->LoadModel("Minecraft\\Creeper.obj", "Creeper");
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve");
+	std::vector<vector3> planeVertexList = { vector3(100.0f, 0.0f, 100.0f), vector3(100.0f, 0.0f, -100.0f), vector3(-100.0f, 0.0f, 100.0f), vector3(-100.0f, 0.0f, -100.0f) };
 	bo_1 = new MyBoundingObjectClass(vertexList);
 	bo_2 = new MyBoundingObjectClass(vertexList);
-	center1 = bo_1->GetGlobalCenter();
-	center2 = bo_2->GetGlobalCenter();
+	bo_3 = new MyBoundingObjectClass(planeVertexList);
 }
 
 void AppClass::Update(void)
@@ -49,16 +50,26 @@ void AppClass::Update(void)
 	ArcBall();
 	
 	//Set the model matrix for the the objects and bounding objects
-	m_pMeshMngr->SetModelMatrix(glm::translate(center1) * ToMatrix4(m_qArcBall), "Steve");
+	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, -1.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve");
 	bo_1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
-	m_pMeshMngr->SetModelMatrix(glm::translate(center2) * ToMatrix4(m_qArcBall), "Steve2");
+	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 3.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
 	bo_2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve2"));
+	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Creeper");
+	bo_3->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Creeper"));
 	
 	//Adds all loaded instance to the render list
-	m_pMeshMngr->AddInstanceToRenderList("ALL"); // Renders everything in the Mesh Manager
+	//m_pMeshMngr->AddInstanceToRenderList("ALL"); // Renders everything in the Mesh Manager
+	m_pMeshMngr->AddInstanceToRenderList("Steve");
+	m_pMeshMngr->AddInstanceToRenderList("Steve2");
 	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
-	m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), RERED, WIRE);
-	m_pMeshMngr->AddSphereToQueue(bo_2->GetModelMatrix() * glm::scale(vector3(bo_2->GetRadius() * 2.0f)), RERED, WIRE);
+	if (bo_1->IsColliding(bo_3)) {
+		m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), RERED, WIRE);
+	}
+	else {
+		m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), REGREEN, WIRE);
+	}
+	m_pMeshMngr->AddSphereToQueue(bo_2->GetModelMatrix() * glm::scale(vector3(bo_2->GetRadius() * 2.0f)), REGREEN, WIRE);
+	m_pMeshMngr->AddCubeToQueue(bo_3->GetGlobalCenterMatrix() * glm::scale(vector3(bo_3->GetSize() / 2.0f)), REGREEN, WIRE); // GetGlobalCenterMatrix's center is off
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 
@@ -109,6 +120,11 @@ void AppClass::Release(void)
 	if (bo_2 != nullptr) {
 		delete bo_2;
 		bo_2 = nullptr;
+	}
+
+	if (bo_3 != nullptr) {
+		delete bo_3;
+		bo_3 = nullptr;
 	}
 
 	super::Release(); //release the memory of the inherited fields

@@ -192,7 +192,7 @@ matrix4 MyBoundingObjectClass::GetModelMatrix() {
 
 // Sets the object's matrix
 void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
-	m_m4ToWorld = a_m4ToWorld;
+	m_m4ToWorld = a_m4ToWorld * glm::translate(m_v3Center);
 }
 
 // Checks to see if two objects are colliding
