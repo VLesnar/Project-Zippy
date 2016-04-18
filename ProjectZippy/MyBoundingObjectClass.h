@@ -26,6 +26,7 @@ private:
 	void Release(void);	// Deallocates member fields
 	bool m_bIsVisible;	// If the bounding box is visible
 	vector3 m_v3Color;	// Holds the color of the bounding object
+	MeshManagerSingleton* meshManager = nullptr;	// The mesh singleton to render bounding objects
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
 	MyBoundingObjectClass(vector<vector3> a_lVectorList);	// Constructor
@@ -44,5 +45,6 @@ public:
 	void SetVisibility(void);	// Sets the visibility of the bounding object
 	vector3 GetColor(void);	// Gets the color of the bounding object
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
+	void Render(void);	// Renders the bounding object
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_
