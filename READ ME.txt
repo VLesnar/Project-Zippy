@@ -1,0 +1,14 @@
+***Note***
+For homework A10 and the Project Milestone 1 we've worked on both assignments in tandem and are
+thus internally considering contributions of both as a cohesive unit.
+
+Homework A10 Contributions:
+Alex Bronner: Debugging
+Joseph Horsmann: MyBoundingObjectClass, MyBoundingObjectManager
+Veronica Lesnar: MyBoundingObjectClass
+Steven Siewert: MyBoundingObjectManager
+
+
+Project Milestone 1 Contributions, See Above + The following:
+Alex Bronner: Camera Singleton
+Steven Siewert: World Space
