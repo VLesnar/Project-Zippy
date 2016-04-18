@@ -151,48 +151,45 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
 
 // Checks to see if two objects are colliding
 bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
-	vector3 v3Temp = this->GetGlobalCenter();
-	vector3 v3Temp1 = a_pOther->GetGlobalCenter();
+	// Get the centers for collision check
+	vector3 v3Temp1 = this->GetGlobalCenter();	// First object
+	vector3 v3Temp2 = a_pOther->GetGlobalCenter();	// Second object
 
-	bool bAreColliding = true;
+	bool bAreColliding = true;	// If the two objects are colliding
 
-	//vector3 v3Temp1 = this->GetCenter();
-	//vector3 v3Temp2 = a_pOther->GetCenter();
-	//std::cout << v3Temp1.x << " " << v3Temp1.y << " " << v3Temp1.z << std::endl;
-	//std::cout << v3Temp2.x << " " << v3Temp2.y << " " << v3Temp2.z << std::endl;
-	//m_pMeshMngr->PrintLine("x: " + std::to_string(v3Temp1.x) + " y: " + std::to_string(v3Temp1.y) + " z: " + std::to_string(v3Temp1.z), REBLACK);
+	// Sphere collision detection
+	// Two spheres have collided
+	if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
+		// Box collision detection
+		// First object's min & max
+		vector3 vMin1 = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
+		vector3 vMax1 = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
+		// Second object's min & max
+		vector3 vMin2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Min, 1.0f));
+		vector3 vMax2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Max, 1.0f));
 
-	//if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
-	//	bAreColliding = true;
-	//}
-	//else {
-	//	bAreColliding = false;
-	//}
+		//Check for X
+		if (vMax1.x < vMin2.x)
+			bAreColliding = false;
+		if (vMin1.x > vMax2.x)
+			bAreColliding = false;
 
-	// First object
-	vector3 vMin1 = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
-	vector3 vMax1 = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
-	// Second object
-	vector3 vMin2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Min, 1.0f));
-	vector3 vMax2 = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Max, 1.0f));
+		//Check for Y
+		if (vMax1.y < vMin2.y)
+			bAreColliding = false;
+		if (vMin1.y > vMax2.y)
+			bAreColliding = false;
 
-	//Check for X
-	if (vMax1.x < vMin2.x)
+		//Check for Z
+		if (vMax1.z < vMin2.z)
+			bAreColliding = false;
+		if (vMin1.z > vMax2.z)
+			bAreColliding = false;
+	}
+	// No sphere collision
+	else {
 		bAreColliding = false;
-	if (vMin1.x > vMax2.x)
-		bAreColliding = false;
-
-	//Check for Y
-	if (vMax1.y < vMin2.y)
-		bAreColliding = false;
-	if (vMin1.y > vMax2.y)
-		bAreColliding = false;
-
-	//Check for Z
-	if (vMax1.z < vMin2.z)
-		bAreColliding = false;
-	if (vMin1.z > vMax2.z)
-		bAreColliding = false;
+	}
 
 	return bAreColliding;
 }
