@@ -8,13 +8,15 @@ MyBoundingObjectClass.h - Contains methods to
 
 // Allocates member fields
 void MyBoundingObjectClass::Init() {
-	vector<vector3> m_vList = vector<vector3>();
-	vector3 m_v3Max = vector3(0.0f);
-	vector3 m_v3Min = vector3(0.0f);
-	vector3 m_v3Center = vector3(0.0f);
-	float m_fRadius = 0.0f;
-	vector3 m_v3Size = vector3(0.0f);
-	matrix4 m_m4ToWorld = IDENTITY_M4;
+	m_vList = vector<vector3>();
+	m_v3Max = vector3(0.0f);
+	m_v3Min = vector3(0.0f);
+	m_v3Center = vector3(0.0f);
+	m_fRadius = 0.0f;
+	m_v3Size = vector3(0.0f);
+	m_v3ChangingSize = vector3(0.0f);
+	m_m4ToWorld = IDENTITY_M4;
+	m_bIsVisible = true;
 }
 
 // Changes the object's contents with another
@@ -154,6 +156,19 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 
 	bool bAreColliding = true;
 
+	//vector3 v3Temp1 = this->GetCenter();
+	//vector3 v3Temp2 = a_pOther->GetCenter();
+	//std::cout << v3Temp1.x << " " << v3Temp1.y << " " << v3Temp1.z << std::endl;
+	//std::cout << v3Temp2.x << " " << v3Temp2.y << " " << v3Temp2.z << std::endl;
+	//m_pMeshMngr->PrintLine("x: " + std::to_string(v3Temp1.x) + " y: " + std::to_string(v3Temp1.y) + " z: " + std::to_string(v3Temp1.z), REBLACK);
+
+	//if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
+	//	bAreColliding = true;
+	//}
+	//else {
+	//	bAreColliding = false;
+	//}
+
 	// First object
 	vector3 vMin1 = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
 	vector3 vMax1 = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
@@ -180,4 +195,24 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 		bAreColliding = false;
 
 	return bAreColliding;
+}
+
+// Sets the visibility of the bounding objects
+void MyBoundingObjectClass::SetVisibility() {
+	if (m_bIsVisible == true) {
+		m_bIsVisible = false;
+	}
+	else if (m_bIsVisible == false) {
+		m_bIsVisible = true;
+	}
+}
+
+// Gets the color of the bounding object
+vector3 MyBoundingObjectClass::GetColor(void) {
+	return m_v3Color;
+}
+
+// Sets the color of the bounding object
+void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
+	m_v3Color = a_v3Color;
 }

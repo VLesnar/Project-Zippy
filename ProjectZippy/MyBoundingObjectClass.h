@@ -24,6 +24,8 @@ private:
 	matrix4 m_m4ToWorld;	// Matrix that changes coordinates from local to world space
 	void Init(void);	// Allocates member fields
 	void Release(void);	// Deallocates member fields
+	bool m_bIsVisible;	// If the bounding box is visible
+	vector3 m_v3Color;	// Holds the color of the bounding object
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
 	MyBoundingObjectClass(vector<vector3> a_lVectorList);	// Constructor
@@ -39,5 +41,8 @@ public:
 	matrix4 GetModelMatrix(void);	// Gets the object's matrix
 	void SetModelMatrix(matrix4 a_m4ToWorld);	// Sets the object's matrix
 	bool IsColliding(MyBoundingObjectClass* const a_pOther);	// Checks to see if two objects are colliding
+	void SetVisibility(void);	// Sets the visibility of the bounding object
+	vector3 GetColor(void);	// Gets the color of the bounding object
+	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_
