@@ -10,6 +10,7 @@ void AppClass::InitWindow(String a_sWindowName)
 }
 
 void AppClass::InitVariables(void) {
+	objManager->GetInstance();
 	//Initialize positions
 	m_v3O1 = vector3(-2.5f, 0.0f, 0.0f);
 	m_v3O2 = vector3(2.5f, 0.0f, 0.0f);
@@ -20,14 +21,13 @@ void AppClass::InitVariables(void) {
 
 	//// Steve
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve");
-	sphere1 = new MyBoundingSphereClass(vertexList);
+	objManager->SetBox(vertexList);
+	//m_pBounding1 = new MyBoundingObjectClass(vertexList);
 
 	//// Creeper
 	vertexList = m_pMeshMngr->GetVertexList("Creeper");
-	sphere2 = new MyBoundingSphereClass(vertexList);	
-
-	m_pBox1 = new MyBoundingCubeClass(m_pMeshMngr->GetVertexList("Steve"));
-	m_pBox2 = new MyBoundingCubeClass(m_pMeshMngr->GetVertexList("Creeper"));
+	objManager->SetBox(vertexList);
+	//m_pBounding2 = new MyBoundingObjectClass(vertexList);
 }
 
 void AppClass::Update(void) {
@@ -47,24 +47,26 @@ void AppClass::Update(void) {
 	m_pMeshMngr->SetModelMatrix(glm::translate(m_v3O1) * ToMatrix4(m_qArcBall), "Steve");
 	m_pMeshMngr->SetModelMatrix(glm::translate(m_v3O2), "Creeper");
 
-	m_pBox1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
-	m_pBox2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Creeper"));
+	objManager->SetModelMatrix(objManager->boundingObjects[0], m_pMeshMngr->GetModelMatrix("Steve"));
+	objManager->SetModelMatrix(objManager->boundingObjects[1], m_pMeshMngr->GetModelMatrix("Creeper"));
 
-	m_pBox1->SetCubeSize();
+	objManager->boundingObjects[0]->SetChangingCubeSize();
 
-	if (m_pBox1->IsColliding(m_pBox2)) {
+	if (objManager->boundingObjects[0]->IsColliding(objManager->boundingObjects[1])) {
 		m_pMeshMngr->PrintLine("They are colliding! :I", RERED);
-		m_pMeshMngr->AddCubeToQueue(m_pBox1->GetCenterM() * glm::scale(vector3(m_pBox1->GetSize())), RERED, WIRE);
-		m_pMeshMngr->AddCubeToQueue(glm::translate(m_pBox1->GetCenterG()) * glm::scale(vector3(m_pBox1->GetChangingSize())), RERED, WIRE);
-		m_pMeshMngr->AddCubeToQueue(m_pBox2->GetCenterM()  * glm::scale(vector3(m_pBox2->GetSize())), RERED, WIRE);
+		objManager->Render(objManager->boundingObjects[0]);
+		objManager->Render(objManager->boundingObjects[1]);
+		//m_pMeshMngr->AddCubeToQueue(glm::translate(objManager->boundingObjects[0]->GetGlobalCenter()) * glm::scale(vector3(objManager->boundingObjects[0]->GetChangingSize())), RERED, WIRE);
+		//m_pMeshMngr->AddCubeToQueue(objManager->boundingObjects[1]->GetGlobalCenterMatrix()  * glm::scale(vector3(objManager->boundingObjects[1]->GetSize())), RERED, WIRE);
 		
 	}
 
 	else {
 		m_pMeshMngr->PrintLine("They are not colliding! :D", REGREEN);
-		m_pMeshMngr->AddCubeToQueue(m_pBox1->GetCenterM() * glm::scale(vector3(m_pBox1->GetSize())), REWHITE, WIRE);
-		m_pMeshMngr->AddCubeToQueue(glm::translate(m_pBox1->GetCenterG()) * glm::scale(vector3(m_pBox1->GetChangingSize())), REWHITE, WIRE);
-		m_pMeshMngr->AddCubeToQueue(m_pBox2->GetCenterM() * glm::scale(vector3(m_pBox2->GetSize())), REWHITE, WIRE);
+		objManager->Render(objManager->boundingObjects[0]);
+		objManager->Render(objManager->boundingObjects[1]);
+		//m_pMeshMngr->AddCubeToQueue(glm::translate(objManager->boundingObjects[0]->GetGlobalCenter()) * glm::scale(vector3(objManager->boundingObjects[0]->GetChangingSize())), REWHITE, WIRE);
+		//m_pMeshMngr->AddCubeToQueue(objManager->boundingObjects[1]->GetGlobalCenterMatrix() * glm::scale(vector3(objManager->boundingObjects[1]->GetSize())), REWHITE, WIRE);
 	}
 
 	//Adds all loaded instance to the render list
@@ -111,24 +113,19 @@ void AppClass::Display(void)
 
 void AppClass::Release(void)
 {
-	if (sphere1 != nullptr) {
-		delete sphere1;
-		sphere1 = nullptr;
+	//if (objManager->boundingObjects[0] != nullptr) {
+	//	delete objManager->boundingObjects[0];
+	//	objManager->boundingObjects[0] = nullptr;
+	//}
+
+	//if (objManager->boundingObjects[1] != nullptr) {
+	//	delete objManager->boundingObjects[1];
+	//	objManager->boundingObjects[1] = nullptr;
+	//}
+
+	if (objManager != nullptr) {
+		objManager->ReleaseInstance();
 	}
 
-	if (sphere2 != nullptr) {
-		delete sphere2;
-		sphere2 = nullptr;
-	}
-
-	if (m_pBox1 != nullptr) {
-		delete sphere1;
-		m_pBox1 = nullptr;
-	}
-
-	if (m_pBox2 != nullptr) {
-		delete sphere2;
-		m_pBox2 = nullptr;
-	}
 	super::Release(); //release the memory of the inherited fields
 }

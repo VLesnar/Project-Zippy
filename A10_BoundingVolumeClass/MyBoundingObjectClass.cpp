@@ -20,7 +20,6 @@ void MyBoundingObjectClass::Init() {
 	m_v3ChangingMax = vector3(0.0f);
 	m_m4ToWorld = IDENTITY_M4;
 	m_bIsVisible = true;
-	meshManager->GetInstance();
 }
 
 // Changes the object's contents with another
@@ -132,6 +131,7 @@ MyBoundingObjectClass::MyBoundingObjectClass() {
 
 // Gets the center in global coordinates
 vector3 MyBoundingObjectClass::GetGlobalCenter() {
+	std::cout << m_v3Center.x << " " << m_v3Center.y << " " << m_v3Center.z << " " << std::endl;
 	return vector3(m_m4ToWorld * vector4(m_v3Center, 1.0f));
 }
 
@@ -192,7 +192,7 @@ matrix4 MyBoundingObjectClass::GetModelMatrix() {
 
 // Sets the object's matrix
 void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
-	m_m4ToWorld = a_m4ToWorld * glm::translate(m_v3Center);
+	m_m4ToWorld = a_m4ToWorld;
 }
 
 // Checks to see if two objects are colliding
@@ -201,11 +201,14 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 	vector3 v3Temp1 = this->GetGlobalCenter();	// First object
 	vector3 v3Temp2 = a_pOther->GetGlobalCenter();	// Second object
 
-	bool bAreColliding = true;	// If the two objects are colliding
+	bool bAreColliding = true;	// If the two objects are colliding;
 
 	// Sphere collision detection
 	// Two spheres have collided
 	if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
+		this->SetColor(REWHITE);
+		a_pOther->SetColor(REWHITE);
+
 		// Box collision detection
 		vector3 vMin1 = v3Temp1 + m_v3ChangingMin;
 		vector3 vMax1 = v3Temp1 + m_v3ChangingMax;
@@ -232,20 +235,23 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 	}
 	// No sphere collision
 	else {
+		this->SetColor(REBLACK);
+		a_pOther->SetColor(REBLACK);
 		bAreColliding = false;
+	}
+
+	if (bAreColliding)
+	{
+		this->SetColor(RERED);
+		a_pOther->SetColor(RERED);
 	}
 
 	return bAreColliding;
 }
 
 // Sets the visibility of the bounding objects
-void MyBoundingObjectClass::SetVisibility() {
-	if (m_bIsVisible == true) {
-		m_bIsVisible = false;
-	}
-	else if (m_bIsVisible == false) {
-		m_bIsVisible = true;
-	}
+void MyBoundingObjectClass::SetVisibility(bool vis) {
+	m_bIsVisible = vis;
 }
 
 // Gets the color of the bounding object
@@ -261,7 +267,7 @@ void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 // Renders the bounding object
 void MyBoundingObjectClass::Render(void) {
 	if (m_bIsVisible) {
-		meshManager->AddSphereToQueue(m_m4ToWorld, m_v3Color, WIRE);
-		meshManager->AddCubeToQueue(m_m4ToWorld, m_v3Color, WIRE);
+		meshManager->AddSphereToQueue(glm::translate(this->GetGlobalCenter()) * glm::scale(vector3(m_fRadius, m_fRadius, m_fRadius) * 2.0f), m_v3Color, WIRE);
+		meshManager->AddCubeToQueue(glm::translate(this->GetGlobalCenter()) * glm::scale(this->GetChangingSize()), m_v3Color, WIRE);
 	}
 }

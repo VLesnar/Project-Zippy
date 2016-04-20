@@ -41,6 +41,18 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		for (uint i = 0; i < objManager->boundingObjects.size(); i++) {
+			objManager->boundingObjects[i]->SetVisibility(false);
+		}
+	}
+	else
+	{
+		for (uint i = 0; i < objManager->boundingObjects.size(); i++) {
+			objManager->boundingObjects[i]->SetVisibility(true);
+		}
+	}
 #pragma endregion
 
 #pragma region Creeper Control
