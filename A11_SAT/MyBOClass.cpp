@@ -15,6 +15,10 @@ void MyBOClass::Init(void)
 	m_v3HalfWidth = vector3(0.0f);
 	m_v3HalfWidthG = vector3(0.0f);
 
+	m_v3X = vector3(1.0f, 0.0f, 0.0f);
+	m_v3Y = vector3(0.0f, 1.0f, 0.0f);
+	m_v3Z = vector3(0.0f, 0.0f, 1.0f);
+
 	m_fRadius = 0.0f;
 
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
@@ -33,6 +37,10 @@ void MyBOClass::Swap(MyBOClass& other)
 
 	std::swap(m_v3HalfWidth, other.m_v3HalfWidth);
 	std::swap(m_v3HalfWidthG, other.m_v3HalfWidthG);
+
+	std::swap(m_v3X, other.m_v3X);
+	std::swap(m_v3Y, other.m_v3Y);
+	std::swap(m_v3Z, other.m_v3Z);
 
 	std::swap(m_fRadius, other.m_fRadius);
 
@@ -119,6 +127,11 @@ MyBOClass& MyBOClass::operator=(MyBOClass const& other)
 }
 MyBOClass::~MyBOClass() { Release(); };
 //Accessors
+void MyBOClass::SetAxis() {
+	m_v3X = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	m_v3Y = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f));
+	m_v3Z = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f));
+}
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 {
 	//If there are no changes in the Model Matrix there is no need
@@ -196,6 +209,10 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 	m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, m_v3CenterG) *
 		glm::scale(m_v3HalfWidthG * 2.0f), a_v3Color, WIRE);
 }
+bool MyBOClass::SATCollision(MyBOClass a_otherObj) {
+
+}
+
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 {
 	//Get all vectors in global space
@@ -215,25 +232,23 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 
 	//If the distance was smaller it might be colliding
 
-	bool bColliding = true;
-
 	//Check for X
 	if (m_v3MaxG.x < a_pOther->m_v3MinG.x)
-		bColliding = false;
+		return false;
 	if (m_v3MinG.x > a_pOther->m_v3MaxG.x)
-		bColliding = false;
+		return false;
 
 	//Check for Y
 	if (m_v3MaxG.y < a_pOther->m_v3MinG.y)
-		bColliding = false;
+		return false;
 	if (m_v3MinG.y > a_pOther->m_v3MaxG.y)
-		bColliding = false;
+		return false;
 
 	//Check for Z
 	if (m_v3MaxG.z < a_pOther->m_v3MinG.z)
-		bColliding = false;
+		return false;
 	if (m_v3MinG.z > a_pOther->m_v3MaxG.z)
-		bColliding = false;
+		return false;
 
-	return bColliding;
+	return true;
 }

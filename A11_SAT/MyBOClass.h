@@ -25,6 +25,10 @@ class MyBOClass
 	vector3 m_v3HalfWidth = vector3(0.0f);//Will store half the size of all sides
 	vector3 m_v3HalfWidthG = vector3(0.0f);//Will store half the size of all sides
 
+	vector3 m_v3X;	// 1st Normal Axis
+	vector3 m_v3Y;	// 2nd Normal Axis
+	vector3 m_v3Z;	// 3rd Normal Axis
+
 	matrix4 m_m4ToWorld = IDENTITY_M4; //Matrix that will take us from local to world coordinate
 public:
 	/*
@@ -58,6 +62,12 @@ public:
 	OUTPUT: ---
 	*/
 	void Swap(MyBOClass& other);
+	/*
+	USAGE: Sets the normal axes
+	ARGUMENTS: ---
+	OUTPUT: ---
+	*/
+	void SetAxis();
 	/*
 	USAGE: Sets the Bounding Object into world coordinates
 	ARGUMENTS:
@@ -156,7 +166,13 @@ public:
 	OUTPUT: ---
 	*/
 	void DisplayReAlligned(vector3 a_v3Color = REDEFAULT);
-
+	/*
+	USAGE: Calculates if there is SAT collision
+	ARGUMENTS:
+	- MYBOCLASS a_otherObj
+	OUTPUT: boolean if the objects are colliding
+	*/
+	bool SATCollision(MyBOClass a_otherObj);
 private:
 	/*
 	USAGE: Deallocates member fields
