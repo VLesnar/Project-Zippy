@@ -35,6 +35,10 @@ public:
 	//change visibility
 	void setVisibility(MyBoundingObjectClass* iBO);
 	void setVisibility(string iname);
+	
+	//set visibility for all
+	void setVisibility();
+	void setVisibility(bool bvis);
 
 	//set the model matrix
 	void setModelMatrix(string iname, matrix4 a_m4ToWorld);

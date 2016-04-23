@@ -27,7 +27,20 @@ void MyBoundingObjectManager::setVisibility(MyBoundingObjectClass* iBO) { iBO->S
 void MyBoundingObjectManager::setVisibility(string iname) {
 	for (int i = 0; i < BOnum; i++){if (boundingObjects[i]->GetName()==iname){boundingObjects[i]->SetVisibility();}}
 }
+//change the visibility of all of them
+void MyBoundingObjectManager::setVisibility(bool bvis) {
+	for (int i = 0; i < BOnum; i++)
+	{
+		boundingObjects[i]->SetVisibility(bvis);
+	}
+}
 
+void MyBoundingObjectManager::setVisibility() {
+	for (int i = 0; i < BOnum; i++)
+	{
+		boundingObjects[i]->SetVisibility();
+	}
+}
 //set the model matrix
 void MyBoundingObjectManager::setModelMatrix(string iname, matrix4 a_m4ToWorld) {
 	for (int i = 0; i < BOnum; i++)

@@ -49,6 +49,9 @@ MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, stri
 
 	//store the name of the object
 	name = iname;
+	
+	//set the visibility
+	m_bIsVisible = true;
 
 	// Calculate the max, min, center, radius, and size
 	uint nVertexCount = m_vList.size();
@@ -250,6 +253,10 @@ void MyBoundingObjectClass::SetVisibility() {
 	}
 }
 
+void MyBoundingObjectClass::SetVisibility(bool bvis) {
+	m_bIsVisible = bvis;
+}
+
 // Gets the color of the bounding object
 vector3 MyBoundingObjectClass::GetColor(void) {
 	return m_v3Color;
@@ -262,10 +269,10 @@ void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 
 // Renders the bounding object
 void MyBoundingObjectClass::Render(void) {
-	if (true) {
-		//meshManager->AddSphereToQueue(m_m4ToWorld, m_v3Color, WIRE);
+	if (m_bIsVisible) {
 		
 		meshManager->AddCubeToQueue(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
-		//meshManager->AddCubeToQueue(m_m4ToWorld, m_v3Color, WIRE);
+		SetChangingCubeSize();
+		meshManager->AddCubeToQueue(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
 	}
 }

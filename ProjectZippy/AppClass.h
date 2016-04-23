@@ -26,7 +26,6 @@ class AppClass : public ReEngAppClass
 	MyBoundingObjectClass* bo_1 = nullptr;
 	MyBoundingObjectClass* bo_2 = nullptr;
 	MyBoundingObjectClass* bo_3 = nullptr;
-	//MyBoundingObjectManager* manager = MyBoundingObjectManager::GetInstance();
 public:
 	typedef ReEngAppClass super;
 

@@ -64,12 +64,12 @@ void AppClass::Update(void)
 	
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Creeper");
 	
+	//change the model matix of all the bounding objects
 	BOMngr->setModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve"));
 	BOMngr->setModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
-	BOMngr->setModelMatrix("ground", IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f, 0.0f, 0.0f)));
+	BOMngr->setModelMatrix("ground", IDENTITY_M4 * glm::scale(vector3(50.0f, 0.0f, 0.0f)) * glm::rotate(90.0f, vector3(1.0f, 0.0f, 0.0f)));
 	
 	//Adds all loaded instance to the render list
-	//m_pMeshMngr->AddInstanceToRenderList("ALL"); // Renders everything in the Mesh Manager
 	
 	m_pMeshMngr->AddInstanceToRenderList("Steve");
 	m_pMeshMngr->AddInstanceToRenderList("Steve2");
