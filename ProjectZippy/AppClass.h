@@ -20,12 +20,12 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
+	MyBoundingObjectManager* BOMngr = nullptr;
 	Camera* cam = Camera::GetInstance();
 	PrimitiveClass* m_pGround = nullptr;
 	MyBoundingObjectClass* bo_1 = nullptr;
 	MyBoundingObjectClass* bo_2 = nullptr;
 	MyBoundingObjectClass* bo_3 = nullptr;
-	//MyBoundingObjectManager* manager = MyBoundingObjectManager::GetInstance();
 public:
 	typedef ReEngAppClass super;
 

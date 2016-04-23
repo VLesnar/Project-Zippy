@@ -29,10 +29,11 @@ private:
 	void Release(void);	// Deallocates member fields
 	bool m_bIsVisible;	// If the bounding box is visible
 	vector3 m_v3Color;	// Holds the color of the bounding object
-	MeshManagerSingleton* meshManager = nullptr;	// The mesh singleton to render bounding objects
+	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();	// The mesh singleton to render bounding objects
+	string name; //name of the object used to specify in Manager
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
-	MyBoundingObjectClass(vector<vector3> a_lVectorList);	// Constructor
+	MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname);	// Constructor
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
 	MyBoundingObjectClass(void);	// Destructor
@@ -46,8 +47,10 @@ public:
 	void SetModelMatrix(matrix4 a_m4ToWorld);	// Sets the object's matrix
 	bool IsColliding(MyBoundingObjectClass* const a_pOther);	// Checks to see if two objects are colliding
 	void SetVisibility(void);	// Sets the visibility of the bounding object
+	void SetVisibility(bool bvis);	//sets the visibility to a specific value
 	vector3 GetColor(void);	// Gets the color of the bounding object
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
 	void Render(void);	// Renders the bounding object
+	string GetName() { return name; }
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_

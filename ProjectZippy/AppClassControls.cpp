@@ -1,6 +1,9 @@
 #include "AppClass.h"
+
+MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
 void AppClass::ProcessKeyboard(void)
 {
+	
 	bool bModifier = false;
 	float fSpeed = 0.01f;
 
@@ -41,6 +44,8 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+		BOMngr->setVisibility();
 
 	//x-axis rot
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
