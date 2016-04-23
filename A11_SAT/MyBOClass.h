@@ -67,7 +67,7 @@ public:
 	ARGUMENTS: ---
 	OUTPUT: ---
 	*/
-	void SetAxis();
+	void SetTripleAxis();
 	/*
 	USAGE: Sets the Bounding Object into world coordinates
 	ARGUMENTS:

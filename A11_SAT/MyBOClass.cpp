@@ -1,4 +1,5 @@
 #include "MyBOClass.h"
+
 //  MyBOClass
 void MyBOClass::Init(void)
 {
@@ -23,6 +24,8 @@ void MyBOClass::Init(void)
 
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 }
+
+//Swap values with another BO
 void MyBOClass::Swap(MyBOClass& other)
 {
 	std::swap(m_m4ToWorld, other.m_m4ToWorld);
@@ -46,8 +49,11 @@ void MyBOClass::Swap(MyBOClass& other)
 
 	std::swap(m_pMeshMngr, other.m_pMeshMngr);
 }
+
+//Release the pointers in the BO
 void MyBOClass::Release(void) {/* No pointers allocated yet */ }
-//The big 3
+
+//The big 3 (CONSTRUCTOR
 MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 {
 	//Init the default values
@@ -95,6 +101,8 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 	m_v3CenterG = m_v3Center;
 	m_v3HalfWidthG = m_v3HalfWidth;
 }
+
+//The big 3 (COPY CONSTRUCTOR)
 MyBOClass::MyBOClass(MyBOClass const& other)
 {
 	m_m4ToWorld = other.m_m4ToWorld;
@@ -114,6 +122,8 @@ MyBOClass::MyBOClass(MyBOClass const& other)
 
 	m_pMeshMngr = other.m_pMeshMngr;
 }
+
+//The big 3 (COPY ASSIGNMENT OPERATOR)
 MyBOClass& MyBOClass::operator=(MyBOClass const& other)
 {
 	if (this != &other)
@@ -126,20 +136,24 @@ MyBOClass& MyBOClass::operator=(MyBOClass const& other)
 	return *this;
 }
 MyBOClass::~MyBOClass() { Release(); };
-//Accessors
-void MyBOClass::SetAxis() {
+
+//Setter for 
+void MyBOClass::SetTripleAxis()
+{
 	m_v3X = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f));
 	m_v3Y = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f));
 	m_v3Z = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f));
 }
+
+//Set the model matrix and corner points based on the given to-global coordinates.
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 {
-	//If there are no changes in the Model Matrix there is no need
-	//of doing further calculations
+	//Do nothing if the to-global coordinates haven't changed.
 	if (m_m4ToWorld == a_m4ToWorld)
 		return;
 
 	m_m4ToWorld = a_m4ToWorld;
+
 	//Calculate the vertex that makes the Object
 	vector3 v3Corner[8];
 	v3Corner[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
@@ -151,6 +165,7 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	v3Corner[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
 	v3Corner[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
 	v3Corner[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+
 	//Get vectors in global space
 	for (uint nVertex = 0; nVertex < 8; nVertex++)
 	{
@@ -183,6 +198,8 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 
 	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
 }
+
+//Accessors
 float MyBOClass::GetRadius(void) { return m_fRadius; }
 matrix4 MyBOClass::GetModelMatrix(void) { return m_m4ToWorld; }
 vector3 MyBOClass::GetCenterLocal(void) { return m_v3Center; }
@@ -193,7 +210,8 @@ vector3 MyBOClass::GetMin(void) { return m_v3Min; }
 vector3 MyBOClass::GetMax(void) { return m_v3Max; }
 vector3 MyBOClass::GetMinG(void) { return m_v3MinG; }
 vector3 MyBOClass::GetMaxG(void) { return m_v3MaxG; }
-//--- Non Standard Singleton Methods
+
+//Display methods
 void MyBOClass::DisplaySphere(vector3 a_v3Color)
 {
 	m_pMeshMngr->AddSphereToQueue(glm::translate(m_m4ToWorld, m_v3Center) *
@@ -209,10 +227,12 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 	m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, m_v3CenterG) *
 		glm::scale(m_v3HalfWidthG * 2.0f), a_v3Color, WIRE);
 }
-bool MyBOClass::SATCollision(MyBOClass a_otherObj) {
+
+//Collision methods
+bool MyBOClass::SATCollision(MyBOClass a_otherObj)
+{
 
 }
-
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 {
 	//Get all vectors in global space
