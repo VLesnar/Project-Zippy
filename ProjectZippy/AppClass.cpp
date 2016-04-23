@@ -24,14 +24,21 @@ void AppClass::InitVariables(void)
 	m_pGround->GeneratePlane(10, REWHITE);
 
 	//Load a model onto the Mesh manager
+	BOMngr = MyBoundingObjectManager::GetInstance();
+
+	
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
 	m_pMeshMngr->LoadModel("Minecraft\\Creeper.obj", "Creeper");
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve");
 	std::vector<vector3> planeVertexList = { vector3(100.0f, 0.0f, 100.0f), vector3(100.0f, 0.0f, -100.0f), vector3(-100.0f, 0.0f, 100.0f), vector3(-100.0f, 0.0f, -100.0f) };
-	bo_1 = new MyBoundingObjectClass(vertexList);
-	bo_2 = new MyBoundingObjectClass(vertexList);
-	bo_3 = new MyBoundingObjectClass(planeVertexList);
+	
+	BOMngr->setBox(vertexList, "Steve1");
+	BOMngr->setBox(vertexList, "Steve2");
+	BOMngr->setBox(planeVertexList, "ground");
+
+	
+	
 }
 
 void AppClass::Update(void)
@@ -51,25 +58,26 @@ void AppClass::Update(void)
 	
 	//Set the model matrix for the the objects and bounding objects
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, -1.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve");
-	bo_1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
+
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 3.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
-	bo_2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve2"));
+
+	
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Creeper");
-	bo_3->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Creeper"));
+	
+	BOMngr->setModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve"));
+	BOMngr->setModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
+	BOMngr->setModelMatrix("ground", IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f, 0.0f, 0.0f)));
 	
 	//Adds all loaded instance to the render list
 	//m_pMeshMngr->AddInstanceToRenderList("ALL"); // Renders everything in the Mesh Manager
+	
 	m_pMeshMngr->AddInstanceToRenderList("Steve");
 	m_pMeshMngr->AddInstanceToRenderList("Steve2");
 	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
-	if (bo_1->IsColliding(bo_3)) {
-		m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), RERED, WIRE);
-	}
-	else {
-		m_pMeshMngr->AddSphereToQueue(bo_1->GetModelMatrix() * glm::scale(vector3(bo_1->GetRadius() * 2.0f)), REGREEN, WIRE);
-	}
-	m_pMeshMngr->AddSphereToQueue(bo_2->GetModelMatrix() * glm::scale(vector3(bo_2->GetRadius() * 2.0f)), REGREEN, WIRE);
-	m_pMeshMngr->AddCubeToQueue(bo_3->GetGlobalCenterMatrix() * glm::scale(vector3(bo_3->GetSize() / 2.0f)), REGREEN, WIRE); // GetGlobalCenterMatrix's center is off
+	
+
+	BOMngr->checkColissions();
+	BOMngr->render();
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 
@@ -82,7 +90,6 @@ void AppClass::Display(void)
 {
 	//clear the screen
 	ClearScreen();
-
 	//Render the grid based on the camera's mode:
 	/*switch (m_pCameraMngr->GetCameraMode())
 	{

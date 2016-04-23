@@ -20,7 +20,6 @@ void MyBoundingObjectClass::Init() {
 	m_v3ChangingMax = vector3(0.0f);
 	m_m4ToWorld = IDENTITY_M4;
 	m_bIsVisible = true;
-	meshManager->GetInstance();
 }
 
 // Changes the object's contents with another
@@ -44,9 +43,12 @@ void MyBoundingObjectClass::Release() {
 }
 
 // Constructor
-MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList) {
+MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname) {
 	// Store the list of vertices from the model
 	m_vList = a_lVectorList;
+
+	//store the name of the object
+	name = iname;
 
 	// Calculate the max, min, center, radius, and size
 	uint nVertexCount = m_vList.size();
@@ -192,7 +194,7 @@ matrix4 MyBoundingObjectClass::GetModelMatrix() {
 
 // Sets the object's matrix
 void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
-	m_m4ToWorld = a_m4ToWorld * glm::translate(m_v3Center);
+	m_m4ToWorld = a_m4ToWorld;
 }
 
 // Checks to see if two objects are colliding
@@ -260,8 +262,10 @@ void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 
 // Renders the bounding object
 void MyBoundingObjectClass::Render(void) {
-	if (m_bIsVisible) {
-		meshManager->AddSphereToQueue(m_m4ToWorld, m_v3Color, WIRE);
-		meshManager->AddCubeToQueue(m_m4ToWorld, m_v3Color, WIRE);
+	if (true) {
+		//meshManager->AddSphereToQueue(m_m4ToWorld, m_v3Color, WIRE);
+		
+		meshManager->AddCubeToQueue(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
+		//meshManager->AddCubeToQueue(m_m4ToWorld, m_v3Color, WIRE);
 	}
 }
