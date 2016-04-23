@@ -25,6 +25,8 @@ class MyBOClass
 	vector3 m_v3HalfWidth = vector3(0.0f);//Will store half the size of all sides
 	vector3 m_v3HalfWidthG = vector3(0.0f);//Will store half the size of all sides
 
+	vector3 m_v3Corners[8];
+
 	vector3 m_v3X;	// 1st Normal Axis
 	vector3 m_v3Y;	// 2nd Normal Axis
 	vector3 m_v3Z;	// 3rd Normal Axis

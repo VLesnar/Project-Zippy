@@ -155,41 +155,40 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	m_m4ToWorld = a_m4ToWorld;
 
 	//Calculate the vertex that makes the Object
-	vector3 v3Corner[8];
-	v3Corner[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
-	v3Corner[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
-	v3Corner[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
-	v3Corner[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
+	m_v3Corners[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
+	m_v3Corners[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
+	m_v3Corners[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
+	m_v3Corners[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
 
-	v3Corner[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
-	v3Corner[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
-	v3Corner[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
-	v3Corner[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+	m_v3Corners[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
+	m_v3Corners[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
+	m_v3Corners[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
+	m_v3Corners[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
 
 	//Get vectors in global space
 	for (uint nVertex = 0; nVertex < 8; nVertex++)
 	{
-		v3Corner[nVertex] = vector3(m_m4ToWorld * vector4(v3Corner[nVertex], 1.0f));
+		m_v3Corners[nVertex] = vector3(m_m4ToWorld * vector4(m_v3Corners[nVertex], 1.0f));
 	}
 
 	//Get the max and min out of the list
-	m_v3MaxG = m_v3MinG = v3Corner[0];
+	m_v3MaxG = m_v3MinG = m_v3Corners[0];
 	for (uint nVertex = 1; nVertex < 8; nVertex++)
 	{
-		if (m_v3MinG.x > v3Corner[nVertex].x) //If min is larger than current
-			m_v3MinG.x = v3Corner[nVertex].x;
-		else if (m_v3MaxG.x < v3Corner[nVertex].x)//if max is smaller than current
-			m_v3MaxG.x = v3Corner[nVertex].x;
+		if (m_v3MinG.x > m_v3Corners[nVertex].x) //If min is larger than current
+			m_v3MinG.x = m_v3Corners[nVertex].x;
+		else if (m_v3MaxG.x < m_v3Corners[nVertex].x)//if max is smaller than current
+			m_v3MaxG.x = m_v3Corners[nVertex].x;
 
-		if (m_v3MinG.y > v3Corner[nVertex].y) //If min is larger than current
-			m_v3MinG.y = v3Corner[nVertex].y;
-		else if (m_v3MaxG.y < v3Corner[nVertex].y)//if max is smaller than current
-			m_v3MaxG.y = v3Corner[nVertex].y;
+		if (m_v3MinG.y > m_v3Corners[nVertex].y) //If min is larger than current
+			m_v3MinG.y = m_v3Corners[nVertex].y;
+		else if (m_v3MaxG.y < m_v3Corners[nVertex].y)//if max is smaller than current
+			m_v3MaxG.y = m_v3Corners[nVertex].y;
 
-		if (m_v3MinG.z > v3Corner[nVertex].z) //If min is larger than current
-			m_v3MinG.z = v3Corner[nVertex].z;
-		else if (m_v3MaxG.z < v3Corner[nVertex].z)//if max is smaller than current
-			m_v3MaxG.z = v3Corner[nVertex].z;
+		if (m_v3MinG.z > m_v3Corners[nVertex].z) //If min is larger than current
+			m_v3MinG.z = m_v3Corners[nVertex].z;
+		else if (m_v3MaxG.z < m_v3Corners[nVertex].z)//if max is smaller than current
+			m_v3MaxG.z = m_v3Corners[nVertex].z;
 	}
 	m_v3CenterG = (m_v3MinG + m_v3MaxG) / 2.0f;
 
@@ -231,7 +230,7 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 //Collision methods
 bool MyBOClass::SATCollision(MyBOClass a_otherObj)
 {
-
+	return false;
 }
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 {
