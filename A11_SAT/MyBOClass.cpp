@@ -180,9 +180,9 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f; //we calculate the distance between all the values of min and max vectors
 	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
 
-	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f));
-	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f));
+	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
 }
 
 //Accessors
@@ -215,7 +215,7 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 }
 
 //Collision methods
-bool MyBOClass::SATCollision(MyBOClass a_otherObj)
+bool MyBOClass::IsCollidingSAT(MyBOClass* a_otherObj)
 {
 	vector3 projPointsT[3][8];	//This's projected points	
 	vector3 projPointsO[3][8];	//Other's projected points
@@ -224,19 +224,39 @@ bool MyBOClass::SATCollision(MyBOClass a_otherObj)
 	{
 		for (int i = 0; i < 8; i++)	//For each point
 		{
-			projPointsT[j][i] = m_v3NAxis[j] * glm::dot(m_v3Corners[i], m_v3NAxis[j]);
+			projPointsT[j][i] = glm::normalize(m_v3NAxis[j]) * glm::dot(m_v3Corners[i], m_v3NAxis[j]);
+			projPointsO[j][i] = glm::normalize(m_v3NAxis[j]) * glm::dot(a_otherObj->m_v3Corners[i], m_v3NAxis[j]);
 		}
 	}
 
-	for (int i = 0; i < 8; i++)	//For each point (Other)
+	//Draw projected points
+	vector3 color;
+	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		vector3 temp = projPointsT[0][i] + projPointsT[1][i] + projPointsT[2][i];
-		m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, m_v3CenterG) *
-			glm::scale(m_v3HalfWidthG * 2.0f), RERED, WIRE);
+		switch (j)
+		{
+			case 0:
+				color = RERED;
+				break;
+			case 1:
+				color = REGREEN;
+				break;
+			case 2:
+				color = REBLUE;
+				break;
+		}
+		for (int i = 0; i < 8; i++)	//For each point
+		{
+			vector3 temp = projPointsT[j][i];
+			m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, temp) * glm::scale(vector3(0.2f, 0.2f, 0.2f)), color, WIRE);
+			temp = projPointsO[j][i];
+			m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, temp) * glm::scale(vector3(0.2f, 0.2f, 0.2f)), color, WIRE);
+		}
 	}
 
 	return false;
 }
+
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 {
 	//Get all vectors in global space

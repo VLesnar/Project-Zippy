@@ -131,7 +131,6 @@ MyBoundingObjectClass::MyBoundingObjectClass() {
 
 // Gets the center in global coordinates
 vector3 MyBoundingObjectClass::GetGlobalCenter() {
-	std::cout << m_v3Center.x << " " << m_v3Center.y << " " << m_v3Center.z << " " << std::endl;
 	return vector3(m_m4ToWorld * vector4(m_v3Center, 1.0f));
 }
 

@@ -165,7 +165,7 @@ public:
 	- MYBOCLASS a_otherObj
 	OUTPUT: boolean if the objects are colliding
 	*/
-	bool SATCollision(MyBOClass a_otherObj);
+	bool IsCollidingSAT(MyBOClass* a_otherObj);
 private:
 	/*
 	USAGE: Deallocates member fields

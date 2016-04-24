@@ -23,7 +23,7 @@ void AppClass::ProcessKeyboard(void)
 
 #pragma region Camera Positioning
 	if(bModifier)
-		fSpeed *= 10.0f;
+		fSpeed *= 50.0f;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		m_pCameraMngr->MoveForward(fSpeed);
 
