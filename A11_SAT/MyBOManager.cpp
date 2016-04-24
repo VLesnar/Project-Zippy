@@ -252,9 +252,8 @@ void MyBOManager::CheckCollisions(void)
 		for (uint nObjectB = nObjectA + 1; nObjectB < m_nObjectCount; nObjectB++)
 		{
 			//Add colliding indices to the 2D array of collided indices
-			if (m_lObject[nObjectA]->IsCollidingSAT(m_lObject[nObjectB]))
+			if (m_lObject[nObjectA]->IsColliding(m_lObject[nObjectB]))
 			{
-				std::cout << "Kek" << std::endl;
 				m_llCollidingIndices[nObjectA].push_back(nObjectB);
 				m_llCollidingIndices[nObjectB].push_back(nObjectA);
 			}

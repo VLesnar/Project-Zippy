@@ -217,44 +217,79 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 //Collision methods
 bool MyBOClass::IsCollidingSAT(MyBOClass* a_otherObj)
 {
-	vector3 projPointsT[3][8];	//This's projected points	
-	vector3 projPointsO[3][8];	//Other's projected points
+	float projPointsT[15][8];	//This's projected points	
+	float projPointsO[15][8];	//Other's projected points
 
+	//Projections to Objects A's axis
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
 		for (int i = 0; i < 8; i++)	//For each point
 		{
-			projPointsT[j][i] = glm::normalize(m_v3NAxis[j]) * glm::dot(m_v3Corners[i], m_v3NAxis[j]);
-			projPointsO[j][i] = glm::normalize(m_v3NAxis[j]) * glm::dot(a_otherObj->m_v3Corners[i], m_v3NAxis[j]);
+			projPointsT[j][i] = glm::dot(m_v3Corners[i], m_v3NAxis[j]);				//Set projected point for this
+			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], m_v3NAxis[j]);	//Set projected point for other
 		}
 	}
 
-	//Draw projected points
-	vector3 color;
-	for (int j = 0; j < 3; j++)	//For each axis
+	//Projections to Object B's axis
+	for (int j = 3; j < 6; j++)	//For each axis
 	{
-		switch (j)
-		{
-			case 0:
-				color = RERED;
-				break;
-			case 1:
-				color = REGREEN;
-				break;
-			case 2:
-				color = REBLUE;
-				break;
-		}
 		for (int i = 0; i < 8; i++)	//For each point
 		{
-			vector3 temp = projPointsT[j][i];
-			m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, temp) * glm::scale(vector3(0.2f, 0.2f, 0.2f)), color, WIRE);
-			temp = projPointsO[j][i];
-			m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, temp) * glm::scale(vector3(0.2f, 0.2f, 0.2f)), color, WIRE);
+			projPointsT[j][i] = glm::dot(m_v3Corners[i], a_otherObj->m_v3NAxis[j - 3]);				//Set projected point for this
+			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], a_otherObj->m_v3NAxis[j - 3]);	//Set projected point for other
 		}
 	}
 
-	return false;
+	//Cros product axis projections
+	for (int k = 0; k < 3; k++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			vector3 temp = glm::cross(m_v3NAxis[k], a_otherObj->m_v3NAxis[j]);	//Cross product
+			if (glm::length(temp) > 0)
+			{
+				temp = glm::normalize(temp); //Normalized cross product
+			}
+			for (int i = 0; i < 8; i++)	//For each point
+			{
+				projPointsT[k * 3 + j][i] = glm::dot(m_v3Corners[i], temp);				//Set projected point for this
+				projPointsO[k * 3 + j][i] = glm::dot(a_otherObj->m_v3Corners[i], temp);	//Set projected point for other
+			}
+		}
+	}
+
+	//Check
+	for (int j = 0; j < 15; j++)	//For each set of projections, see if a plane exists between objects.
+	{
+		float maxT = projPointsT[j][0];	//Max for this
+		float minT = projPointsT[j][0];	//Min for this
+		float minO = projPointsO[j][0];	//Min for other
+		float maxO = projPointsO[j][0];	//Max for other
+
+		//set mins and maxs
+		for (int i = 1; i < 8; i++)	//For each point
+		{
+			if (projPointsT[j][i] > maxT)
+				maxT = projPointsT[j][i];
+
+			if (projPointsT[j][i] < minT)
+				minT = projPointsT[j][i];
+
+			if (projPointsO[j][i] > maxO)
+				maxO = projPointsO[j][i];
+
+			if (projPointsO[j][i] < minO)
+				minO = projPointsO[j][i];
+		}
+
+		//If there exists a plane, return false, no collision
+		if (minO > maxT || minT > maxO)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
@@ -270,11 +305,12 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	Are they colliding?
 	For Objects we will assume they are colliding, unless at least one of the following conditions is not met
 	*/
+
 	//first check the bounding sphere, if that is not colliding we can guarantee that there are no collision
 	if ((m_fRadius + a_pOther->m_fRadius) < glm::distance(m_v3CenterG, a_pOther->m_v3CenterG))
 		return false;
 
-	//If the distance was smaller it might be colliding
+	//next check the axis-aligned bounding boxes.
 
 	//Check for X
 	if (m_v3MaxG.x < a_pOther->m_v3MinG.x)
@@ -293,6 +329,13 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 		return false;
 	if (m_v3MinG.z > a_pOther->m_v3MaxG.z)
 		return false;
+
+	//Finally, check the oriented bounding boxes.
+
+	if (!IsCollidingSAT(a_pOther))
+	{
+		return false;
+	}
 
 	return true;
 }
