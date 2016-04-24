@@ -16,10 +16,6 @@ void MyBOClass::Init(void)
 	m_v3HalfWidth = vector3(0.0f);
 	m_v3HalfWidthG = vector3(0.0f);
 
-	m_v3X = vector3(1.0f, 0.0f, 0.0f);
-	m_v3Y = vector3(0.0f, 1.0f, 0.0f);
-	m_v3Z = vector3(0.0f, 0.0f, 1.0f);
-
 	m_fRadius = 0.0f;
 
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
@@ -41,17 +37,12 @@ void MyBOClass::Swap(MyBOClass& other)
 	std::swap(m_v3HalfWidth, other.m_v3HalfWidth);
 	std::swap(m_v3HalfWidthG, other.m_v3HalfWidthG);
 
-	std::swap(m_v3X, other.m_v3X);
-	std::swap(m_v3Y, other.m_v3Y);
-	std::swap(m_v3Z, other.m_v3Z);
+	std::swap(m_v3NAxis, other.m_v3NAxis);
 
 	std::swap(m_fRadius, other.m_fRadius);
 
 	std::swap(m_pMeshMngr, other.m_pMeshMngr);
 }
-
-//Release the pointers in the BO
-void MyBOClass::Release(void) {/* No pointers allocated yet */ }
 
 //The big 3 (CONSTRUCTOR
 MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
@@ -88,13 +79,10 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 			m_v3Max.z = a_lVectorList[nVertex].z;
 	}
 
-	//with the max and the min we calculate the center
-	m_v3Center = (m_v3Min + m_v3Max) / 2.0f;
-
+	
+	m_v3Center = (m_v3Min + m_v3Max) / 2.0f; //with the max and the min we calculate the center
+	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f; //we calculate the distance between all the values of min and max vectors
 	m_fRadius = glm::distance(m_v3Center, m_v3Max);
-
-	//we calculate the distance between all the values of min and max vectors
-	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
 
 	m_v3MaxG = m_v3Max;
 	m_v3MinG = m_v3Min;
@@ -135,15 +123,12 @@ MyBOClass& MyBOClass::operator=(MyBOClass const& other)
 	}
 	return *this;
 }
+
+//Destructor
 MyBOClass::~MyBOClass() { Release(); };
 
-//Setter for 
-void MyBOClass::SetTripleAxis()
-{
-	m_v3X = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	m_v3Y = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f));
-	m_v3Z = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f));
-}
+//Release the pointers in the BO
+void MyBOClass::Release(void) {/* No pointers allocated yet */ }
 
 //Set the model matrix and corner points based on the given to-global coordinates.
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
@@ -190,12 +175,14 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 		else if (m_v3MaxG.z < m_v3Corners[nVertex].z)//if max is smaller than current
 			m_v3MaxG.z = m_v3Corners[nVertex].z;
 	}
+
 	m_v3CenterG = (m_v3MinG + m_v3MaxG) / 2.0f;
-
-	//we calculate the distance between all the values of min and max vectors
-	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f;
-
+	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f; //we calculate the distance between all the values of min and max vectors
 	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
+
+	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f));
+	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f));
 }
 
 //Accessors
@@ -230,6 +217,24 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 //Collision methods
 bool MyBOClass::SATCollision(MyBOClass a_otherObj)
 {
+	vector3 projPointsT[3][8];	//This's projected points	
+	vector3 projPointsO[3][8];	//Other's projected points
+
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		for (int i = 0; i < 8; i++)	//For each point
+		{
+			projPointsT[j][i] = m_v3NAxis[j] * glm::dot(m_v3Corners[i], m_v3NAxis[j]);
+		}
+	}
+
+	for (int i = 0; i < 8; i++)	//For each point (Other)
+	{
+		vector3 temp = projPointsT[0][i] + projPointsT[1][i] + projPointsT[2][i];
+		m_pMeshMngr->AddCubeToQueue(glm::translate(IDENTITY_M4, m_v3CenterG) *
+			glm::scale(m_v3HalfWidthG * 2.0f), RERED, WIRE);
+	}
+
 	return false;
 }
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)

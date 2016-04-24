@@ -1,11 +1,15 @@
 #include "MyBOManager.h"
 //  MyBOManager
 MyBOManager* MyBOManager::m_pInstance = nullptr;
+
+//Init
 void MyBOManager::Init(void)
 {
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_nObjectCount = 0;
 }
+
+//Release all pointers
 void MyBOManager::Release(void)
 {
 	for (uint nObject = 0; nObject < m_nObjectCount; nObject++)
@@ -20,6 +24,8 @@ void MyBOManager::Release(void)
 	m_lObject.clear();
 	m_llCollidingIndices.clear();
 }
+
+//Get an instance of this singleton
 MyBOManager* MyBOManager::GetInstance()
 {
 	if (m_pInstance == nullptr)
@@ -28,6 +34,8 @@ MyBOManager* MyBOManager::GetInstance()
 	}
 	return m_pInstance;
 }
+
+//Release an instance of this singlton
 void MyBOManager::ReleaseInstance()
 {
 	if (m_pInstance != nullptr)
@@ -36,11 +44,15 @@ void MyBOManager::ReleaseInstance()
 		m_pInstance = nullptr;
 	}
 }
+
 //The big 3
 MyBOManager::MyBOManager() { Init(); }
 MyBOManager::MyBOManager(MyBOManager const& other) { }
 MyBOManager& MyBOManager::operator=(MyBOManager const& other) { return *this; }
+
+//Destructor
 MyBOManager::~MyBOManager() { Release(); };
+
 //Accessors
 MyBOClass* MyBOManager::GetBoundingObject(String a_sIndex)
 {
@@ -54,13 +66,16 @@ MyBOClass* MyBOManager::GetBoundingObject(uint a_nIndex)
 
 	return nullptr;
 }
-//--- Non Standard Singleton Methods
+
+//Add a bounding box based on an object name.
 void MyBOManager::AddObject(String a_sName)
 {
 	std::vector<vector3> lVertex = m_pMeshMngr->GetVertexList(a_sName);
 	AddObject(lVertex, a_sName);
 	SetModelMatrix(m_pMeshMngr->GetModelMatrix(a_sName), a_sName);
 }
+
+//Add a bounding box based on an object's verticies and name
 void MyBOManager::AddObject(std::vector<vector3> a_lVertex, String a_sName)
 {
 	MyBOClass* pObject = new MyBOClass(a_lVertex);
@@ -73,6 +88,8 @@ void MyBOManager::AddObject(std::vector<vector3> a_lVertex, String a_sName)
 	std::vector<int> lVector;
 	m_llCollidingIndices.push_back(lVector);
 }
+
+//Set the model matrix of a bounding box based on its name
 void MyBOManager::SetModelMatrix(matrix4 a_mModelMatrix, String a_sIndex)
 {
 	//find the object
@@ -82,11 +99,15 @@ void MyBOManager::SetModelMatrix(matrix4 a_mModelMatrix, String a_sIndex)
 
 	m_lObject[nIndex]->SetModelMatrix(a_mModelMatrix);//set the matrix for the indexed Object
 }
+
+//Sphere display by name with color
 void MyBOManager::DisplaySphere(String a_sName, vector3 a_v3Color)
 {
 	int nIndex = GetIndex(a_sName);
 	DisplaySphere(nIndex, a_v3Color);
 }
+
+//Sphere display by index with color
 void MyBOManager::DisplaySphere(int a_nIndex, vector3 a_v3Color)
 {
 	//If the index is larger than the number of objects stored return with no changes
@@ -121,11 +142,15 @@ void MyBOManager::DisplaySphere(int a_nIndex, vector3 a_v3Color)
 		}
 	}
 }
+
+//O Bounding Box display by name with color
 void MyBOManager::DisplayOriented(String a_sName, vector3 a_v3Color)
 {
 	int nIndex = GetIndex(a_sName);
 	DisplayOriented(nIndex, a_v3Color);
 }
+
+//O Bounding Box display by index with color
 void MyBOManager::DisplayOriented(int a_nIndex, vector3 a_v3Color)
 {
 	//If the index is larger than the number of objects stored return with no changes
@@ -160,11 +185,15 @@ void MyBOManager::DisplayOriented(int a_nIndex, vector3 a_v3Color)
 		}
 	}
 }
+
+//RA Bounding Box display by name with color
 void MyBOManager::DisplayReAlligned(String a_sName, vector3 a_v3Color)
 {
 	int nIndex = GetIndex(a_sName);
 	DisplayReAlligned(nIndex, a_v3Color);
 }
+
+//RA Bounding Box display by index with color
 void MyBOManager::DisplayReAlligned(int a_nIndex, vector3 a_v3Color)
 {
 	//If the index is larger than the number of objects stored return with no changes
@@ -199,20 +228,30 @@ void MyBOManager::DisplayReAlligned(int a_nIndex, vector3 a_v3Color)
 		}
 	}
 }
+
+//Update the manager by clearing collisions and then checking collisions
 void MyBOManager::Update(void)
 {
+	//Clear
 	for (uint nObject = 0; nObject < m_nObjectCount; nObject++)
 	{
 		m_llCollidingIndices[nObject].clear();
 	}
+
+	//Check
 	CheckCollisions();
 }
+
+//Check for collisions between every object
 void MyBOManager::CheckCollisions(void)
 {
+	//For each object
 	for (uint nObjectA = 0; nObjectA < m_nObjectCount - 1; nObjectA++)
 	{
+		//For each object that hasn't had a complete check.
 		for (uint nObjectB = nObjectA + 1; nObjectB < m_nObjectCount; nObjectB++)
 		{
+			//Add colliding indices to the 2D array of collided indices
 			if (m_lObject[nObjectA]->IsColliding(m_lObject[nObjectB]))
 			{
 				m_llCollidingIndices[nObjectA].push_back(nObjectB);
@@ -221,6 +260,8 @@ void MyBOManager::CheckCollisions(void)
 		}
 	}
 }
+
+//Get a list of objct indicies that an object is colliding with based on its name.
 std::vector<int> MyBOManager::GetCollidingVector(String a_sIndex)
 {
 	int nIndex = GetIndex(a_sIndex);
@@ -231,6 +272,8 @@ std::vector<int> MyBOManager::GetCollidingVector(String a_sIndex)
 	}
 	return GetCollidingVector(static_cast<uint>(nIndex));
 }
+
+//Get a list of objct indicies that an object is colliding with based on its index.
 std::vector<int> MyBOManager::GetCollidingVector(uint a_nIndex)
 {
 	if (a_nIndex >= m_nObjectCount)
@@ -240,6 +283,8 @@ std::vector<int> MyBOManager::GetCollidingVector(uint a_nIndex)
 	}
 	return m_llCollidingIndices[a_nIndex];
 }
+
+//Get the index of an object based on its name.
 int MyBOManager::GetIndex(String a_sIndex)
 {
 	//Find the related index
