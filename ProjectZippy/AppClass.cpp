@@ -30,12 +30,14 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
 	m_pMeshMngr->LoadModel("Minecraft\\Creeper.obj", "Creeper");
+	m_pMeshMngr->LoadModel("cube.obj", "cube");
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve");
 	std::vector<vector3> planeVertexList = { vector3(100.0f, 0.0f, 100.0f), vector3(100.0f, 0.0f, -100.0f), vector3(-100.0f, 0.0f, 100.0f), vector3(-100.0f, 0.0f, -100.0f) };
-	
+	std::vector<vector3> cubeVertexList = m_pMeshMngr->GetVertexList("cube");
+
 	BOMngr->setBox(vertexList, "Steve1");
 	BOMngr->setBox(vertexList, "Steve2");
-	BOMngr->setBox(planeVertexList, "ground");
+	BOMngr->setBox(cubeVertexList, "cube");
 
 	
 	
@@ -57,22 +59,25 @@ void AppClass::Update(void)
 	ArcBall();
 	
 	//Set the model matrix for the the objects and bounding objects
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, -1.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve");
+	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve");
 
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 3.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
 
+	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(1.2f, 1.0f, 0.0f)), "cube");
+
 	
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Creeper");
+	//m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Creeper");
 	
 	//change the model matix of all the bounding objects
 	BOMngr->setModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve"));
 	BOMngr->setModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
-	BOMngr->setModelMatrix("ground", IDENTITY_M4 * glm::scale(vector3(50.0f, 0.0f, 0.0f)) * glm::rotate(90.0f, vector3(1.0f, 0.0f, 0.0f)));
+	BOMngr->setModelMatrix("cube", glm::translate(vector3(1.2f, 1.0f, 0.0f)));
 	
 	//Adds all loaded instance to the render list
 	
 	m_pMeshMngr->AddInstanceToRenderList("Steve");
 	m_pMeshMngr->AddInstanceToRenderList("Steve2");
+	m_pMeshMngr->AddInstanceToRenderList("cube");
 	m_pMeshMngr->AddPlaneToQueue(IDENTITY_M4 * glm::scale(vector3(50.0f)) * glm::rotate(90.0f, vector3(1.0f,0.0f,0.0f)), REWHITE);
 	
 

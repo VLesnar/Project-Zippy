@@ -197,50 +197,182 @@ matrix4 MyBoundingObjectClass::GetModelMatrix() {
 
 // Sets the object's matrix
 void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
+	//Do nothing if the to-global coordinates haven't changed.
+	if (m_m4ToWorld == a_m4ToWorld)
+		return;
+
 	m_m4ToWorld = a_m4ToWorld;
+
+	//Calculate the vertex that makes the Object
+	m_v3Corners[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
+	m_v3Corners[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
+	m_v3Corners[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
+	m_v3Corners[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
+
+	m_v3Corners[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
+	m_v3Corners[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
+	m_v3Corners[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
+	m_v3Corners[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+
+	//Get vectors in global space
+	for (uint nVertex = 0; nVertex < 8; nVertex++)
+	{
+		m_v3Corners[nVertex] = vector3(m_m4ToWorld * vector4(m_v3Corners[nVertex], 1.0f));
+	}
+
+	//Get the max and min out of the list
+	m_v3MaxG = m_v3MinG = m_v3Corners[0];
+	for (uint nVertex = 1; nVertex < 8; nVertex++)
+	{
+		if (m_v3MinG.x > m_v3Corners[nVertex].x) //If min is larger than current
+			m_v3MinG.x = m_v3Corners[nVertex].x;
+		else if (m_v3MaxG.x < m_v3Corners[nVertex].x)//if max is smaller than current
+			m_v3MaxG.x = m_v3Corners[nVertex].x;
+
+		if (m_v3MinG.y > m_v3Corners[nVertex].y) //If min is larger than current
+			m_v3MinG.y = m_v3Corners[nVertex].y;
+		else if (m_v3MaxG.y < m_v3Corners[nVertex].y)//if max is smaller than current
+			m_v3MaxG.y = m_v3Corners[nVertex].y;
+
+		if (m_v3MinG.z > m_v3Corners[nVertex].z) //If min is larger than current
+			m_v3MinG.z = m_v3Corners[nVertex].z;
+		else if (m_v3MaxG.z < m_v3Corners[nVertex].z)//if max is smaller than current
+			m_v3MaxG.z = m_v3Corners[nVertex].z;
+	}
+
+	m_v3CenterG = (m_v3MinG + m_v3MaxG) / 2.0f;
+	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f; //we calculate the distance between all the values of min and max vectors
+	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
+
+	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+}
+
+// Collision methods
+bool MyBoundingObjectClass::IsCollidingSAT(MyBoundingObjectClass* a_otherObj)
+{
+	float projPointsT[15][8];	//This's projected points	
+	float projPointsO[15][8];	//Other's projected points
+
+								//Projections to Objects A's axis
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		for (int i = 0; i < 8; i++)	//For each point
+		{
+			projPointsT[j][i] = glm::dot(m_v3Corners[i], m_v3NAxis[j]);				//Set projected point for this
+			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], m_v3NAxis[j]);	//Set projected point for other
+		}
+	}
+
+	// Projections to Object B's axis
+	for (int j = 3; j < 6; j++)	//For each axis
+	{
+		for (int i = 0; i < 8; i++)	//For each point
+		{
+			projPointsT[j][i] = glm::dot(m_v3Corners[i], a_otherObj->m_v3NAxis[j - 3]);				//Set projected point for this
+			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], a_otherObj->m_v3NAxis[j - 3]);	//Set projected point for other
+		}
+	}
+
+	// Cross product axis projections
+	for (int k = 0; k < 3; k++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			vector3 temp = glm::cross(m_v3NAxis[k], a_otherObj->m_v3NAxis[j]);	//Cross product
+			if (glm::length(temp) > 0)
+			{
+				temp = glm::normalize(temp); // Normalized cross product
+			}
+			for (int i = 0; i < 8; i++)	// For each point
+			{
+				projPointsT[k * 3 + j][i] = glm::dot(m_v3Corners[i], temp);				// Set projected point for this
+				projPointsO[k * 3 + j][i] = glm::dot(a_otherObj->m_v3Corners[i], temp);	// Set projected point for other
+			}
+		}
+	}
+
+	// Check
+	for (int j = 0; j < 15; j++)	// For each set of projections, see if a plane exists between objects.
+	{
+		float maxT = projPointsT[j][0];	// Max for this
+		float minT = projPointsT[j][0];	// Min for this
+		float minO = projPointsO[j][0];	// Min for other
+		float maxO = projPointsO[j][0];	// Max for other
+
+										// set mins and maxs
+		for (int i = 1; i < 8; i++)	// For each point
+		{
+			if (projPointsT[j][i] > maxT)
+				maxT = projPointsT[j][i];
+
+			if (projPointsT[j][i] < minT)
+				minT = projPointsT[j][i];
+
+			if (projPointsO[j][i] > maxO)
+				maxO = projPointsO[j][i];
+
+			if (projPointsO[j][i] < minO)
+				minO = projPointsO[j][i];
+		}
+
+		// If there exists a plane, return false, no collision
+		if (minO > maxT || minT > maxO)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 // Checks to see if two objects are colliding
 bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
-	// Get the centers for collision check
-	vector3 v3Temp1 = this->GetGlobalCenter();	// First object
-	vector3 v3Temp2 = a_pOther->GetGlobalCenter();	// Second object
+	//Get all vectors in global space
+	vector3 v3Min = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
+	vector3 v3Max = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
 
-	bool bAreColliding = true;	// If the two objects are colliding
+	vector3 v3MinO = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Min, 1.0f));
+	vector3 v3MaxO = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Max, 1.0f));
 
-	// Sphere collision detection
-	// Two spheres have collided
-	if (glm::distance(v3Temp1, v3Temp2) < (this->m_fRadius + a_pOther->GetRadius())) {
-		// Box collision detection
-		vector3 vMin1 = v3Temp1 + m_v3ChangingMin;
-		vector3 vMax1 = v3Temp1 + m_v3ChangingMax;
-		vector3 vMin2 = v3Temp2 + a_pOther->m_v3ChangingMin;
-		vector3 vMax2 = v3Temp2 + a_pOther->m_v3ChangingMax;
+	/*
+	Are they colliding?
+	For Objects we will assume they are colliding, unless at least one of the following conditions is not met
+	*/
 
-		//Check for X
-		if (vMax1.x < vMin2.x)
-			bAreColliding = false;
-		if (vMin1.x > vMax2.x)
-			bAreColliding = false;
+	//first check the bounding sphere, if that is not colliding we can guarantee that there are no collision
+	if ((m_fRadius + a_pOther->m_fRadius) < glm::distance(m_v3CenterG, a_pOther->m_v3CenterG))
+		return false;
 
-		//Check for Y
-		if (vMax1.y < vMin2.y)
-			bAreColliding = false;
-		if (vMin1.y > vMax2.y)
-			bAreColliding = false;
+	//next check the axis-aligned bounding boxes.
 
-		//Check for Z
-		if (vMax1.z < vMin2.z)
-			bAreColliding = false;
-		if (vMin1.z > vMax2.z)
-			bAreColliding = false;
+	//Check for X
+	if (m_v3MaxG.x < a_pOther->m_v3MinG.x)
+		return false;
+	if (m_v3MinG.x > a_pOther->m_v3MaxG.x)
+		return false;
+
+	//Check for Y
+	if (m_v3MaxG.y < a_pOther->m_v3MinG.y)
+		return false;
+	if (m_v3MinG.y > a_pOther->m_v3MaxG.y)
+		return false;
+
+	//Check for Z
+	if (m_v3MaxG.z < a_pOther->m_v3MinG.z)
+		return false;
+	if (m_v3MinG.z > a_pOther->m_v3MaxG.z)
+		return false;
+
+	//Finally, check the oriented bounding boxes.
+
+	if (!IsCollidingSAT(a_pOther))
+	{
+		return false;
 	}
-	// No sphere collision
-	else {
-		bAreColliding = false;
-	}
 
-	return bAreColliding;
+	return true;
 }
 
 // Sets the visibility of the bounding objects

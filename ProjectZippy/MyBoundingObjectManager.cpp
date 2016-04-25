@@ -74,13 +74,19 @@ void MyBoundingObjectManager::checkColissions() {
 	{
 		for (int j = i; j < BOnum; j++)
 		{
-			if (boundingObjects[i]->IsColliding(boundingObjects[j])) { boundingObjects[i]->SetColor(RERED);
-				boundingObjects[j]->SetColor(RERED);
-			}
-			else
-			{
-				boundingObjects[i]->SetColor(REGREEN);
-				boundingObjects[j]->SetColor(REGREEN);
+			if (boundingObjects[i] != boundingObjects[j]) {
+				if (boundingObjects[i]->IsColliding(boundingObjects[j]))
+				{
+					boundingObjects[i]->SetColor(RERED);
+					boundingObjects[j]->SetColor(RERED);
+					cout << boundingObjects[i]->GetName() << " is colliding with " << boundingObjects[j]->GetName() << endl;
+					return;
+				}
+				else
+				{
+					boundingObjects[i]->SetColor(REGREEN);
+					boundingObjects[j]->SetColor(REGREEN);
+				}
 			}
 		}
 		

@@ -240,7 +240,7 @@ bool MyBOClass::IsCollidingSAT(MyBOClass* a_otherObj)
 		}
 	}
 
-	//Cros product axis projections
+	//Cross product axis projections
 	for (int k = 0; k < 3; k++)
 	{
 		for (int j = 0; j < 3; j++)
