@@ -79,8 +79,8 @@ void MyBoundingObjectManager::checkColissions() {
 				{
 					boundingObjects[i]->SetColor(RERED);
 					boundingObjects[j]->SetColor(RERED);
-					cout << boundingObjects[i]->GetName() << " is colliding with " << boundingObjects[j]->GetName() << endl;
-					return;
+					//cout << boundingObjects[i]->GetName() << " is colliding with " << boundingObjects[j]->GetName() << endl;
+					break;
 				}
 				else
 				{
