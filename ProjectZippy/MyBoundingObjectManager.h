@@ -51,6 +51,21 @@ public:
 	void render(MyBoundingObjectClass* iBO);
 	void render(string iname);
 
+	//removes object from vector
+	void removeBO(MyBoundingObjectClass* iBO) {
+		for (int i = 0; i < BOnum; i++) {
+			if (boundingObjects[i] == iBO)
+			{
+				boundingObjects.erase(boundingObjects.begin + i);
+			}
+		}
+	};
+
+	//returns a bounding object when given a name
+	BoundingObjectClass* getBO(string iname) {
+
+	}
+
 	void checkColissions();
 
 

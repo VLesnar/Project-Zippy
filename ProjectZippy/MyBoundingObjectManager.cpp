@@ -48,6 +48,10 @@ void MyBoundingObjectManager::setModelMatrix(string iname, matrix4 a_m4ToWorld) 
 		if (boundingObjects[i]->GetName() == iname) { boundingObjects[i]->SetModelMatrix(a_m4ToWorld); }
 	}
 }
+//removes a bounding object from the vector used for enemies
+void MyBoundingObjectManager::removeBO(MyBoundingObjectClass* iBO) {
+
+}
 
 
 void MyBoundingObjectManager::render(MyBoundingObjectClass* iBO) {
@@ -74,7 +78,7 @@ void MyBoundingObjectManager::checkColissions() {
 	{
 		for (int j = i; j < BOnum; j++)
 		{
-			if (boundingObjects[i] != boundingObjects[j]) {
+			if (boundingObjects[i]->GetName() != boundingObjects[j]->GetName()) {
 				if (boundingObjects[i]->IsColliding(boundingObjects[j]))
 				{
 					boundingObjects[i]->SetColor(RERED);
