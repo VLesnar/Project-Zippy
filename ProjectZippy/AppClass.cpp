@@ -25,7 +25,7 @@ void AppClass::InitVariables(void)
 
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve1");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "MainCube");
+	m_pMeshMngr->LoadModel("FloorCube.obj", "MainCube");
 	m_pMeshMngr->LoadModel("ZippyCube.obj", "TopPath");
 	m_pMeshMngr->LoadModel("ZippyCube.obj", "BottomPath");
 	m_pMeshMngr->LoadModel("ZippyCube.obj", "LeftPath");
@@ -208,26 +208,5 @@ void AppClass::Display(void)
 
 void AppClass::Release(void)
 {
-	if (m_pGround != nullptr)
-	{
-		delete m_pGround;
-		m_pGround = nullptr;
-	}
-
-	if (bo_1 != nullptr) {
-		delete bo_1;
-		bo_1 = nullptr;
-	}
-
-	if (bo_2 != nullptr) {
-		delete bo_2;
-		bo_2 = nullptr;
-	}
-
-	if (bo_3 != nullptr) {
-		delete bo_3;
-		bo_3 = nullptr;
-	}
-
 	super::Release(); //release the memory of the inherited fields
 }
