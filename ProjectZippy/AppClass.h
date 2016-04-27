@@ -22,10 +22,6 @@ class AppClass : public ReEngAppClass
 {
 	MyBoundingObjectManager* BOMngr = nullptr;
 	Camera* cam = Camera::GetInstance();
-	PrimitiveClass* m_pGround = nullptr;
-	MyBoundingObjectClass* bo_1 = nullptr;
-	MyBoundingObjectClass* bo_2 = nullptr;
-	MyBoundingObjectClass* bo_3 = nullptr;
 public:
 	typedef ReEngAppClass super;
 
