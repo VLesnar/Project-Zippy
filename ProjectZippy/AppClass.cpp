@@ -22,6 +22,8 @@ void AppClass::InitVariables(void)
 
 	//Load a model onto the Mesh manager
 	BOMngr = MyBoundingObjectManager::GetInstance();
+	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f));
+
 
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve1");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
@@ -170,6 +172,9 @@ void AppClass::Update(void)
 	m_pMeshMngr->AddInstanceToRenderList("LeftPathWall");
 	m_pMeshMngr->AddInstanceToRenderList("RightPathWall");
 	m_pMeshMngr->AddInstanceToRenderList("Roof");
+
+	//update enemies
+	spawner1->update();
 
 	BOMngr->checkColissions();
 	BOMngr->render();
