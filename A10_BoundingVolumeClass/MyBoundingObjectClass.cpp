@@ -266,7 +266,7 @@ void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 // Renders the bounding object
 void MyBoundingObjectClass::Render(void) {
 	if (m_bIsVisible) {
-		meshManager->AddSphereToQueue(glm::translate(this->GetGlobalCenter()) * glm::scale(vector3(m_fRadius, m_fRadius, m_fRadius) * 2.0f), m_v3Color, WIRE);
-		meshManager->AddCubeToQueue(glm::translate(this->GetGlobalCenter()) * glm::scale(this->GetChangingSize()), m_v3Color, WIRE);
+		meshManager->AddSphereToRenderList(glm::translate(this->GetGlobalCenter()) * glm::scale(vector3(m_fRadius, m_fRadius, m_fRadius) * 2.0f), m_v3Color, WIRE);
+		meshManager->AddCubeToRenderList(glm::translate(this->GetGlobalCenter()) * glm::scale(this->GetChangingSize()), m_v3Color, WIRE);
 	}
 }

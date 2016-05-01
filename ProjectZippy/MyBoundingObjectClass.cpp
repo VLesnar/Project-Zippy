@@ -403,8 +403,8 @@ void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
 void MyBoundingObjectClass::Render(void) {
 	if (m_bIsVisible) {
 		
-		meshManager->AddCubeToQueue(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
+		meshManager->AddCubeToRenderList(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
 		SetChangingCubeSize();
-		meshManager->AddCubeToQueue(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
+		meshManager->AddCubeToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
 	}
 }

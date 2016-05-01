@@ -139,10 +139,10 @@ void AppClass::Update(void)
 	BOMngr->setModelMatrix("LeftWall_2", m_pMeshMngr->GetModelMatrix("LeftWall_2"));
 	BOMngr->setModelMatrix("RightWall_1", m_pMeshMngr->GetModelMatrix("RightWall_1"));
 	BOMngr->setModelMatrix("RightWall_2", m_pMeshMngr->GetModelMatrix("RightWall_2"));
-	BOMngr->setModelMatrix("TopPathWall_1", m_pMeshMngr->GetModelMatrix("TopPathWall"));
-	BOMngr->setModelMatrix("BottomPathWall_1", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
-	BOMngr->setModelMatrix("LeftPathWall_1", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
-	BOMngr->setModelMatrix("RightPathWall_1", m_pMeshMngr->GetModelMatrix("RightPathWall"));
+	BOMngr->setModelMatrix("TopPathWall", m_pMeshMngr->GetModelMatrix("TopPathWall"));
+	BOMngr->setModelMatrix("BottomPathWall", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
+	BOMngr->setModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
+	BOMngr->setModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
 	BOMngr->setModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
 
 	//Adds all loaded instance to the render list
@@ -202,6 +202,8 @@ void AppClass::Display(void)
 	break;
 	}*/
 	m_pMeshMngr->Render(); //renders the render list
+
+	m_pMeshMngr->ResetRenderList();
 
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }

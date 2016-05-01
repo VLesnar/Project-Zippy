@@ -43,6 +43,8 @@ public:
 	//set the model matrix
 	void setModelMatrix(string iname, matrix4 a_m4ToWorld);
 
+	void removeBO(MyBoundingObjectClass * iBO);
+
 	
 	//render all bounding objects
 	void render();
@@ -50,16 +52,6 @@ public:
 	//render a specific bounding object
 	void render(MyBoundingObjectClass* iBO);
 	void render(string iname);
-
-	//removes object from vector
-	void removeBO(MyBoundingObjectClass* iBO) {
-		for (int i = 0; i < BOnum; i++) {
-			if (boundingObjects[i] == iBO)
-			{
-				boundingObjects.erase(boundingObjects.begin + i);
-			}
-		}
-	};
 
 	//returns a bounding object when given a name
 	BoundingObjectClass* getBO(string iname) {

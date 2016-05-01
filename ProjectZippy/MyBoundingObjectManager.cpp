@@ -50,7 +50,12 @@ void MyBoundingObjectManager::setModelMatrix(string iname, matrix4 a_m4ToWorld) 
 }
 //removes a bounding object from the vector used for enemies
 void MyBoundingObjectManager::removeBO(MyBoundingObjectClass* iBO) {
-
+	for (int i = 0; i < BOnum; i++) {
+		if (boundingObjects[i] == iBO)
+		{
+			//boundingObjects.erase(boundingObjects.begin + i);	//This breaks stuff
+		}
+	}
 }
 
 
