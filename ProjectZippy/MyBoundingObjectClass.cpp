@@ -7,7 +7,8 @@ MyBoundingObjectClass.h - Contains methods to
 #include "MyBoundingObjectClass.h"
 
 // Allocates member fields
-void MyBoundingObjectClass::Init() {
+void MyBoundingObjectClass::Init()
+{
 	m_vList = vector<vector3>();
 	m_v3Max = vector3(0.0f);
 	m_v3Min = vector3(0.0f);
@@ -23,7 +24,8 @@ void MyBoundingObjectClass::Init() {
 }
 
 // Changes the object's contents with another
-void MyBoundingObjectClass::Swap(MyBoundingObjectClass& other) {
+void MyBoundingObjectClass::Swap(MyBoundingObjectClass& other)
+{
 	swap(m_vList, other.m_vList);
 	swap(m_v3Max, other.m_v3Max);
 	swap(m_v3Min, other.m_v3Min);
@@ -38,12 +40,14 @@ void MyBoundingObjectClass::Swap(MyBoundingObjectClass& other) {
 }
 
 // Deallocates member fields
-void MyBoundingObjectClass::Release() {
+void MyBoundingObjectClass::Release()
+{
 
 }
 
 // Constructor
-MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname) {
+MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname)
+{
 	// Store the list of vertices from the model
 	m_vList = a_lVectorList;
 
@@ -63,7 +67,8 @@ MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, stri
 	}
 
 	// Set the max and the min vectors
-	for (uint i = 0; i < nVertexCount; i++) {
+	for (uint i = 0; i < nVertexCount; i++)
+	{
 		vector3 tempVect = m_vList[i];
 
 		// X
@@ -104,7 +109,8 @@ MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, stri
 }
 
 // Copy Constructor
-MyBoundingObjectClass::MyBoundingObjectClass(MyBoundingObjectClass const& other) {
+MyBoundingObjectClass::MyBoundingObjectClass(MyBoundingObjectClass const& other)
+{
 	m_vList = other.m_vList;
 	m_v3Max = other.m_v3Max;
 	m_v3Min = other.m_v3Min;
@@ -119,8 +125,10 @@ MyBoundingObjectClass::MyBoundingObjectClass(MyBoundingObjectClass const& other)
 }
 
 // Copy Assignment Operator
-MyBoundingObjectClass& MyBoundingObjectClass::operator=(MyBoundingObjectClass const& other) {
-	if (this != &other) {
+MyBoundingObjectClass& MyBoundingObjectClass::operator=(MyBoundingObjectClass const& other)
+{
+	if (this != &other)
+	{
 		Release();
 		Init();
 		MyBoundingObjectClass temp(other);
@@ -131,37 +139,44 @@ MyBoundingObjectClass& MyBoundingObjectClass::operator=(MyBoundingObjectClass co
 }
 
 // Destructor
-MyBoundingObjectClass::MyBoundingObjectClass() {
+MyBoundingObjectClass::MyBoundingObjectClass()
+{
 	Release();
 }
 
 // Gets the center in global coordinates
-vector3 MyBoundingObjectClass::GetGlobalCenter() {
+vector3 MyBoundingObjectClass::GetGlobalCenter()
+{
 	return vector3(m_m4ToWorld * vector4(m_v3Center, 1.0f));
 }
 
 // Gets the matrix of the center in global coordinates
-matrix4 MyBoundingObjectClass::GetGlobalCenterMatrix(void) {
+matrix4 MyBoundingObjectClass::GetGlobalCenterMatrix(void)
+{
 	return glm::translate(m_m4ToWorld, m_v3Center);
 }
 
 // Gets the object's radius
-float MyBoundingObjectClass::GetRadius() {
+float MyBoundingObjectClass::GetRadius()
+{
 	return m_fRadius;
 }
 
 // Gets the object's bounding box's size
-vector3 MyBoundingObjectClass::GetSize() {
+vector3 MyBoundingObjectClass::GetSize()
+{
 	return m_v3Size;
 }
 
 // Gets the object's axis-aligned bounding box's size
-vector3 MyBoundingObjectClass::GetChangingSize() {
+vector3 MyBoundingObjectClass::GetChangingSize()
+{
 	return m_v3ChangingSize;
 }
 
 // Changes the size of the axis-aligned bounding box
-void MyBoundingObjectClass::SetChangingCubeSize() {
+void MyBoundingObjectClass::SetChangingCubeSize()
+{
 	for (int i = 0; i < m_bList.size(); i++)
 	{
 		vector3 tempVect = vector3(GetGlobalCenterMatrix() * vector4(m_bList[i], 1.0f)) - vector3(GetGlobalCenterMatrix()[3]);
@@ -191,12 +206,14 @@ void MyBoundingObjectClass::SetChangingCubeSize() {
 }
 
 // Gets the object's matrix
-matrix4 MyBoundingObjectClass::GetModelMatrix() {
+matrix4 MyBoundingObjectClass::GetModelMatrix()
+{
 	return m_m4ToWorld;
 }
 
 // Sets the object's matrix
-void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld) {
+void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
+{
 	//Do nothing if the to-global coordinates haven't changed.
 	if (m_m4ToWorld == a_m4ToWorld)
 		return;
@@ -328,7 +345,8 @@ bool MyBoundingObjectClass::IsCollidingSAT(MyBoundingObjectClass* a_otherObj)
 }
 
 // Checks to see if two objects are colliding
-bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
+bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther)
+{
 	//Get all vectors in global space
 	vector3 v3Min = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
 	vector3 v3Max = vector3(m_m4ToWorld * vector4(m_v3Max, 1.0f));
@@ -376,33 +394,40 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther) {
 }
 
 // Sets the visibility of the bounding objects
-void MyBoundingObjectClass::SetVisibility() {
-	if (m_bIsVisible == true) {
+void MyBoundingObjectClass::FlipVisibility()
+{
+	if (m_bIsVisible == true)
+	{
 		m_bIsVisible = false;
 	}
-	else if (m_bIsVisible == false) {
+	else if (m_bIsVisible == false)
+	{
 		m_bIsVisible = true;
 	}
 }
 
-void MyBoundingObjectClass::SetVisibility(bool bvis) {
+void MyBoundingObjectClass::SetVisibility(bool bvis)
+{
 	m_bIsVisible = bvis;
 }
 
 // Gets the color of the bounding object
-vector3 MyBoundingObjectClass::GetColor(void) {
+vector3 MyBoundingObjectClass::GetColor(void)
+{
 	return m_v3Color;
 }
 
 // Sets the color of the bounding object
-void MyBoundingObjectClass::SetColor(vector3 a_v3Color) {
+void MyBoundingObjectClass::SetColor(vector3 a_v3Color)
+{
 	m_v3Color = a_v3Color;
 }
 
 // Renders the bounding object
-void MyBoundingObjectClass::Render(void) {
-	if (m_bIsVisible) {
-		
+void MyBoundingObjectClass::Render(void)
+{
+	if (m_bIsVisible)
+	{
 		meshManager->AddCubeToRenderList(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
 		SetChangingCubeSize();
 		meshManager->AddCubeToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);

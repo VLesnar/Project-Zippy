@@ -27,64 +27,37 @@ void AppClass::ProcessKeyboard(void)
 #pragma region Camera Positioning
 	if(bModifier)
 		fSpeed *= 10.0f;
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		m_pCameraMngr->MoveForward(fSpeed);
 
+	//Move forward
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * fSpeed;
+		m_pCameraMngr->SetPositionTargetAndView(
+			m_pCameraMngr->GetPosition() + move,
+			m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
+			m_pCameraMngr->GetUpward());
+	}
+
+	//Move backwards
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		m_pCameraMngr->MoveForward(-fSpeed);
+	{
+		vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * -fSpeed;
+		m_pCameraMngr->SetPositionTargetAndView(
+			m_pCameraMngr->GetPosition() + move,
+			m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
+			m_pCameraMngr->GetUpward());
+	}
 	
+	//Move left
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_pCameraMngr->MoveSideways(-fSpeed);
+		m_pCameraMngr->MoveSideways(-fSpeed * 0.75);
 
+	//Move right
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_pCameraMngr->MoveSideways(fSpeed);
+		m_pCameraMngr->MoveSideways(fSpeed * 0.75);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		m_pCameraMngr->MoveVertical(-fSpeed);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		m_pCameraMngr->MoveVertical(fSpeed);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
-		BOMngr->setVisibility();
-
-	//x-axis rot
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-	{
-		if (!bModifier)
-		{
-			cam->ChangePitch(5);
-		}
-		else
-		{
-			cam->ChangePitch(-5);
-		}
-	}
-
-	//y-axis rot
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-	{
-		if (!bModifier)
-		{
-			cam->ChangeYaw(5);
-		}
-		else
-		{
-			cam->ChangeYaw(-5);
-		}
-	}
-
-	//z-axis rot
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-	{
-		if (!bModifier)
-		{
-			cam->ChangeRoll(5);
-		}
-		else
-		{
-			cam->ChangeRoll(5);
-		}
-	}
+		BOMngr->FlipVisibility();
 #pragma endregion
 
 #pragma region Other Actions

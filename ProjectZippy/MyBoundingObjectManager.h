@@ -14,14 +14,19 @@ public:
 	MyBoundingObjectManager();
 	~MyBoundingObjectManager();
 
-	static MyBoundingObjectManager* GetInstance() {
-		if (instance == nullptr) {
+	static MyBoundingObjectManager* GetInstance()
+	{
+		if (instance == nullptr)
+		{
 			instance = new MyBoundingObjectManager();
 		}
 		return instance;
 	};
-	static MyBoundingObjectManager* ReleaseInstance() {
-		if (instance != nullptr) {
+
+	static MyBoundingObjectManager* ReleaseInstance()
+	{
+		if (instance != nullptr)
+		{
 			delete instance;
 			instance = nullptr;
 		}
@@ -29,7 +34,7 @@ public:
 	}
 	
 	void setBox(vector<vector3> a_lVectorList, string iname);
-	int getBO() { return BOnum; }
+	int getBOCount() { return BOnum; }
 	void setColor(MyBoundingObjectClass* iBO, vector3 color);
 	
 	//change visibility
@@ -37,7 +42,7 @@ public:
 	void setVisibility(string iname);
 	
 	//set visibility for all
-	void setVisibility();
+	void FlipVisibility();
 	void setVisibility(bool bvis);
 
 	//set the model matrix
@@ -45,7 +50,6 @@ public:
 
 	void removeBO(MyBoundingObjectClass * iBO);
 
-	
 	//render all bounding objects
 	void render();
 	
@@ -54,12 +58,8 @@ public:
 	void render(string iname);
 
 	//returns a bounding object when given a name
-	BoundingObjectClass* getBO(string iname) {
-
-	}
+	BoundingObjectClass* getBO(string iname) { }
 
 	void checkColissions();
-
-
 };
 

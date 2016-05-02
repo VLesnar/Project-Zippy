@@ -54,7 +54,7 @@ public:
 	void SetModelMatrix(matrix4 a_m4ToWorld);	// Sets the object's matrix
 	bool IsCollidingSAT(MyBoundingObjectClass* a_otherObj);	// Checks for SAT collision
 	bool IsColliding(MyBoundingObjectClass* const a_pOther);	// Checks to see if two objects are colliding
-	void SetVisibility(void);	// Sets the visibility of the bounding object
+	void FlipVisibility(void);	// Flips the visibility of the bounding object
 	void SetVisibility(bool bvis);	//sets the visibility to a specific value
 	vector3 GetColor(void);	// Gets the color of the bounding object
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
