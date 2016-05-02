@@ -3,7 +3,6 @@
 MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
 void AppClass::ProcessKeyboard(void)
 {
-	
 	bool bModifier = false;
 	float fSpeed = 0.1f;
 
@@ -27,37 +26,95 @@ void AppClass::ProcessKeyboard(void)
 #pragma region Camera Positioning
 	if(bModifier)
 		fSpeed *= 10.0f;
+	if (state == GameState::play) {
 
-	//Move forward
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * fSpeed;
-		m_pCameraMngr->SetPositionTargetAndView(
-			m_pCameraMngr->GetPosition() + move,
-			m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
-			m_pCameraMngr->GetUpward());
+		//Move forward
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * fSpeed;
+			m_pCameraMngr->SetPositionTargetAndView(
+				m_pCameraMngr->GetPosition() + move,
+				m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
+				m_pCameraMngr->GetUpward());
+		}
+
+		//Move backwards
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * -fSpeed;
+			m_pCameraMngr->SetPositionTargetAndView(
+				m_pCameraMngr->GetPosition() + move,
+				m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
+				m_pCameraMngr->GetUpward());
+		}
+
+		//Move left
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			m_pCameraMngr->MoveSideways(-fSpeed * 0.75);
+
+		//Move right
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			m_pCameraMngr->MoveSideways(fSpeed * 0.75);
+
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+			BOMngr->FlipVisibility();
+
+		// Enter pause
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			if (!pPressed)
+				state = GameState::pause;
+			pPressed = true;
+		}
+		else {
+			pPressed = false;
+		}
+
+		// Enter end
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+			state = GameState::end;
 	}
 
-	//Move backwards
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * -fSpeed;
-		m_pCameraMngr->SetPositionTargetAndView(
-			m_pCameraMngr->GetPosition() + move,
-			m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
-			m_pCameraMngr->GetUpward());
+	if (state == GameState::start) {
+		// Enter play
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			if (!spacePressed)
+				state = GameState::play;
+			spacePressed = true;
+		}
+		else {
+			spacePressed = false;
+		}
 	}
-	
-	//Move left
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_pCameraMngr->MoveSideways(-fSpeed * 0.75);
 
-	//Move right
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_pCameraMngr->MoveSideways(fSpeed * 0.75);
+	if (state == GameState::pause) {
+		// Enter play
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			if (!pPressed)
+				state = GameState::play;
+			pPressed = true;
+		}
+		else {
+			pPressed = false;
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
-		BOMngr->FlipVisibility();
+		// Enter end
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+			state = GameState::end;
+	}
+
+	if (state == GameState::end) {
+		// Enter start
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			if(!spacePressed)
+				state = GameState::start;
+			spacePressed = true;
+		}
+		else {
+			spacePressed = false;
+		}
+	}
+
 #pragma endregion
 
 #pragma region Other Actions
