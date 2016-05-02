@@ -90,25 +90,52 @@ void AppClass::Update(void)
 	m_pMeshMngr->Update();
 
 	if (state == GameState::start) {
-		m_v4ClearColor = vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
 		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("Welcome to Project Zippy.", REBLUE);
-		m_pMeshMngr->PrintLine("Press Space to play.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                       Welcome to Project Zippy.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                          Press Space to play.", REBLUE);
 	}
 
 	if (state == GameState::pause) {
-		m_v4ClearColor = vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
 		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("Game Paused.", REBLUE);
-		m_pMeshMngr->PrintLine("Press P to continue.", REBLUE);
-		m_pMeshMngr->PrintLine("Press X to quit.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                             Game Paused.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                         Press P to continue.", REBLUE);
+		m_pMeshMngr->PrintLine("                           Press X to quit.", REBLUE);
 	}
 
 	if (state == GameState::end) {
-		m_v4ClearColor = vector4(0.0f, 0.0f, 0.0f, 0.0f);
-		m_pMeshMngr->PrintLine("", RERED);
-		m_pMeshMngr->PrintLine("Game Over!", RERED);
-		m_pMeshMngr->PrintLine("Press Space to return to the main screen.", RERED);
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                              Game Over!", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("               Press Space to return to the main screen.", REBLUE);
 	}
 
 	if (state == GameState::play) {
