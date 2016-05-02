@@ -79,6 +79,8 @@ void AppClass::InitVariables(void)
 	BOMngr->SetBO(cubeVertexList, "LeftPathWall");
 	BOMngr->SetBO(cubeVertexList, "RightPathWall");
 	BOMngr->SetBO(cubeVertexList, "Roof");
+
+	state = GameState::start;
 }
 
 void AppClass::Update(void)
@@ -89,108 +91,160 @@ void AppClass::Update(void)
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
 
-	//First person camera movement
-	if (m_bFPC == true)
-		CameraRotation();
+	if (state == GameState::start) {
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                       Welcome to Project Zippy.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                          Press Space to play.", REBLUE);
+	}
 
-	//Call the arcball method
-	ArcBall();
+	if (state == GameState::pause) {
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                             Game Paused.", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                         Press P to continue.", REBLUE);
+		m_pMeshMngr->PrintLine("                           Press X to quit.", REBLUE);
+	}
 
-	//Set the model matrix for the the objects and bounding objects
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
-	//Set up the level
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * glm::scale(vector3(42.0f, 1.0f, 42.0f)), "MainCube");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, -28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "TopPath");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "BottomPath");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "LeftPath");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "RightPath");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-17.5f, 4.0f, 17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower2");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower3");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(17.5f, 4.0f, 17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower4");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-14.0f, 7.5f, -28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopWall_1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(14.0f, 7.5f, -28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopWall_2");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-14.0f, 7.5f, 28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomWall_1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(14.0f, 7.5f, 28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomWall_2");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 7.5f, -14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftWall_1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 7.5f, -14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftWall_2");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 7.5f, 14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightWall_1");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 7.5f, 14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightWall_2");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 7.5f, -42.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopPathWall");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 7.5f, 42.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomPathWall");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftPathWall");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightPathWall");
-	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 15.0f, 0.0f)) * glm::scale(vector3(70.0f, 1.0f, 70.0f)), "Roof");
+	if (state == GameState::end) {
+		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("                              Game Over!", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("", REBLUE);
+		m_pMeshMngr->PrintLine("               Press Space to return to the main screen.", REBLUE);
+	}
 
-	//change the model matix of all the bounding objects
-	BOMngr->SetModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve1"));
-	BOMngr->SetModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
-	BOMngr->SetModelMatrix("MainCube", m_pMeshMngr->GetModelMatrix("MainCube"));
-	BOMngr->SetModelMatrix("TopPath", m_pMeshMngr->GetModelMatrix("TopPath"));
-	BOMngr->SetModelMatrix("BottomPath", m_pMeshMngr->GetModelMatrix("BottomPath"));
-	BOMngr->SetModelMatrix("LeftPath", m_pMeshMngr->GetModelMatrix("LeftPath"));
-	BOMngr->SetModelMatrix("RightPath", m_pMeshMngr->GetModelMatrix("RightPath"));
-	BOMngr->SetModelMatrix("Tower1", m_pMeshMngr->GetModelMatrix("Tower1"));
-	BOMngr->SetModelMatrix("Tower2", m_pMeshMngr->GetModelMatrix("Tower2"));
-	BOMngr->SetModelMatrix("Tower3", m_pMeshMngr->GetModelMatrix("Tower3"));
-	BOMngr->SetModelMatrix("Tower4", m_pMeshMngr->GetModelMatrix("Tower4"));
-	BOMngr->SetModelMatrix("TopWall_1", m_pMeshMngr->GetModelMatrix("TopWall_1"));
-	BOMngr->SetModelMatrix("TopWall_2", m_pMeshMngr->GetModelMatrix("TopWall_2"));
-	BOMngr->SetModelMatrix("BottomWall_1", m_pMeshMngr->GetModelMatrix("BottomWall_1"));
-	BOMngr->SetModelMatrix("BottomWall_2", m_pMeshMngr->GetModelMatrix("BottomWall_2"));
-	BOMngr->SetModelMatrix("LeftWall_1", m_pMeshMngr->GetModelMatrix("LeftWall_1"));
-	BOMngr->SetModelMatrix("LeftWall_2", m_pMeshMngr->GetModelMatrix("LeftWall_2"));
-	BOMngr->SetModelMatrix("RightWall_1", m_pMeshMngr->GetModelMatrix("RightWall_1"));
-	BOMngr->SetModelMatrix("RightWall_2", m_pMeshMngr->GetModelMatrix("RightWall_2"));
-	BOMngr->SetModelMatrix("TopPathWall", m_pMeshMngr->GetModelMatrix("TopPathWall"));
-	BOMngr->SetModelMatrix("BottomPathWall", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
-	BOMngr->SetModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
-	BOMngr->SetModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
-	BOMngr->SetModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
+	if (state == GameState::play) {
 
-	//Adds all loaded instance to the render list
-	m_pMeshMngr->AddInstanceToRenderList("Steve1");
-	m_pMeshMngr->AddInstanceToRenderList("Steve2");
-	m_pMeshMngr->AddInstanceToRenderList("MainCube");
-	m_pMeshMngr->AddInstanceToRenderList("TopPath");
-	m_pMeshMngr->AddInstanceToRenderList("BottomPath");
-	m_pMeshMngr->AddInstanceToRenderList("LeftPath");
-	m_pMeshMngr->AddInstanceToRenderList("RightPath");
-	m_pMeshMngr->AddInstanceToRenderList("Tower1");
-	m_pMeshMngr->AddInstanceToRenderList("Tower2");
-	m_pMeshMngr->AddInstanceToRenderList("Tower3");
-	m_pMeshMngr->AddInstanceToRenderList("Tower4");
-	m_pMeshMngr->AddInstanceToRenderList("TopWall_1");
-	m_pMeshMngr->AddInstanceToRenderList("TopWall_2");
-	m_pMeshMngr->AddInstanceToRenderList("BottomWall_1");
-	m_pMeshMngr->AddInstanceToRenderList("BottomWall_2");
-	m_pMeshMngr->AddInstanceToRenderList("LeftWall_1");
-	m_pMeshMngr->AddInstanceToRenderList("LeftWall_2");
-	m_pMeshMngr->AddInstanceToRenderList("RightWall_1");
-	m_pMeshMngr->AddInstanceToRenderList("RightWall_2");
-	m_pMeshMngr->AddInstanceToRenderList("TopPathWall");
-	m_pMeshMngr->AddInstanceToRenderList("BottomPathWall");
-	m_pMeshMngr->AddInstanceToRenderList("LeftPathWall");
-	m_pMeshMngr->AddInstanceToRenderList("RightPathWall");
-	m_pMeshMngr->AddInstanceToRenderList("Roof");
+		//First person camera movement
+		if (m_bFPC == true)
+			CameraRotation();
 
-	//update enemies
-	double fTimeSpan = m_pSystem->LapClock();
+		//Call the arcball method
+		ArcBall();
 
-	spawner1->Update(fTimeSpan);
-	spawner2->Update(fTimeSpan);
-	spawner3->Update(fTimeSpan);
-	spawner4->Update(fTimeSpan);
+		//Set the model matrix for the the objects and bounding objects
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
+		//Set up the level
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * glm::scale(vector3(42.0f, 1.0f, 42.0f)), "MainCube");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, -28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "TopPath");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "BottomPath");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "LeftPath");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "RightPath");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-17.5f, 4.0f, 17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower2");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower3");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(17.5f, 4.0f, 17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)), "Tower4");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-14.0f, 7.5f, -28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopWall_1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(14.0f, 7.5f, -28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopWall_2");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-14.0f, 7.5f, 28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomWall_1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(14.0f, 7.5f, 28.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomWall_2");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 7.5f, -14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftWall_1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 7.5f, -14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftWall_2");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-28.0f, 7.5f, 14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightWall_1");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(28.0f, 7.5f, 14.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightWall_2");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 7.5f, -42.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "TopPathWall");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 7.5f, 42.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "BottomPathWall");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftPathWall");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightPathWall");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 15.0f, 0.0f)) * glm::scale(vector3(70.0f, 1.0f, 70.0f)), "Roof");
 
-	BOMngr->CheckColissions();
-	BOMngr->Render();
-	//Indicate the FPS
-	int nFPS = m_pSystem->GetFPS();
+		//change the model matix of all the bounding objects
+		BOMngr->SetModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve1"));
+		BOMngr->SetModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
+		BOMngr->SetModelMatrix("MainCube", m_pMeshMngr->GetModelMatrix("MainCube"));
+		BOMngr->SetModelMatrix("TopPath", m_pMeshMngr->GetModelMatrix("TopPath"));
+		BOMngr->SetModelMatrix("BottomPath", m_pMeshMngr->GetModelMatrix("BottomPath"));
+		BOMngr->SetModelMatrix("LeftPath", m_pMeshMngr->GetModelMatrix("LeftPath"));
+		BOMngr->SetModelMatrix("RightPath", m_pMeshMngr->GetModelMatrix("RightPath"));
+		BOMngr->SetModelMatrix("Tower1", m_pMeshMngr->GetModelMatrix("Tower1"));
+		BOMngr->SetModelMatrix("Tower2", m_pMeshMngr->GetModelMatrix("Tower2"));
+		BOMngr->SetModelMatrix("Tower3", m_pMeshMngr->GetModelMatrix("Tower3"));
+		BOMngr->SetModelMatrix("Tower4", m_pMeshMngr->GetModelMatrix("Tower4"));
+		BOMngr->SetModelMatrix("TopWall_1", m_pMeshMngr->GetModelMatrix("TopWall_1"));
+		BOMngr->SetModelMatrix("TopWall_2", m_pMeshMngr->GetModelMatrix("TopWall_2"));
+		BOMngr->SetModelMatrix("BottomWall_1", m_pMeshMngr->GetModelMatrix("BottomWall_1"));
+		BOMngr->SetModelMatrix("BottomWall_2", m_pMeshMngr->GetModelMatrix("BottomWall_2"));
+		BOMngr->SetModelMatrix("LeftWall_1", m_pMeshMngr->GetModelMatrix("LeftWall_1"));
+		BOMngr->SetModelMatrix("LeftWall_2", m_pMeshMngr->GetModelMatrix("LeftWall_2"));
+		BOMngr->SetModelMatrix("RightWall_1", m_pMeshMngr->GetModelMatrix("RightWall_1"));
+		BOMngr->SetModelMatrix("RightWall_2", m_pMeshMngr->GetModelMatrix("RightWall_2"));
+		BOMngr->SetModelMatrix("TopPathWall", m_pMeshMngr->GetModelMatrix("TopPathWall"));
+		BOMngr->SetModelMatrix("BottomPathWall", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
+		BOMngr->SetModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
+		BOMngr->SetModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
+		BOMngr->SetModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
 
-	//Print info on the screen
-	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REBLACK);
-	m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REBLACK);
+		//Adds all loaded instance to the render list
+		m_pMeshMngr->AddInstanceToRenderList("Steve1");
+		m_pMeshMngr->AddInstanceToRenderList("Steve2");
+		m_pMeshMngr->AddInstanceToRenderList("MainCube");
+		m_pMeshMngr->AddInstanceToRenderList("TopPath");
+		m_pMeshMngr->AddInstanceToRenderList("BottomPath");
+		m_pMeshMngr->AddInstanceToRenderList("LeftPath");
+		m_pMeshMngr->AddInstanceToRenderList("RightPath");
+		m_pMeshMngr->AddInstanceToRenderList("Tower1");
+		m_pMeshMngr->AddInstanceToRenderList("Tower2");
+		m_pMeshMngr->AddInstanceToRenderList("Tower3");
+		m_pMeshMngr->AddInstanceToRenderList("Tower4");
+		m_pMeshMngr->AddInstanceToRenderList("TopWall_1");
+		m_pMeshMngr->AddInstanceToRenderList("TopWall_2");
+		m_pMeshMngr->AddInstanceToRenderList("BottomWall_1");
+		m_pMeshMngr->AddInstanceToRenderList("BottomWall_2");
+		m_pMeshMngr->AddInstanceToRenderList("LeftWall_1");
+		m_pMeshMngr->AddInstanceToRenderList("LeftWall_2");
+		m_pMeshMngr->AddInstanceToRenderList("RightWall_1");
+		m_pMeshMngr->AddInstanceToRenderList("RightWall_2");
+		m_pMeshMngr->AddInstanceToRenderList("TopPathWall");
+		m_pMeshMngr->AddInstanceToRenderList("BottomPathWall");
+		m_pMeshMngr->AddInstanceToRenderList("LeftPathWall");
+		m_pMeshMngr->AddInstanceToRenderList("RightPathWall");
+		m_pMeshMngr->AddInstanceToRenderList("Roof");
+
+		//update enemies
+		double fTimeSpan = m_pSystem->LapClock();
+
+		spawner1->Update(fTimeSpan);
+		spawner2->Update(fTimeSpan);
+		spawner3->Update(fTimeSpan);
+		spawner4->Update(fTimeSpan);
+
+		BOMngr->CheckColissions();
+		BOMngr->Render();
+		//Indicate the FPS
+		int nFPS = m_pSystem->GetFPS();
+
+		//Print info on the screen
+		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REBLACK);
+		m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REBLACK);
+	}
 }
 
 void AppClass::Display(void)

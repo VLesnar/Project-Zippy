@@ -21,6 +21,17 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 class AppClass : public ReEngAppClass
 {
 	MyBoundingObjectManager* BOMngr = nullptr;
+
+	enum class GameState {
+		start,
+		play,
+		pause,
+		end
+	};
+	GameState state;
+	bool pPressed = false;
+	bool spacePressed = false;
+
 	EnemyManager* spawner1 = nullptr;
 	EnemyManager* spawner2 = nullptr;
 	EnemyManager* spawner3 = nullptr;
