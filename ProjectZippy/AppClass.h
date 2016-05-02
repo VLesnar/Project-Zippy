@@ -13,6 +13,7 @@ Application: Project Zippy
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
+#include "EnemyManager.h"
 #include "MyBoundingObjectManager.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
@@ -20,6 +21,7 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 class AppClass : public ReEngAppClass
 {
 	MyBoundingObjectManager* BOMngr = nullptr;
+	EnemyManager* spawner1 = nullptr;
 public:
 	typedef ReEngAppClass super;
 
