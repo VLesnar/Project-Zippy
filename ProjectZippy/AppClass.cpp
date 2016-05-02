@@ -27,36 +27,33 @@ void AppClass::InitVariables(void)
 	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
 	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
 
-	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve1");
-	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
-	m_pMeshMngr->LoadModel("FloorCube.obj", "MainCube");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "TopPath");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "BottomPath");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "LeftPath");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "RightPath");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "Tower1");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "Tower2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "Tower3");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "Tower4");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "TopWall_1");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "TopWall_2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "BottomWall_1");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "BottomWall_2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "LeftWall_1");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "LeftWall_2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "RightWall_1");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "RightWall_2");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "TopPathWall");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "BottomPathWall");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "LeftPathWall");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "RightPathWall");
-	m_pMeshMngr->LoadModel("ZippyCube.obj", "Roof");
+	m_pMeshMngr->LoadModel("CenterFloorCube.obj", "MainCube");
+	m_pMeshMngr->LoadModel("FloorCube.obj", "TopPath");
+	m_pMeshMngr->LoadModel("FloorCube.obj", "BottomPath");
+	m_pMeshMngr->LoadModel("FloorCube.obj", "LeftPath");
+	m_pMeshMngr->LoadModel("FloorCube.obj", "RightPath");
+	m_pMeshMngr->LoadModel("TowerWall.obj", "Tower1");
+	m_pMeshMngr->LoadModel("TowerWall.obj", "Tower2");
+	m_pMeshMngr->LoadModel("TowerWall.obj", "Tower3");
+	m_pMeshMngr->LoadModel("TowerWall.obj", "Tower4");
+	m_pMeshMngr->LoadModel("Wall.obj", "TopWall_1");
+	m_pMeshMngr->LoadModel("Wall.obj", "TopWall_2");
+	m_pMeshMngr->LoadModel("Wall.obj", "BottomWall_1");
+	m_pMeshMngr->LoadModel("Wall.obj", "BottomWall_2");
+	m_pMeshMngr->LoadModel("Wall.obj", "LeftWall_1");
+	m_pMeshMngr->LoadModel("Wall.obj", "LeftWall_2");
+	m_pMeshMngr->LoadModel("Wall.obj", "RightWall_1");
+	m_pMeshMngr->LoadModel("Wall.obj", "RightWall_2");
+	m_pMeshMngr->LoadModel("Wall.obj", "TopPathWall");
+	m_pMeshMngr->LoadModel("Wall.obj", "BottomPathWall");
+	m_pMeshMngr->LoadModel("Wall.obj", "LeftPathWall");
+	m_pMeshMngr->LoadModel("Wall.obj", "RightPathWall");
+	m_pMeshMngr->LoadModel("CenterFloorCube.obj", "Roof");
+	m_pMeshMngr->LoadModel("Core.obj", "Core");
 
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve1");
 	std::vector<vector3> cubeVertexList = m_pMeshMngr->GetVertexList("MainCube");
 
-	BOMngr->SetBO(vertexList, "Steve1");
-	BOMngr->SetBO(vertexList, "Steve2");
 	BOMngr->SetBO(cubeVertexList, "MainCube");
 	BOMngr->SetBO(cubeVertexList, "TopPath");
 	BOMngr->SetBO(cubeVertexList, "BottomPath");
@@ -79,6 +76,7 @@ void AppClass::InitVariables(void)
 	BOMngr->SetBO(cubeVertexList, "LeftPathWall");
 	BOMngr->SetBO(cubeVertexList, "RightPathWall");
 	BOMngr->SetBO(cubeVertexList, "Roof");
+	BOMngr->SetBO(cubeVertexList, "Core");
 
 	state = GameState::start;
 }
@@ -149,9 +147,6 @@ void AppClass::Update(void)
 		//Call the arcball method
 		ArcBall();
 
-		//Set the model matrix for the the objects and bounding objects
-		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve1");
-		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(5.0f, 2.0f, 0.0f)) * ToMatrix4(m_qArcBall), "Steve2");
 		//Set up the level
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * glm::scale(vector3(42.0f, 1.0f, 42.0f)), "MainCube");
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, -28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "TopPath");
@@ -175,10 +170,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(-42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "LeftPathWall");
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(42.0f, 7.5f, 0.0f)) * glm::scale(vector3(14.0f, 14.0f, 14.0f)), "RightPathWall");
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 15.0f, 0.0f)) * glm::scale(vector3(70.0f, 1.0f, 70.0f)), "Roof");
+		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 2.0f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)), "Core");
 
 		//change the model matix of all the bounding objects
-		BOMngr->SetModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve1"));
-		BOMngr->SetModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
 		BOMngr->SetModelMatrix("MainCube", m_pMeshMngr->GetModelMatrix("MainCube"));
 		BOMngr->SetModelMatrix("TopPath", m_pMeshMngr->GetModelMatrix("TopPath"));
 		BOMngr->SetModelMatrix("BottomPath", m_pMeshMngr->GetModelMatrix("BottomPath"));
@@ -201,10 +195,9 @@ void AppClass::Update(void)
 		BOMngr->SetModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
 		BOMngr->SetModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
 		BOMngr->SetModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
+		BOMngr->SetModelMatrix("Core", m_pMeshMngr->GetModelMatrix("Core"));
 
 		//Adds all loaded instance to the render list
-		m_pMeshMngr->AddInstanceToRenderList("Steve1");
-		m_pMeshMngr->AddInstanceToRenderList("Steve2");
 		m_pMeshMngr->AddInstanceToRenderList("MainCube");
 		m_pMeshMngr->AddInstanceToRenderList("TopPath");
 		m_pMeshMngr->AddInstanceToRenderList("BottomPath");
@@ -227,6 +220,7 @@ void AppClass::Update(void)
 		m_pMeshMngr->AddInstanceToRenderList("LeftPathWall");
 		m_pMeshMngr->AddInstanceToRenderList("RightPathWall");
 		m_pMeshMngr->AddInstanceToRenderList("Roof");
+		m_pMeshMngr->AddInstanceToRenderList("Core");
 
 		//update enemies
 		double fTimeSpan = m_pSystem->LapClock();
@@ -244,6 +238,11 @@ void AppClass::Update(void)
 		//Print info on the screen
 		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REBLACK);
 		m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REBLACK);
+	}
+
+	// End the game if the player's or the core's health drops to zero
+	if (BOMngr->playerhealth <= 0 || BOMngr->coreHealth <= 0) {
+		state = GameState::end;
 	}
 }
 

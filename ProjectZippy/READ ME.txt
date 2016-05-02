@@ -30,3 +30,23 @@ Alex Bronner: Camera
 Joseph Horsmann: World Greybox
 Veronica Lesnar: SAT Implementation
 Steven Siewert: SAT Implementation
+
+---------------------------------------------------------------------------------------------------
+
+Project Milestone 3 Contributions:
+Alex Bronner: Camera, Code Cleanup, Debugging and Merge Fixes
+Joseph Horsmann: World/Enemy Texturing and Implementation, Core Health/Collision
+Veronica Lesnar: Game States, Code Cleanup
+Steven Siewert: Enemy Spawning and Movement
+
+Game State Controls:
+- From Start:
+	-Spacebar to play game (Play)
+- From Play:
+	-P to pause (Pause)
+	-X to quit (End)
+- From Pause:
+	-P to play game (Play)
+	-X to quit (End)
+- From End:
+	-Spacebar to main (Start)

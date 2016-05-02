@@ -61,5 +61,8 @@ public:
 	BoundingObjectClass* GetBO(string iname) { }
 
 	void CheckColissions();
+
+	int playerhealth = 3;
+	int coreHealth = 5;
 };
 

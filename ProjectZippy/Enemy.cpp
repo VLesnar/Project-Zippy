@@ -10,11 +10,9 @@ Enemy::Enemy(vector3 ipos)
 	BOMngr = MyBoundingObjectManager::GetInstance();
 	spawn(ipos);
 	name += to_string(rand());
-	meshManager->LoadModel("Minecraft\\Creeper.obj", name);
+	meshManager->LoadModel("Thwomp.obj", name);
 	vertexList = meshManager->GetVertexList(name);
 	BOMngr->SetBO(vertexList, name);
-
-
 }
 
 Enemy::~Enemy()
