@@ -53,30 +53,30 @@ void AppClass::InitVariables(void)
 	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve1");
 	std::vector<vector3> cubeVertexList = m_pMeshMngr->GetVertexList("MainCube");
 
-	BOMngr->setBox(vertexList, "Steve1");
-	BOMngr->setBox(vertexList, "Steve2");
-	BOMngr->setBox(cubeVertexList, "MainCube");
-	BOMngr->setBox(cubeVertexList, "TopPath");
-	BOMngr->setBox(cubeVertexList, "BottomPath");
-	BOMngr->setBox(cubeVertexList, "LeftPath");
-	BOMngr->setBox(cubeVertexList, "RightPath");
-	BOMngr->setBox(cubeVertexList, "Tower1");
-	BOMngr->setBox(cubeVertexList, "Tower2");
-	BOMngr->setBox(cubeVertexList, "Tower3");
-	BOMngr->setBox(cubeVertexList, "Tower4");
-	BOMngr->setBox(cubeVertexList, "TopWall_1");
-	BOMngr->setBox(cubeVertexList, "TopWall_2");
-	BOMngr->setBox(cubeVertexList, "BottomWall_1");
-	BOMngr->setBox(cubeVertexList, "BottomWall_2");
-	BOMngr->setBox(cubeVertexList, "LeftWall_1");
-	BOMngr->setBox(cubeVertexList, "LeftWall_2");
-	BOMngr->setBox(cubeVertexList, "RightWall_1");
-	BOMngr->setBox(cubeVertexList, "RightWall_2");
-	BOMngr->setBox(cubeVertexList, "TopPathWall");
-	BOMngr->setBox(cubeVertexList, "BottomPathWall");
-	BOMngr->setBox(cubeVertexList, "LeftPathWall");
-	BOMngr->setBox(cubeVertexList, "RightPathWall");
-	BOMngr->setBox(cubeVertexList, "Roof");
+	BOMngr->SetBO(vertexList, "Steve1");
+	BOMngr->SetBO(vertexList, "Steve2");
+	BOMngr->SetBO(cubeVertexList, "MainCube");
+	BOMngr->SetBO(cubeVertexList, "TopPath");
+	BOMngr->SetBO(cubeVertexList, "BottomPath");
+	BOMngr->SetBO(cubeVertexList, "LeftPath");
+	BOMngr->SetBO(cubeVertexList, "RightPath");
+	BOMngr->SetBO(cubeVertexList, "Tower1");
+	BOMngr->SetBO(cubeVertexList, "Tower2");
+	BOMngr->SetBO(cubeVertexList, "Tower3");
+	BOMngr->SetBO(cubeVertexList, "Tower4");
+	BOMngr->SetBO(cubeVertexList, "TopWall_1");
+	BOMngr->SetBO(cubeVertexList, "TopWall_2");
+	BOMngr->SetBO(cubeVertexList, "BottomWall_1");
+	BOMngr->SetBO(cubeVertexList, "BottomWall_2");
+	BOMngr->SetBO(cubeVertexList, "LeftWall_1");
+	BOMngr->SetBO(cubeVertexList, "LeftWall_2");
+	BOMngr->SetBO(cubeVertexList, "RightWall_1");
+	BOMngr->SetBO(cubeVertexList, "RightWall_2");
+	BOMngr->SetBO(cubeVertexList, "TopPathWall");
+	BOMngr->SetBO(cubeVertexList, "BottomPathWall");
+	BOMngr->SetBO(cubeVertexList, "LeftPathWall");
+	BOMngr->SetBO(cubeVertexList, "RightPathWall");
+	BOMngr->SetBO(cubeVertexList, "Roof");
 }
 
 void AppClass::Update(void)
@@ -122,30 +122,30 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 15.0f, 0.0f)) * glm::scale(vector3(70.0f, 1.0f, 70.0f)), "Roof");
 
 	//change the model matix of all the bounding objects
-	BOMngr->setModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve1"));
-	BOMngr->setModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
-	BOMngr->setModelMatrix("MainCube", m_pMeshMngr->GetModelMatrix("MainCube"));
-	BOMngr->setModelMatrix("TopPath", m_pMeshMngr->GetModelMatrix("TopPath"));
-	BOMngr->setModelMatrix("BottomPath", m_pMeshMngr->GetModelMatrix("BottomPath"));
-	BOMngr->setModelMatrix("LeftPath", m_pMeshMngr->GetModelMatrix("LeftPath"));
-	BOMngr->setModelMatrix("RightPath", m_pMeshMngr->GetModelMatrix("RightPath"));
-	BOMngr->setModelMatrix("Tower1", m_pMeshMngr->GetModelMatrix("Tower1"));
-	BOMngr->setModelMatrix("Tower2", m_pMeshMngr->GetModelMatrix("Tower2"));
-	BOMngr->setModelMatrix("Tower3", m_pMeshMngr->GetModelMatrix("Tower3"));
-	BOMngr->setModelMatrix("Tower4", m_pMeshMngr->GetModelMatrix("Tower4"));
-	BOMngr->setModelMatrix("TopWall_1", m_pMeshMngr->GetModelMatrix("TopWall_1"));
-	BOMngr->setModelMatrix("TopWall_2", m_pMeshMngr->GetModelMatrix("TopWall_2"));
-	BOMngr->setModelMatrix("BottomWall_1", m_pMeshMngr->GetModelMatrix("BottomWall_1"));
-	BOMngr->setModelMatrix("BottomWall_2", m_pMeshMngr->GetModelMatrix("BottomWall_2"));
-	BOMngr->setModelMatrix("LeftWall_1", m_pMeshMngr->GetModelMatrix("LeftWall_1"));
-	BOMngr->setModelMatrix("LeftWall_2", m_pMeshMngr->GetModelMatrix("LeftWall_2"));
-	BOMngr->setModelMatrix("RightWall_1", m_pMeshMngr->GetModelMatrix("RightWall_1"));
-	BOMngr->setModelMatrix("RightWall_2", m_pMeshMngr->GetModelMatrix("RightWall_2"));
-	BOMngr->setModelMatrix("TopPathWall", m_pMeshMngr->GetModelMatrix("TopPathWall"));
-	BOMngr->setModelMatrix("BottomPathWall", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
-	BOMngr->setModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
-	BOMngr->setModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
-	BOMngr->setModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
+	BOMngr->SetModelMatrix("Steve1", m_pMeshMngr->GetModelMatrix("Steve1"));
+	BOMngr->SetModelMatrix("Steve2", m_pMeshMngr->GetModelMatrix("Steve2"));
+	BOMngr->SetModelMatrix("MainCube", m_pMeshMngr->GetModelMatrix("MainCube"));
+	BOMngr->SetModelMatrix("TopPath", m_pMeshMngr->GetModelMatrix("TopPath"));
+	BOMngr->SetModelMatrix("BottomPath", m_pMeshMngr->GetModelMatrix("BottomPath"));
+	BOMngr->SetModelMatrix("LeftPath", m_pMeshMngr->GetModelMatrix("LeftPath"));
+	BOMngr->SetModelMatrix("RightPath", m_pMeshMngr->GetModelMatrix("RightPath"));
+	BOMngr->SetModelMatrix("Tower1", m_pMeshMngr->GetModelMatrix("Tower1"));
+	BOMngr->SetModelMatrix("Tower2", m_pMeshMngr->GetModelMatrix("Tower2"));
+	BOMngr->SetModelMatrix("Tower3", m_pMeshMngr->GetModelMatrix("Tower3"));
+	BOMngr->SetModelMatrix("Tower4", m_pMeshMngr->GetModelMatrix("Tower4"));
+	BOMngr->SetModelMatrix("TopWall_1", m_pMeshMngr->GetModelMatrix("TopWall_1"));
+	BOMngr->SetModelMatrix("TopWall_2", m_pMeshMngr->GetModelMatrix("TopWall_2"));
+	BOMngr->SetModelMatrix("BottomWall_1", m_pMeshMngr->GetModelMatrix("BottomWall_1"));
+	BOMngr->SetModelMatrix("BottomWall_2", m_pMeshMngr->GetModelMatrix("BottomWall_2"));
+	BOMngr->SetModelMatrix("LeftWall_1", m_pMeshMngr->GetModelMatrix("LeftWall_1"));
+	BOMngr->SetModelMatrix("LeftWall_2", m_pMeshMngr->GetModelMatrix("LeftWall_2"));
+	BOMngr->SetModelMatrix("RightWall_1", m_pMeshMngr->GetModelMatrix("RightWall_1"));
+	BOMngr->SetModelMatrix("RightWall_2", m_pMeshMngr->GetModelMatrix("RightWall_2"));
+	BOMngr->SetModelMatrix("TopPathWall", m_pMeshMngr->GetModelMatrix("TopPathWall"));
+	BOMngr->SetModelMatrix("BottomPathWall", m_pMeshMngr->GetModelMatrix("BottomPathWall"));
+	BOMngr->SetModelMatrix("LeftPathWall", m_pMeshMngr->GetModelMatrix("LeftPathWall"));
+	BOMngr->SetModelMatrix("RightPathWall", m_pMeshMngr->GetModelMatrix("RightPathWall"));
+	BOMngr->SetModelMatrix("Roof", m_pMeshMngr->GetModelMatrix("Roof"));
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("Steve1");
@@ -174,10 +174,10 @@ void AppClass::Update(void)
 	m_pMeshMngr->AddInstanceToRenderList("Roof");
 
 	//update enemies
-	spawner1->update();
+	spawner1->Update();
 
-	BOMngr->checkColissions();
-	BOMngr->render();
+	BOMngr->CheckColissions();
+	BOMngr->Render();
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 

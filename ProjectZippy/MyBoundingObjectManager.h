@@ -33,33 +33,33 @@ public:
 		return instance;
 	}
 	
-	void setBox(vector<vector3> a_lVectorList, string iname);
-	int getBOCount() { return BOnum; }
-	void setColor(MyBoundingObjectClass* iBO, vector3 color);
+	void SetBO(vector<vector3> a_lVectorList, string iname);
+	int GetBOCount() { return BOnum; }
+	void SetColor(MyBoundingObjectClass* iBO, vector3 color);
 	
 	//change visibility
-	void setVisibility(MyBoundingObjectClass* iBO);
-	void setVisibility(string iname);
+	void SetVisibility(MyBoundingObjectClass* iBO);
+	void SetVisibility(string iname);
 	
 	//set visibility for all
 	void FlipVisibility();
-	void setVisibility(bool bvis);
+	void SetVisibility(bool bvis);
 
 	//set the model matrix
-	void setModelMatrix(string iname, matrix4 a_m4ToWorld);
+	void SetModelMatrix(string iname, matrix4 a_m4ToWorld);
 
-	void removeBO(MyBoundingObjectClass * iBO);
+	void RemoveBO(MyBoundingObjectClass * iBO);
 
 	//render all bounding objects
-	void render();
+	void Render();
 	
 	//render a specific bounding object
-	void render(MyBoundingObjectClass* iBO);
-	void render(string iname);
+	void Render(MyBoundingObjectClass* iBO);
+	void Render(string iname);
 
 	//returns a bounding object when given a name
-	BoundingObjectClass* getBO(string iname) { }
+	BoundingObjectClass* GetBO(string iname) { }
 
-	void checkColissions();
+	void CheckColissions();
 };
 

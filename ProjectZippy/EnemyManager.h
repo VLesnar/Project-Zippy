@@ -20,8 +20,8 @@ public:
 	~EnemyManager();
 
 
-	void render();
-	void update();
-	void spawn();
+	void Render();
+	void Update();
+	void Spawn();
 };
 

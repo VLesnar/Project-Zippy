@@ -15,16 +15,14 @@ private:
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();
 	std::vector<vector3> vertexList;
 public:
-	
 	Enemy();
 	Enemy(vector3 ipos);
 	~Enemy();
 	void getHit(int dmg) { health = health - dmg; }
 	int getHealth() { return health; }
 	void move();
-	void update();
+	void Update();
 	void spawn(vector3 ipos);
-	void render();
-
+	void Render();
 };
 

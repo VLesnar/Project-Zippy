@@ -14,27 +14,27 @@ MyBoundingObjectManager::~MyBoundingObjectManager()
 }
 
 //add a box based on a model
-void MyBoundingObjectManager::setBox(vector<vector3> a_lVectorList, string iname)
+void MyBoundingObjectManager::SetBO(vector<vector3> a_lVectorList, string iname)
 {
 	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname));
 	BOnum++;
 }
 
 //Set the color of a box
-void MyBoundingObjectManager::setColor(MyBoundingObjectClass* iBO, vector3 color)
+void MyBoundingObjectManager::SetColor(MyBoundingObjectClass* iBO, vector3 color)
 {
 	iBO->SetColor(color);
 }
 
 //set visible by passing in an object or a string
-void MyBoundingObjectManager::setVisibility(MyBoundingObjectClass* iBO) { iBO->FlipVisibility();}
-void MyBoundingObjectManager::setVisibility(string iname)
+void MyBoundingObjectManager::SetVisibility(MyBoundingObjectClass* iBO) { iBO->FlipVisibility();}
+void MyBoundingObjectManager::SetVisibility(string iname)
 {
 	for (int i = 0; i < BOnum; i++){if (boundingObjects[i]->GetName()==iname){boundingObjects[i]->FlipVisibility();}}
 }
 
 //change the visibility of all BOs to a value.
-void MyBoundingObjectManager::setVisibility(bool bvis)
+void MyBoundingObjectManager::SetVisibility(bool bvis)
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -52,7 +52,7 @@ void MyBoundingObjectManager::FlipVisibility()
 }
 
 //set the model matrix of a BO.
-void MyBoundingObjectManager::setModelMatrix(string iname, matrix4 a_m4ToWorld)
+void MyBoundingObjectManager::SetModelMatrix(string iname, matrix4 a_m4ToWorld)
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -64,7 +64,7 @@ void MyBoundingObjectManager::setModelMatrix(string iname, matrix4 a_m4ToWorld)
 }
 
 //removes a bounding object from the vector used for enemies
-void MyBoundingObjectManager::removeBO(MyBoundingObjectClass* iBO)
+void MyBoundingObjectManager::RemoveBO(MyBoundingObjectClass* iBO)
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -75,12 +75,12 @@ void MyBoundingObjectManager::removeBO(MyBoundingObjectClass* iBO)
 	}
 }
 
-void MyBoundingObjectManager::render(MyBoundingObjectClass* iBO)
+void MyBoundingObjectManager::Render(MyBoundingObjectClass* iBO)
 {
 	iBO->Render();
 }
 
-void MyBoundingObjectManager::render(string iname)
+void MyBoundingObjectManager::Render(string iname)
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -88,7 +88,7 @@ void MyBoundingObjectManager::render(string iname)
 	}
 }
 
-void MyBoundingObjectManager::render()
+void MyBoundingObjectManager::Render()
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -96,7 +96,7 @@ void MyBoundingObjectManager::render()
 	}
 }
 
-void MyBoundingObjectManager::checkColissions()
+void MyBoundingObjectManager::CheckColissions()
 {
 	for (int i = 0; i < BOnum; i++)
 	{
