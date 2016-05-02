@@ -22,6 +22,15 @@ class AppClass : public ReEngAppClass
 {
 	MyBoundingObjectManager* BOMngr = nullptr;
 	EnemyManager* spawner1 = nullptr;
+	enum class GameState {
+		start,
+		play,
+		pause,
+		end
+	};
+	GameState state;
+	bool pPressed = false;
+	bool spacePressed = false;
 public:
 	typedef ReEngAppClass super;
 
