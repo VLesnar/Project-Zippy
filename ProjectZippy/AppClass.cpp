@@ -23,7 +23,9 @@ void AppClass::InitVariables(void)
 	//Load a model onto the Mesh manager
 	BOMngr = MyBoundingObjectManager::GetInstance();
 	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f));
-
+	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f));
+	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
+	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
 
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve1");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve2");
@@ -174,7 +176,12 @@ void AppClass::Update(void)
 	m_pMeshMngr->AddInstanceToRenderList("Roof");
 
 	//update enemies
-	spawner1->Update();
+	double fTimeSpan = m_pSystem->LapClock();
+
+	spawner1->Update(fTimeSpan);
+	spawner2->Update(fTimeSpan);
+	spawner3->Update(fTimeSpan);
+	spawner4->Update(fTimeSpan);
 
 	BOMngr->CheckColissions();
 	BOMngr->Render();

@@ -8,6 +8,7 @@ EnemyManager::EnemyManager()
 EnemyManager::EnemyManager(vector3 pos)
 {
 	position = pos;
+	fRunTime = 0.0f;
 }
 
 EnemyManager::~EnemyManager()
@@ -22,10 +23,26 @@ void EnemyManager::Render()
 
 void EnemyManager::Spawn() 
 {
-
+	enemies.push_back(new Enemy(position));
+	numEnemies++;
 }
 
-void EnemyManager::Update() 
+void EnemyManager::Update(double fTimeSpan)
 {
+	fRunTime += fTimeSpan;
+	if (fRunTime >= spawntime)
+	{
+		
+		Spawn();
+		spawntime += spawntime;
+	}
+
+	for (int i = 0; i < numEnemies; i++)
+	{
+		enemies[i]->Update(fTimeSpan);
+	}
+
+
+
 	Render();
 }

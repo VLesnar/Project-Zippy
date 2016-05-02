@@ -22,6 +22,9 @@ class AppClass : public ReEngAppClass
 {
 	MyBoundingObjectManager* BOMngr = nullptr;
 	EnemyManager* spawner1 = nullptr;
+	EnemyManager* spawner2 = nullptr;
+	EnemyManager* spawner3 = nullptr;
+	EnemyManager* spawner4 = nullptr;
 public:
 	typedef ReEngAppClass super;
 

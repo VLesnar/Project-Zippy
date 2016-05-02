@@ -13,6 +13,8 @@ private:
 	MyBoundingObjectClass* BO = nullptr;
 	string name = "enemy";
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();
+	SystemSingleton* sytem = SystemSingleton::GetInstance();
+	float fRunTime;
 	std::vector<vector3> vertexList;
 public:
 	Enemy();
@@ -20,8 +22,8 @@ public:
 	~Enemy();
 	void getHit(int dmg) { health = health - dmg; }
 	int getHealth() { return health; }
-	void move();
-	void Update();
+	void move(double fTimeSpan);
+	void Update(double fTimeSpan);
 	void spawn(vector3 ipos);
 	void Render();
 };

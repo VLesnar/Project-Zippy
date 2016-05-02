@@ -12,8 +12,10 @@ public:
 	vector<Enemy*> enemies;
 	vector3 position;
 	int maxEnemies;
+	int numEnemies;
+	float spawntime = 5.0f;
+	double fRunTime;
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();
-
 	EnemyManager();
 	EnemyManager(vector3 position);
 	
@@ -21,7 +23,7 @@ public:
 
 
 	void Render();
-	void Update();
+	void Update(double fTimeSpan);
 	void Spawn();
 };
 
