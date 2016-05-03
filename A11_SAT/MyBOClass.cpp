@@ -217,8 +217,8 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 //Collision methods
 bool MyBOClass::IsCollidingSOB(MyBOClass * a_otherObj)
 {
-	float projPointsT[3];		//This's projected points
-	float projPointsO[3][8];	//OBB's projected points
+	float projPointsT[4];		//This's projected points
+	float projPointsO[4][8];	//OBB's projected points
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
@@ -228,6 +228,19 @@ bool MyBOClass::IsCollidingSOB(MyBOClass * a_otherObj)
 			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], a_otherObj->m_v3NAxis[j]);	//Set projected point for other
 		}
 	}
+
+	int index = 0;
+	vector3 cornerDir = vector3(0.577, 0.577, 0.577);
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		if (glm::dot(m_v3CenterG - a_otherObj->m_v3CenterG, a_otherObj->m_v3NAxis[j]) < 0)
+		{
+			index += pow(2, j);
+			cornerDir[2 - j] *= -1;
+		}
+	}
+	projPointsT[3] = glm::dot(m_v3CenterG, cornerDir);
+	projPointsO[3][0] = glm::dot(a_otherObj->m_v3Corners[index], cornerDir);
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
