@@ -129,6 +129,20 @@ public:
 	*/
 	vector3 GetMaxG(void);
 	/*
+	USAGE: Calculates if there is SOB collision
+	ARGUMENTS:
+	- MYBOCLASS a_otherObj
+	OUTPUT: boolean if the objects are colliding
+	*/
+	bool IsCollidingSOB(MyBOClass* a_otherObj);	//3D collision between sphere and OBB detection
+	/*
+	USAGE: Calculates if there is SAT collision
+	ARGUMENTS:
+	- MYBOCLASS a_otherObj
+	OUTPUT: boolean if the objects are colliding
+	*/
+	bool IsCollidingSAT(MyBOClass* a_otherObj);
+	/*
 	USAGE: Asks if there is a collision with another Bounding Object object
 	ARGUMENTS:
 	- MyBOClass* const a_pOther -> Other object to check collision with
@@ -159,13 +173,6 @@ public:
 	OUTPUT: ---
 	*/
 	void DisplayReAlligned(vector3 a_v3Color = REDEFAULT);
-	/*
-	USAGE: Calculates if there is SAT collision
-	ARGUMENTS:
-	- MYBOCLASS a_otherObj
-	OUTPUT: boolean if the objects are colliding
-	*/
-	bool IsCollidingSAT(MyBOClass* a_otherObj);
 private:
 	/*
 	USAGE: Deallocates member fields

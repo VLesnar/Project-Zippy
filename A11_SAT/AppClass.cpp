@@ -50,6 +50,7 @@ void AppClass::Update(void)
 	
 	//m_pBOMngr->DisplaySphere(-1, REWHITE);
 	m_pBOMngr->DisplayOriented();
+	m_pBOMngr->DisplaySphere(0);
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");

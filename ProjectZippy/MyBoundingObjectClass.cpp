@@ -266,6 +266,11 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
 }
 
+bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
+{
+	return false;
+}
+
 // Collision methods
 bool MyBoundingObjectClass::IsCollidingSAT(MyBoundingObjectClass* a_otherObj)
 {

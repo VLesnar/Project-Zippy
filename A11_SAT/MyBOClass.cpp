@@ -178,7 +178,7 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 
 	m_v3CenterG = (m_v3MinG + m_v3MaxG) / 2.0f;
 	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f; //we calculate the distance between all the values of min and max vectors
-	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
+	//m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
 
 	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
 	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
@@ -215,6 +215,46 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 }
 
 //Collision methods
+bool MyBOClass::IsCollidingSOB(MyBOClass * a_otherObj)
+{
+	float projPointsT[3];		//This's projected points
+	float projPointsO[3][8];	//OBB's projected points
+
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		projPointsT[j] = glm::dot(m_v3CenterG, a_otherObj->m_v3NAxis[j]);
+		for (int i = 0; i < 8; i++)	//For each point
+		{
+			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], a_otherObj->m_v3NAxis[j]);	//Set projected point for other
+		}
+	}
+
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		float maxT = projPointsT[j] + m_fRadius;
+		float minT = projPointsT[j] - m_fRadius;
+		float minO = projPointsO[j][0];	// Min for other
+		float maxO = projPointsO[j][0];	// Max for other
+
+		for (int i = 1; i < 8; i++)	// For each point
+		{
+			if (projPointsO[j][i] > maxO)
+				maxO = projPointsO[j][i];
+
+			if (projPointsO[j][i] < minO)
+				minO = projPointsO[j][i];
+		}
+
+		// If there exists a plane, return false, no collision
+		if (minO > maxT || minT > maxO)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 bool MyBOClass::IsCollidingSAT(MyBOClass* a_otherObj)
 {
 	float projPointsT[15][8];	//This's projected points	
