@@ -217,52 +217,20 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 //Collision methods
 bool MyBOClass::IsCollidingSOB(MyBOClass * a_otherObj)
 {
-	float projPointsT[4];		//This's projected points
-	float projPointsO[4][8];	//OBB's projected points
+	vector3 sphereRelative;
+	vector3 distVect;
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		projPointsT[j] = glm::dot(m_v3CenterG, a_otherObj->m_v3NAxis[j]);
-		for (int i = 0; i < 8; i++)	//For each point
-		{
-			projPointsO[j][i] = glm::dot(a_otherObj->m_v3Corners[i], a_otherObj->m_v3NAxis[j]);	//Set projected point for other
-		}
+		sphereRelative[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
+		distVect[j] = abs(sphereRelative[j]) - m_v3HalfWidth[j];
+		if (distVect[j] < 0)
+			distVect[j] = 0;
 	}
 
-	int index = 0;
-	vector3 cornerDir = vector3(0.577, 0.577, 0.577);
-	for (int j = 0; j < 3; j++)	//For each axis
+	if (glm::length(distVect) > a_otherObj->m_fRadius)
 	{
-		if (glm::dot(m_v3CenterG - a_otherObj->m_v3CenterG, a_otherObj->m_v3NAxis[j]) < 0)
-		{
-			index += pow(2, j);
-			cornerDir[2 - j] *= -1;
-		}
-	}
-	projPointsT[3] = glm::dot(m_v3CenterG, cornerDir);
-	projPointsO[3][0] = glm::dot(a_otherObj->m_v3Corners[index], cornerDir);
-
-	for (int j = 0; j < 3; j++)	//For each axis
-	{
-		float maxT = projPointsT[j] + m_fRadius;
-		float minT = projPointsT[j] - m_fRadius;
-		float minO = projPointsO[j][0];	// Min for other
-		float maxO = projPointsO[j][0];	// Max for other
-
-		for (int i = 1; i < 8; i++)	// For each point
-		{
-			if (projPointsO[j][i] > maxO)
-				maxO = projPointsO[j][i];
-
-			if (projPointsO[j][i] < minO)
-				minO = projPointsO[j][i];
-		}
-
-		// If there exists a plane, return false, no collision
-		if (minO > maxT || minT > maxO)
-		{
-			return false;
-		}
+		return false;
 	}
 
 	return true;
