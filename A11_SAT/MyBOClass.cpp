@@ -219,18 +219,34 @@ bool MyBOClass::IsCollidingSOB(MyBOClass * a_otherObj)
 {
 	vector3 sphereRelative;
 	vector3 distVect;
+	vector3 pythagComp;
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		sphereRelative[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
-		distVect[j] = abs(sphereRelative[j]) - m_v3HalfWidth[j];
-		if (distVect[j] < 0)
-			distVect[j] = 0;
+		distVect[j] = abs(glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j])) - m_v3HalfWidth[j];
+		pythagComp = distVect;
+		if (pythagComp[j] < 0)
+			pythagComp[j] = 0;
 	}
 
-	if (glm::length(distVect) > a_otherObj->m_fRadius)
+	if (glm::length(pythagComp) > a_otherObj->m_fRadius)
 	{
 		return false;
+	}
+	else
+	{
+		int index = 0;
+		float min = FLT_MAX;
+		for (int j = 0; j < 3; j++)	//For each axis
+		{
+			if (distVect[j] < min)
+			{
+				min = distVect[j];
+				index = j;
+			}
+		}
+		vector3 push = m_v3NAxis[index] * distVect[index];
+		//a_otherObj->m_v3CenterG += push;
 	}
 
 	return true;
