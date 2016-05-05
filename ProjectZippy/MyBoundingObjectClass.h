@@ -31,6 +31,7 @@ private:
 	vector3 m_v3Color;	// Holds the color of the bounding object
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();	// The mesh singleton to render bounding objects
 	string name; //name of the object used to specify in Manager
+	string colID; //Collision ID of the object
 	vector3 m_v3CenterG = vector3(0.0f); //Will store the center point of the Object Class
 	vector3 m_v3MinG = vector3(0.0f); //Will store the minimum vector of the Object Class
 	vector3 m_v3MaxG = vector3(0.0f); //Will store the maximum vector of the Object Class
@@ -40,7 +41,7 @@ private:
 	vector3 m_v3NAxis[3];	// OBB axis (x, y, z)
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
-	MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname);	// Constructor
+	MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname, string incolID);	// Constructor
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
 	MyBoundingObjectClass(void);	// Destructor

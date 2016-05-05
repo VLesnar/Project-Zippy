@@ -10,6 +10,8 @@ class MyBoundingObjectManager
 	static MyBoundingObjectManager* instance;
 public:
 	int BOnum = 0;
+	int playerhealth = 3;
+	int coreHealth = 5;
 	vector<MyBoundingObjectClass*> boundingObjects;
 	MyBoundingObjectManager();
 	~MyBoundingObjectManager();
@@ -33,7 +35,7 @@ public:
 		return instance;
 	}
 	
-	void SetBO(vector<vector3> a_lVectorList, string iname);
+	void SetBO(vector<vector3> a_lVectorList, string iname, string colID);
 	int GetBOCount() { return BOnum; }
 	void SetColor(MyBoundingObjectClass* iBO, vector3 color);
 	
@@ -61,8 +63,5 @@ public:
 	BoundingObjectClass* GetBO(string iname) { }
 
 	void CheckColissions();
-
-	int playerhealth = 3;
-	int coreHealth = 5;
 };
 

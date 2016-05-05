@@ -46,14 +46,17 @@ void MyBoundingObjectClass::Release()
 }
 
 // Constructor
-MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname)
+MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname, string incolID)
 {
 	// Store the list of vertices from the model
 	m_vList = a_lVectorList;
 
 	//store the name of the object
 	name = iname;
-	
+
+	//store the collision ID
+	colID = incolID;
+
 	//set the visibility
 	m_bIsVisible = true;
 

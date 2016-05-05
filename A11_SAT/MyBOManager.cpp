@@ -59,6 +59,7 @@ MyBOClass* MyBOManager::GetBoundingObject(String a_sIndex)
 	int nIndex = GetIndex(a_sIndex);
 	return GetBoundingObject(nIndex);
 }
+
 MyBOClass* MyBOManager::GetBoundingObject(uint a_nIndex)
 {
 	if (a_nIndex < m_nObjectCount)

@@ -14,9 +14,9 @@ MyBoundingObjectManager::~MyBoundingObjectManager()
 }
 
 //add a box based on a model
-void MyBoundingObjectManager::SetBO(vector<vector3> a_lVectorList, string iname)
+void MyBoundingObjectManager::SetBO(vector<vector3> a_lVectorList, string iname, string colID)
 {
-	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname));
+	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname, colID));
 	BOnum++;
 }
 
