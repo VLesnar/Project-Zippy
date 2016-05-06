@@ -11,6 +11,8 @@ void AppClass::InitWindow(String a_sWindowName)
 
 void AppClass::InitVariables(void)
 {
+	player = new Player();
+
 	//Reset the selection to -1, -1
 	m_selection = std::pair<int, int>(-1, -1);
 
@@ -214,7 +216,7 @@ void AppClass::Update(void)
 		GOMngr->Render();
 
 		//update enemies
-		double fTimeSpan = m_pSystem->LapClock();
+		fTimeSpan = m_pSystem->LapClock();
 
 		spawner1->Update(fTimeSpan);
 		spawner2->Update(fTimeSpan);

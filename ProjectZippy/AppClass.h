@@ -16,13 +16,17 @@ Application: Project Zippy
 #include "EnemyManager.h"
 #include "MyBoundingObjectManager.h"
 #include "GameObjectManager.h"
+#include "Player.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
+	double fTimeSpan = 0;
+
 	MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
 	GameObjectManager* GOMngr = GameObjectManager::GetInstance();
+	Player* player = nullptr;
 
 	enum class GameState {
 		start,

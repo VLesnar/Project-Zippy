@@ -31,30 +31,22 @@ void AppClass::ProcessKeyboard(void)
 		//Move forward
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * fSpeed;
-			m_pCameraMngr->SetPositionTargetAndView(
-				m_pCameraMngr->GetPosition() + move,
-				m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
-				m_pCameraMngr->GetUpward());
+			player->MoveForward(fTimeSpan);
 		}
 
 		//Move backwards
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * -fSpeed;
-			m_pCameraMngr->SetPositionTargetAndView(
-				m_pCameraMngr->GetPosition() + move,
-				m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
-				m_pCameraMngr->GetUpward());
+			player->MoveBackwards(fTimeSpan);
 		}
 
 		//Move left
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			m_pCameraMngr->MoveSideways(-fSpeed * 0.75);
+			player->MoveLeft(fTimeSpan);
 
 		//Move right
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			m_pCameraMngr->MoveSideways(fSpeed * 0.75);
+			player->MoveRight(fTimeSpan);
 
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
