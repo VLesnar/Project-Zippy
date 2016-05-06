@@ -16,12 +16,6 @@ void AppClass::InitVariables(void)
 	//Reset the selection to -1, -1
 	m_selection = std::pair<int, int>(-1, -1);
 
-	//Set the camera position
-	m_pCameraMngr->SetPositionTargetAndView(
-		vector3(0.0f, 2.5f, 15.0f),//Camera position
-		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
-		REAXISY);//What is up
-
 	//Load a model onto the Mesh manager
 	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f));
 	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f));

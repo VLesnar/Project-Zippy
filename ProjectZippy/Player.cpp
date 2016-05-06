@@ -7,6 +7,9 @@ void Player::MoveForward(double dt)
 		m_pCameraMngr->GetPosition() + move,
 		m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
 		m_pCameraMngr->GetUpward());
+
+	transform = glm::translate(m_pCameraMngr->GetPosition());
+	EstablishModelMatrix();
 }
 
 void Player::MoveBackwards(double dt)
@@ -16,14 +19,23 @@ void Player::MoveBackwards(double dt)
 		m_pCameraMngr->GetPosition() + move,
 		m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + move,
 		m_pCameraMngr->GetUpward());
+
+	transform = glm::translate(m_pCameraMngr->GetPosition());
+	EstablishModelMatrix();
 }
 
 void Player::MoveLeft(double dt)
 {
 	m_pCameraMngr->MoveSideways(speed * -0.75 * static_cast<float>(dt));
+	
+	transform = glm::translate(m_pCameraMngr->GetPosition());
+	EstablishModelMatrix();
 }
 
 void Player::MoveRight(double dt)
 {
 	m_pCameraMngr->MoveSideways(speed * 0.75 * static_cast<float>(dt));
+	
+	transform = glm::translate(m_pCameraMngr->GetPosition());
+	EstablishModelMatrix();
 }

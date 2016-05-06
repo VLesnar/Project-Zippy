@@ -116,7 +116,8 @@ void MyBoundingObjectManager::CheckColissions()
 					boundingObjects[j]->SetColor(RERED);
 
 					// If an enemy collides with the core, subtract a point of health
-					if (boundingObjects[i]->GetName() == "Core") {
+					if (boundingObjects[i]->GetName() == "Core")
+					{
 						coreHealth -= 1;
 					}
 

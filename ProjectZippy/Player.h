@@ -7,7 +7,14 @@ private:
 	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();
 	float speed = 10.0f;
 public:
-	Player() : GameObject("player", 0.75f, "play", IDENTITY_M4) {}
+	Player() : GameObject("player", 1.50f, "play", glm::translate(vector3(0.0f, 2.5f, 15.0f)))
+	{
+		//Set the camera position
+		m_pCameraMngr->SetPositionTargetAndView(
+			vector3(transform[3]),//Camera position
+			vector3(0.0f, 2.5f, 0.0f),//What Im looking at
+			REAXISY);//What is up
+	}
 	
 	void MoveForward(double dt);
 	void MoveBackwards(double dt);

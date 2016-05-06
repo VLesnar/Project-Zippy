@@ -463,5 +463,6 @@ void MyBoundingObjectClass::Render(void)
 		meshManager->AddCubeToRenderList(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
 		SetChangingCubeSize();
 		meshManager->AddCubeToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
+		meshManager->AddSphereToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(m_fRadius)), m_v3Color, WIRE);
 	}
 }
