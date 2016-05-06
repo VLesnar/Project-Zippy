@@ -1,35 +1,14 @@
 #pragma once
-#include "RE\ReEngAppClass.h"
 #include "GameObject.h"
 
-class Player //: public GameObject
+class Player : public GameObject
 {
-	static Player* instance;
+private:
 	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();
 	float speed = 1.0f;
 public:
-	Player();
-	~Player();
-
-	static Player* GetInstance()
-	{
-		if (instance == nullptr)
-		{
-			instance = new Player();
-		}
-		return instance;
-	};
-
-	static Player* ReleaseInstance()
-	{
-		if (instance != nullptr)
-		{
-			delete instance;
-			instance = nullptr;
-		}
-		return instance;
-	}
-
+	Player() : GameObject("player", 0.75f, "play", IDENTITY_M4) {}
+	
 	void MoveForward();
 	void MoveBackwards();
 	void MoveLeft();

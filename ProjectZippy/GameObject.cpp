@@ -8,6 +8,13 @@ GameObject::GameObject(std::string objectName, std::string modelName, std::strin
 	SetModelMatrix(intransform);
 }
 
+GameObject::GameObject(std::string objectName, float radius, std::string colID, matrix4 intransform)
+{
+	name = objectName;
+	BOMngr->SetBO(radius, objectName, colID, this);
+	SetModelMatrix(intransform);
+}
+
 GameObject::~GameObject()
 {
 

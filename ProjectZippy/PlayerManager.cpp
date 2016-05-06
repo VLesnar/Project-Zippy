@@ -1,6 +1,17 @@
-#include "Player.h"
+#include "PlayerManager.h"
+PlayerManager* PlayerManager::instance = nullptr;
 
-void Player::MoveForward()
+PlayerManager::PlayerManager()
+{
+
+}
+
+PlayerManager::~PlayerManager()
+{
+
+}
+
+void PlayerManager::MoveForward()
 {
 	vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * speed;
 	m_pCameraMngr->SetPositionTargetAndView(
@@ -9,7 +20,7 @@ void Player::MoveForward()
 		m_pCameraMngr->GetUpward());
 }
 
-void Player::MoveBackwards()
+void PlayerManager::MoveBackwards()
 {
 	vector3 move = glm::normalize(vector3(m_pCameraMngr->GetForward().x, 0, m_pCameraMngr->GetForward().z)) * -speed;
 	m_pCameraMngr->SetPositionTargetAndView(
@@ -18,12 +29,12 @@ void Player::MoveBackwards()
 		m_pCameraMngr->GetUpward());
 }
 
-void Player::MoveLeft()
+void PlayerManager::MoveLeft()
 {
 	m_pCameraMngr->MoveSideways(speed * 0.75);
 }
 
-void Player::MoveRight()
+void PlayerManager::MoveRight()
 {
 	m_pCameraMngr->MoveSideways(speed * 0.75);
 }
