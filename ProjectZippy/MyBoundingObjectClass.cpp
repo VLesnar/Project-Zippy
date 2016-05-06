@@ -48,6 +48,27 @@ void MyBoundingObjectClass::Release()
 // Constructor
 MyBoundingObjectClass::MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent)
 {
+	SubConstruct(a_lVectorList, iname, incolID, inparent);
+}
+
+//Overloaded constructor
+MyBoundingObjectClass::MyBoundingObjectClass(float radius, std::string iname, std::string incolID, GameObject * inparent)
+{
+	std::vector<vector3> a_lVectorList = std::vector<vector3>();
+
+	a_lVectorList.push_back(vector3(radius, 0, 0));
+	a_lVectorList.push_back(vector3(-radius, 0, 0));
+	a_lVectorList.push_back(vector3(0, radius, 0));
+	a_lVectorList.push_back(vector3(0, -radius, 0));
+	a_lVectorList.push_back(vector3(0, 0, radius));
+	a_lVectorList.push_back(vector3(0, 0, -radius));
+
+	SubConstruct(a_lVectorList, iname, incolID, inparent);
+}
+
+//Sub constructor called by both constructors
+void MyBoundingObjectClass::SubConstruct(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent)
+{
 	//Set parent object
 	parent = inparent;
 

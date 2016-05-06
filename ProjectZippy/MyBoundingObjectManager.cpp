@@ -20,6 +20,12 @@ void MyBoundingObjectManager::SetBO(std::vector<vector3> a_lVectorList, std::str
 	BOnum++;
 }
 
+void MyBoundingObjectManager::SetBO(float radius, std::string name, std::string colID, GameObject* parent)
+{
+	boundingObjects.push_back(new MyBoundingObjectClass(radius, name, colID, parent));
+	BOnum++;
+}
+
 //Set the color of a box
 void MyBoundingObjectManager::SetColor(MyBoundingObjectClass* iBO, vector3 color)
 {

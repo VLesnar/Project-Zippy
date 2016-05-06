@@ -1,7 +1,6 @@
 #ifndef __GAMEOBJECTMANAGER_H_
 #define __GAMEOBJECTMANAGER_H_
 
-#include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
 #include "GameObject.h"
 

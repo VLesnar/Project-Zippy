@@ -1,7 +1,8 @@
 #pragma once
 #include "RE\ReEngAppClass.h"
+#include "GameObject.h"
 
-class Player
+class Player //: public GameObject
 {
 	static Player* instance;
 	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();

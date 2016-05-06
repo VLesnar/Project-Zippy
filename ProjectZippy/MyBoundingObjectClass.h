@@ -43,6 +43,8 @@ private:
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
 	MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent);	// Constructor
+	MyBoundingObjectClass(float radius, std::string iname, std::string incolID, GameObject* inparent);							// Constructor
+	void SubConstruct(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject * inparent);		// Sub constructor called by both constructors
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
 	MyBoundingObjectClass(void);	// Destructor
