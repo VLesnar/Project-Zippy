@@ -65,5 +65,6 @@ public:
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
 	void Render(void);	// Renders the bounding object
 	std::string GetName() { return name; }
+	std::string GetColID() { return colID; }
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_
