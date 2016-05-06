@@ -14,9 +14,9 @@ MyBoundingObjectManager::~MyBoundingObjectManager()
 }
 
 //add a box based on a model
-void MyBoundingObjectManager::SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID)
+void MyBoundingObjectManager::SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID, GameObject* parent)
 {
-	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname, colID, nullptr));
+	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname, colID, parent));
 	BOnum++;
 }
 

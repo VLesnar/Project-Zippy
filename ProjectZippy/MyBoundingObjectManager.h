@@ -35,7 +35,7 @@ public:
 		return instance;
 	}
 	
-	void SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID);
+	void SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID, GameObject* parent);
 	int GetBOCount() { return BOnum; }
 	void SetColor(MyBoundingObjectClass* iBO, vector3 color);
 	
