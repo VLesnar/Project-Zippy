@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MYBOUNDINGOBJECTMANAGER_H_
+#define __MYBOUNDINGOBJECTMANAGER_H_
+
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
 #include "MyBoundingObjectClass.h"
@@ -62,4 +64,5 @@ public:
 
 	void CheckColissions();
 };
+#endif
 

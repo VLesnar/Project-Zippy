@@ -9,9 +9,12 @@ for MyBoundingObjectClass.cpp
 
 #include "RE/ReEng.h"
 
+class GameObject;	//Forward declaration
+
 class MyBoundingObjectClass
 {
 private:
+	GameObject* parent;
 	std::vector<vector3> m_vList;	// Holds a list of points from the model
 	vector3 m_v3Max;	// The maximum vector of the bounding box
 	vector3 m_v3Min;	// The minimum vector of the bounding box
@@ -39,7 +42,7 @@ private:
 	vector3 m_v3NAxis[3];	// OBB axis (x, y, z)
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
-	MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID);	// Constructor
+	MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent);	// Constructor
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
 	MyBoundingObjectClass(void);	// Destructor

@@ -5,7 +5,7 @@ GameObject::GameObject(std::string objectName, std::string modelName, std::strin
 	name = objectName;
 	m_pMeshMngr->LoadModel(modelName, objectName);
 	BOMngr->SetBO(m_pMeshMngr->GetVertexList("objectName"), objectName, colID);
-	setModelMatrix(intransform);
+	SetModelMatrix(intransform);
 }
 
 GameObject::~GameObject()
@@ -13,25 +13,25 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::setModelMatrix(matrix4 intransform)
+void GameObject::SetModelMatrix(matrix4 intransform)
 {
 	transform = intransform;
-	establishModelMatrix();
+	EstablishModelMatrix();
 }
 
-void GameObject::translate(vector3 dir)
+void GameObject::Translate(vector3 dir)
 {
 	transform = glm::translate(transform, dir);
-	establishModelMatrix();
+	EstablishModelMatrix();
 }
 
-void GameObject::establishModelMatrix()
+void GameObject::EstablishModelMatrix()
 {
 	m_pMeshMngr->SetModelMatrix(transform, name);
 	BOMngr->SetModelMatrix(name, transform);
 }
 
-void GameObject::render()
+void GameObject::Render()
 {
 	m_pMeshMngr->AddInstanceToRenderList(name);
 }

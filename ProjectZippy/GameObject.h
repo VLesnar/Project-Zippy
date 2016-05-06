@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __GAMEOBJECTCLASS_H_
+#define __GAMEOBJECTCLASS_H_
+
 #include "RE/ReEng.h"
 #include "MyBoundingObjectManager.h"
 
@@ -13,8 +15,9 @@ protected:
 public:
 	GameObject(std::string objectName, std::string modelName, std::string colID, matrix4 intransform);
 	~GameObject();
-	void setModelMatrix(matrix4 intransform);
-	void translate(vector3 dir);
-	void establishModelMatrix();
-	void render();
+	void SetModelMatrix(matrix4 intransform);
+	void Translate(vector3 dir);
+	void EstablishModelMatrix();
+	void Render();
 };
+#endif

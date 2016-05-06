@@ -18,10 +18,10 @@ void GameObjectManager::SetGO(std::string objectName, std::string modelName, std
 	GOnum++;
 }
 
-void GameObjectManager::render()
+void GameObjectManager::Render()
 {
 	for (int i = 0; i < GOnum; i++)
 	{
-		gameObjects[i]->render();
+		gameObjects[i]->Render();
 	}
 }

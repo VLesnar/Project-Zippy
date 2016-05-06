@@ -250,7 +250,7 @@ void AppClass::Update(void)
 		m_pMeshMngr->AddInstanceToRenderList("Core");
 		*/
 
-		GOMngr->render();
+		GOMngr->Render();
 
 		//update enemies
 		double fTimeSpan = m_pSystem->LapClock();

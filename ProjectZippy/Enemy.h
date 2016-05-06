@@ -1,4 +1,5 @@
 #pragma once
+
 #include "RE/ReEng.h"
 #include "MyBoundingObjectManager.h"
 

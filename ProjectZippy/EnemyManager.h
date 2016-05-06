@@ -1,4 +1,5 @@
 #pragma once
+
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
 #include "Enemy.h"
