@@ -9,13 +9,13 @@ MyBoundingObjectClass.h - Contains methods to
 // Allocates member fields
 void MyBoundingObjectClass::Init()
 {
-	m_vList = vector<vector3>();
+	m_vList = std::vector<vector3>();
 	m_v3Max = vector3(0.0f);
 	m_v3Min = vector3(0.0f);
 	m_v3Center = vector3(0.0f);
 	m_fRadius = 0.0f;
 	m_v3Size = vector3(0.0f);
-	m_bList = vector<vector3>();
+	m_bList = std::vector<vector3>();
 	m_v3ChangingSize = vector3(0.0f);
 	m_v3ChangingMin = vector3(0.0f);
 	m_v3ChangingMax = vector3(0.0f);
@@ -26,17 +26,17 @@ void MyBoundingObjectClass::Init()
 // Changes the object's contents with another
 void MyBoundingObjectClass::Swap(MyBoundingObjectClass& other)
 {
-	swap(m_vList, other.m_vList);
-	swap(m_v3Max, other.m_v3Max);
-	swap(m_v3Min, other.m_v3Min);
-	swap(m_v3Center, other.m_v3Center);
-	swap(m_fRadius, other.m_fRadius);
-	swap(m_v3Size, other.m_v3Size);
-	swap(m_bList, other.m_bList);
-	swap(m_v3ChangingSize, other.m_v3ChangingSize);
-	swap(m_v3ChangingMin, other.m_v3ChangingMin);
-	swap(m_v3ChangingMax, other.m_v3ChangingMax);
-	swap(m_m4ToWorld, other.m_m4ToWorld);
+	std::swap(m_vList, other.m_vList);
+	std::swap(m_v3Max, other.m_v3Max);
+	std::swap(m_v3Min, other.m_v3Min);
+	std::swap(m_v3Center, other.m_v3Center);
+	std::swap(m_fRadius, other.m_fRadius);
+	std::swap(m_v3Size, other.m_v3Size);
+	std::swap(m_bList, other.m_bList);
+	std::swap(m_v3ChangingSize, other.m_v3ChangingSize);
+	std::swap(m_v3ChangingMin, other.m_v3ChangingMin);
+	std::swap(m_v3ChangingMax, other.m_v3ChangingMax);
+	std::swap(m_m4ToWorld, other.m_m4ToWorld);
 }
 
 // Deallocates member fields
@@ -46,7 +46,7 @@ void MyBoundingObjectClass::Release()
 }
 
 // Constructor
-MyBoundingObjectClass::MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname, string incolID)
+MyBoundingObjectClass::MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID)
 {
 	// Store the list of vertices from the model
 	m_vList = a_lVectorList;

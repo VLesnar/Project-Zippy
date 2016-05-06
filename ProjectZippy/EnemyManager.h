@@ -9,7 +9,7 @@ class EnemyManager
 static EnemyManager* instance;
 
 public:
-	vector<Enemy*> enemies;
+	std::vector<Enemy*> enemies;
 	vector3 position;
 	int maxEnemies;
 	int numEnemies;

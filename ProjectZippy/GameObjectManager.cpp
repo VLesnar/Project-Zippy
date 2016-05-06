@@ -12,7 +12,7 @@ GameObjectManager::~GameObjectManager()
 
 }
 
-void GameObjectManager::SetGO(string objectName, string modelName, string colID, matrix4 intransform)
+void GameObjectManager::SetGO(std::string objectName, std::string modelName, std::string colID, matrix4 intransform)
 {
 	gameObjects.push_back(new GameObject(objectName, modelName, colID, intransform));
 	GOnum++;

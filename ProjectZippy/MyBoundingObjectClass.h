@@ -9,18 +9,16 @@ for MyBoundingObjectClass.cpp
 
 #include "RE/ReEng.h"
 
-using namespace std;
-
 class MyBoundingObjectClass
 {
 private:
-	vector<vector3> m_vList;	// Holds a list of points from the model
+	std::vector<vector3> m_vList;	// Holds a list of points from the model
 	vector3 m_v3Max;	// The maximum vector of the bounding box
 	vector3 m_v3Min;	// The minimum vector of the bounding box
 	vector3 m_v3Center;	// The center of the model
 	float m_fRadius;	// Radius of the bounding sphere
 	vector3 m_v3Size;	// The size of the bounding box
-	vector<vector3> m_bList;	// Holds a list of the axis-aligned bounding box points
+	std::vector<vector3> m_bList;	// Holds a list of the axis-aligned bounding box points
 	vector3 m_v3ChangingSize;	// The size of the axis-aligned bounding box
 	vector3 m_v3ChangingMin;	// The minimum of the axis-aligned bounding box
 	vector3 m_v3ChangingMax;	// The maximum of the axis-aligned bounding box
@@ -30,8 +28,8 @@ private:
 	bool m_bIsVisible;	// If the bounding box is visible
 	vector3 m_v3Color;	// Holds the color of the bounding object
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();	// The mesh singleton to render bounding objects
-	string name; //name of the object used to specify in Manager
-	string colID; //Collision ID of the object
+	std::string name; //name of the object used to specify in Manager
+	std::string colID; //Collision ID of the object
 	vector3 m_v3CenterG = vector3(0.0f); //Will store the center point of the Object Class
 	vector3 m_v3MinG = vector3(0.0f); //Will store the minimum vector of the Object Class
 	vector3 m_v3MaxG = vector3(0.0f); //Will store the maximum vector of the Object Class
@@ -41,7 +39,7 @@ private:
 	vector3 m_v3NAxis[3];	// OBB axis (x, y, z)
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
-	MyBoundingObjectClass(vector<vector3> a_lVectorList, string iname, string incolID);	// Constructor
+	MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID);	// Constructor
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
 	MyBoundingObjectClass(void);	// Destructor
@@ -61,6 +59,6 @@ public:
 	vector3 GetColor(void);	// Gets the color of the bounding object
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
 	void Render(void);	// Renders the bounding object
-	string GetName() { return name; }
+	std::string GetName() { return name; }
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_

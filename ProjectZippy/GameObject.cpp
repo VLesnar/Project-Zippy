@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string objectName, string modelName, string colID, matrix4 intransform)
+GameObject::GameObject(std::string objectName, std::string modelName, std::string colID, matrix4 intransform)
 {
 	name = objectName;
 	m_pMeshMngr->LoadModel(modelName, objectName);

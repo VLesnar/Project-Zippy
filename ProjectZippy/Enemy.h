@@ -1,7 +1,6 @@
 #pragma once
 #include "RE/ReEng.h"
 #include "MyBoundingObjectManager.h"
-using namespace std;
 
 class Enemy
 {
@@ -11,7 +10,7 @@ private:
 	vector3 pos;
 	MyBoundingObjectManager* BOMngr = nullptr;
 	MyBoundingObjectClass* BO = nullptr;
-	string name = "enemy";
+	std::string name = "enemy";
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();
 	SystemSingleton* sytem = SystemSingleton::GetInstance();
 	float fRunTime;

@@ -3,8 +3,6 @@
 #include <SFML\Graphics.hpp>
 #include "MyBoundingObjectClass.h"
 
-
-
 class MyBoundingObjectManager
 {
 	static MyBoundingObjectManager* instance;
@@ -12,7 +10,7 @@ public:
 	int BOnum = 0;
 	int playerhealth = 3;
 	int coreHealth = 5;
-	vector<MyBoundingObjectClass*> boundingObjects;
+	std::vector<MyBoundingObjectClass*> boundingObjects;
 	MyBoundingObjectManager();
 	~MyBoundingObjectManager();
 
@@ -35,20 +33,20 @@ public:
 		return instance;
 	}
 	
-	void SetBO(vector<vector3> a_lVectorList, string iname, string colID);
+	void SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID);
 	int GetBOCount() { return BOnum; }
 	void SetColor(MyBoundingObjectClass* iBO, vector3 color);
 	
 	//change visibility
 	void SetVisibility(MyBoundingObjectClass* iBO);
-	void SetVisibility(string iname);
+	void SetVisibility(std::string iname);
 	
 	//set visibility for all
 	void FlipVisibility();
 	void SetVisibility(bool bvis);
 
 	//set the model matrix
-	void SetModelMatrix(string iname, matrix4 a_m4ToWorld);
+	void SetModelMatrix(std::string iname, matrix4 a_m4ToWorld);
 
 	void RemoveBO(MyBoundingObjectClass * iBO);
 
@@ -57,10 +55,10 @@ public:
 	
 	//render a specific bounding object
 	void Render(MyBoundingObjectClass* iBO);
-	void Render(string iname);
+	void Render(std::string iname);
 
 	//returns a bounding object when given a name
-	BoundingObjectClass* GetBO(string iname) { }
+	BoundingObjectClass* GetBO(std::string iname) { }
 
 	void CheckColissions();
 };

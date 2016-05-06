@@ -9,7 +9,7 @@ class GameObjectManager
 	static GameObjectManager* instance;
 public:
 	int GOnum = 0;
-	vector<GameObject*> gameObjects;
+	std::vector<GameObject*> gameObjects;
 	GameObjectManager();
 	~GameObjectManager();
 
@@ -32,7 +32,7 @@ public:
 		return instance;
 	};
 
-	void SetGO(string objectName, string modelName, string colID, matrix4 intransform);
+	void SetGO(std::string objectName, std::string modelName, std::string colID, matrix4 intransform);
 
 	void render();
 };

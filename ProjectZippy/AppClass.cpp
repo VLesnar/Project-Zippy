@@ -76,8 +76,8 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("CenterFloorCube.obj", "Roof");
 	m_pMeshMngr->LoadModel("Core.obj", "Core");
 
-	std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve1");
-	std::vector<vector3> cubeVertexList = m_pMeshMngr->GetVertexList("MainCube");
+	std::std::vector<vector3> vertexList = m_pMeshMngr->GetVertexList("Steve1");
+	std::std::vector<vector3> cubeVertexList = m_pMeshMngr->GetVertexList("MainCube");
 
 	BOMngr->SetBO(cubeVertexList, "MainCube", "Wall");
 	BOMngr->SetBO(cubeVertexList, "TopPath", "Wall");

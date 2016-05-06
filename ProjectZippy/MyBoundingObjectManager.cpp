@@ -14,7 +14,7 @@ MyBoundingObjectManager::~MyBoundingObjectManager()
 }
 
 //add a box based on a model
-void MyBoundingObjectManager::SetBO(vector<vector3> a_lVectorList, string iname, string colID)
+void MyBoundingObjectManager::SetBO(std::vector<vector3> a_lVectorList, std::string iname, std::string colID)
 {
 	boundingObjects.push_back(new MyBoundingObjectClass(a_lVectorList, iname, colID));
 	BOnum++;
@@ -26,9 +26,9 @@ void MyBoundingObjectManager::SetColor(MyBoundingObjectClass* iBO, vector3 color
 	iBO->SetColor(color);
 }
 
-//set visible by passing in an object or a string
+//set visible by passing in an object or a std::string
 void MyBoundingObjectManager::SetVisibility(MyBoundingObjectClass* iBO) { iBO->FlipVisibility();}
-void MyBoundingObjectManager::SetVisibility(string iname)
+void MyBoundingObjectManager::SetVisibility(std::string iname)
 {
 	for (int i = 0; i < BOnum; i++){if (boundingObjects[i]->GetName()==iname){boundingObjects[i]->FlipVisibility();}}
 }
@@ -52,7 +52,7 @@ void MyBoundingObjectManager::FlipVisibility()
 }
 
 //set the model matrix of a BO.
-void MyBoundingObjectManager::SetModelMatrix(string iname, matrix4 a_m4ToWorld)
+void MyBoundingObjectManager::SetModelMatrix(std::string iname, matrix4 a_m4ToWorld)
 {
 	for (int i = 0; i < BOnum; i++)
 	{
@@ -80,7 +80,7 @@ void MyBoundingObjectManager::Render(MyBoundingObjectClass* iBO)
 	iBO->Render();
 }
 
-void MyBoundingObjectManager::Render(string iname)
+void MyBoundingObjectManager::Render(std::string iname)
 {
 	for (int i = 0; i < BOnum; i++)
 	{

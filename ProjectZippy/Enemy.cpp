@@ -9,7 +9,7 @@ Enemy::Enemy(vector3 ipos)
 {
 	BOMngr = MyBoundingObjectManager::GetInstance();
 	spawn(ipos);
-	name += to_string(rand());
+	name += std::to_string(rand());
 	meshManager->LoadModel("Thwomp.obj", name);
 	vertexList = meshManager->GetVertexList(name);
 	BOMngr->SetBO(vertexList, name, "enem");

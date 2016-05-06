@@ -71,10 +71,10 @@ public:
 	virtual void WriteConfig(void) final {}
 	/*
 	USAGE: Initialize ReEng variables necessary to create the window
-	ARGUMENTS: String a_sWindowName -> Name of the window
+	ARGUMENTS: std::string a_sWindowName -> Name of the window
 	OUTPUT: ---
 	*/
-	virtual void InitWindow(String a_sWindowName) final;
+	virtual void InitWindow(std::string a_sWindowName) final;
 	/*
 	USAGE: Initializes user specific variables, this is executed right after InitApplicationVariables,
 	the purpose of this member function is to initialize member variables specific for this lesson
