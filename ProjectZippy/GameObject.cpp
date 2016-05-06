@@ -3,9 +3,9 @@
 GameObject::GameObject(string objectName, string modelName, string colID, matrix4 intransform)
 {
 	name = objectName;
-	transform = intransform;
 	m_pMeshMngr->LoadModel(modelName, objectName);
 	BOMngr->SetBO(m_pMeshMngr->GetVertexList("objectName"), objectName, colID);
+	setModelMatrix(intransform);
 }
 
 GameObject::~GameObject()

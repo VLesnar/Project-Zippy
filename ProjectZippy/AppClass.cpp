@@ -21,12 +21,37 @@ void AppClass::InitVariables(void)
 		REAXISY);//What is up
 
 	//Load a model onto the Mesh manager
-	BOMngr = MyBoundingObjectManager::GetInstance();
 	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f));
 	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f));
 	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
 	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
 
+	GOMngr->SetGO(
+		"MainCube",
+		"CenterFloorCube.obj",
+		"wall",
+		glm::translate(vector3(0.0f, 0.0f, 0.0f)) * glm::scale(vector3(42.0f, 1.0f, 42.0f)));
+	GOMngr->SetGO(
+		"TopPath",
+		"FloorCube.obj",
+		"wall",
+		glm::translate(vector3(0.0f, 0.0f, -28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)));
+	GOMngr->SetGO(
+		"BottomPath",
+		"FloorCube.obj",
+		"wall",
+		glm::translate(vector3(0.0f, 0.0f, 28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)));
+	GOMngr->SetGO(
+		"LeftPath",
+		"FloorCube.obj",
+		"wall",
+		glm::translate(vector3(-28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)));
+	GOMngr->SetGO(
+		"RightPath",
+		"FloorCube.obj",
+		"wall",
+		glm::translate(vector3(28.0f, 0.0f, 0.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)));
+	/*
 	m_pMeshMngr->LoadModel("CenterFloorCube.obj", "MainCube");
 	m_pMeshMngr->LoadModel("FloorCube.obj", "TopPath");
 	m_pMeshMngr->LoadModel("FloorCube.obj", "BottomPath");
@@ -77,6 +102,7 @@ void AppClass::InitVariables(void)
 	BOMngr->SetBO(cubeVertexList, "RightPathWall", "Wall");
 	BOMngr->SetBO(cubeVertexList, "Roof", "Wall");
 	BOMngr->SetBO(cubeVertexList, "Core", "Wall");
+	*/
 
 	state = GameState::start;
 }
@@ -147,6 +173,7 @@ void AppClass::Update(void)
 		//Call the arcball method
 		ArcBall();
 
+		/*
 		//Set up the level
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, 0.0f)) * glm::scale(vector3(42.0f, 1.0f, 42.0f)), "MainCube");
 		m_pMeshMngr->SetModelMatrix(glm::translate(vector3(0.0f, 0.0f, -28.0f)) * glm::scale(vector3(14.0f, 1.0f, 14.0f)), "TopPath");
@@ -221,6 +248,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->AddInstanceToRenderList("RightPathWall");
 		m_pMeshMngr->AddInstanceToRenderList("Roof");
 		m_pMeshMngr->AddInstanceToRenderList("Core");
+		*/
+
+		GOMngr->render();
 
 		//update enemies
 		double fTimeSpan = m_pSystem->LapClock();

@@ -15,12 +15,14 @@ Application: Project Zippy
 #include <SFML\Graphics.hpp>
 #include "EnemyManager.h"
 #include "MyBoundingObjectManager.h"
+#include "GameObjectManager.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
-	MyBoundingObjectManager* BOMngr = nullptr;
+	MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
+	GameObjectManager* GOMngr = GameObjectManager::GetInstance();
 
 	enum class GameState {
 		start,
