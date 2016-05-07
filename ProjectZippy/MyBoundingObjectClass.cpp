@@ -324,6 +324,9 @@ bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 				}
 			}
 		}
+		if(glm::length(push) > 0)
+			push = glm::normalize(push) * (a_otherObj->m_fRadius - glm::length(pythVect));
+
 		a_otherObj->parent->Translate(-push);
 	}
 
@@ -486,6 +489,5 @@ void MyBoundingObjectClass::Render(void)
 		meshManager->AddCubeToRenderList(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
 		SetChangingCubeSize();
 		meshManager->AddCubeToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
-		meshManager->AddSphereToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(m_fRadius * 2)), m_v3Color, WIRE);
 	}
 }
