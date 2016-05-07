@@ -136,7 +136,7 @@ void AppClass::InitVariables(void)
 		"Core",
 		"Core.obj",
 		"core",
-		glm::translate(vector3(0.0f, 10.0f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)));
+		glm::translate(vector3(0.0f, 2.5f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)));
 
 	state = GameState::start;
 }

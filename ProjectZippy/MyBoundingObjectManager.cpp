@@ -126,27 +126,33 @@ void MyBoundingObjectManager::CheckColissions()
 						bOWall->SetColor(REGREEN);
 					}
 				}
-				
-				/*
-				if (boundingObjects[i]->IsColliding(boundingObjects[j]))
-				{
-					boundingObjects[i]->SetColor(RERED);
-					boundingObjects[j]->SetColor(RERED);
 
-					// If an enemy collides with the core, subtract a point of health
-					if (boundingObjects[i]->GetName() == "Core" || boundingObjects[j]->GetName() == "Core")
+				if (
+					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "core") ||
+					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "play"))
+				{
+					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
+					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "core" ? boundingObjects[i] : boundingObjects[j];
+
+					if (bOWall->IsCollidingSOB(bOPlay))
+					{
+						bOWall->SetColor(RERED);
+					}
+					else
+					{
+						bOWall->SetColor(REGREEN);
+					}
+				}
+
+				if (
+					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "core") ||
+					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "enem"))
+				{
+					if (boundingObjects[i]->IsColliding(boundingObjects[j]))
 					{
 						coreHealth -= 1;
 					}
-
-					break;
 				}
-				else
-				{
-					boundingObjects[i]->SetColor(REGREEN);
-					boundingObjects[j]->SetColor(REGREEN);
-				}
-				*/
 			}
 		}	
 	}
