@@ -39,3 +39,14 @@ void Player::MoveRight(double dt)
 	transform = glm::translate(m_pCameraMngr->GetPosition());
 	EstablishModelMatrix();
 }
+
+void Player::Translate(vector3 dir)
+{
+	m_pCameraMngr->SetPositionTargetAndView(
+		m_pCameraMngr->GetPosition() + dir,
+		m_pCameraMngr->GetForward() + m_pCameraMngr->GetPosition() + dir,
+		m_pCameraMngr->GetUpward());
+
+	transform = glm::translate(m_pCameraMngr->GetPosition());
+	EstablishModelMatrix();
+}

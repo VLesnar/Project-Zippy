@@ -20,4 +20,5 @@ public:
 	void MoveBackwards(double dt);
 	void MoveLeft(double dt);
 	void MoveRight(double dt);
+	void Translate(vector3 dir);
 };

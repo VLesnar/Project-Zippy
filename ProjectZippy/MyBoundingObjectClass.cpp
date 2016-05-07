@@ -305,7 +305,7 @@ bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 	}
 	else
 	{
-		parent->Translate(vector3(0, 0, 0));
+		a_otherObj->parent->Translate(vector3(0, 0.01, 0));
 	}
 
 	return true;

@@ -19,7 +19,7 @@ public:
 	GameObject(std::string objectName, float radius, std::string colID, matrix4 intransform);
 	~GameObject();
 	void SetModelMatrix(matrix4 intransform);
-	void Translate(vector3 dir);
+	virtual void Translate(vector3 dir);
 	void EstablishModelMatrix();
 	void Render();
 };
