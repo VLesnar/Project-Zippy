@@ -48,6 +48,16 @@ void AppClass::ProcessKeyboard(void)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			player->MoveRight(fTimeSpan);
 
+		//Jump!
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			if (!spacePressed)
+				player->Jump();
+			spacePressed = true;
+		}
+		else {
+			spacePressed = false;
+		}
+
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
 			BOMngr->FlipVisibility();
@@ -58,6 +68,7 @@ void AppClass::ProcessKeyboard(void)
 				state = GameState::pause;
 			pPressed = true;
 		}
+
 		else {
 			pPressed = false;
 		}

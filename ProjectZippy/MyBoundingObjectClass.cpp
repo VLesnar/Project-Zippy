@@ -290,18 +290,18 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
 
 bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 {
-	vector3 distVect;
-	vector3 pythVect;
+	vector3 vectCent;	//Relative position of the sphere to the center of the BO
+	vector3 distEdge;	//Distance vector between the sphere and the BO
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		distVect[j] = abs(glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j])) - m_v3ChangingSize[j] / 2;
-		pythVect[j] = distVect[j];
-		if (pythVect[j] < 0)
-			pythVect[j] = 0;
+		vectCent[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
+		distEdge[j] = abs(vectCent[j]) - m_v3ChangingSize[j] / 2;
+		if (distEdge[j] < 0)
+			distEdge[j] = 0;
 	}
 
-	if (glm::length(pythVect) > a_otherObj->m_fRadius)
+	if (glm::length(distEdge) > a_otherObj->m_fRadius)
 	{
 		return false;
 	}
@@ -310,24 +310,19 @@ bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 		vector3 push = vector3(0);
 		for (int j = 0; j < 3; j++)	//For each axis
 		{
-			if (pythVect[j] != 0)
+			if (distEdge[j] != 0)
 			{
-				push[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
-
-				if (push[j] < 0)
-				{
-					push[j] += m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius;
-				}
-				else
-				{
-					push[j] -= m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius;
-				}
+				push[j] = vectCent[j] + std::copysign(m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius, -vectCent[j]);
 			}
 		}
+
 		if(glm::length(push) > 0)
-			push = glm::normalize(push) * (a_otherObj->m_fRadius - glm::length(pythVect));
+			push = glm::normalize(push) * (a_otherObj->m_fRadius - glm::length(distEdge));
+
+		std::cout << push.x << " " << push.y << " " << push.z << std::endl;
 
 		a_otherObj->parent->Translate(-push);
+		a_otherObj->parent->HaltVel(push);
 	}
 
 	return true;

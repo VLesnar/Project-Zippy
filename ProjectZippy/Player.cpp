@@ -40,6 +40,11 @@ void Player::MoveRight(double dt)
 	EstablishModelMatrix();
 }
 
+void Player::Jump()
+{
+	vel += vector3(0, 10, 0);
+}
+
 void Player::Translate(vector3 dir)
 {
 	m_pCameraMngr->SetPositionTargetAndView(
@@ -49,4 +54,11 @@ void Player::Translate(vector3 dir)
 
 	transform = glm::translate(m_pCameraMngr->GetPosition());
 	EstablishModelMatrix();
+}
+
+void Player::MovePhysics(double dt)
+{
+	vel += acc * static_cast<float>(dt);
+	vel -= vel * static_cast<float>(dt) * 0.2f;
+	Translate(vel * static_cast<float>(dt));
 }
