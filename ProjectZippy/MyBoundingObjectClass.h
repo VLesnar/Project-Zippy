@@ -36,8 +36,6 @@ private:
 	vector3 m_v3CenterG = vector3(0.0f); //Will store the center point of the Object Class
 	vector3 m_v3MinG = vector3(0.0f); //Will store the minimum vector of the Object Class
 	vector3 m_v3MaxG = vector3(0.0f); //Will store the maximum vector of the Object Class
-	vector3 m_v3HalfWidth = vector3(0.0f);//Will store half the size of all sides
-	vector3 m_v3HalfWidthG = vector3(0.0f);//Will store half the size of all sides
 	vector3 m_v3Corners[8];	// OBB Corners
 	vector3 m_v3NAxis[3];	// OBB axis (x, y, z)
 public:

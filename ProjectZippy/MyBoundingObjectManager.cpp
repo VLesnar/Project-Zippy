@@ -120,7 +120,7 @@ void MyBoundingObjectManager::CheckColissions()
 					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
 					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "wall" ? boundingObjects[i] : boundingObjects[j];
 
-					if (bOWall->IsColliding(bOPlay))
+					if (bOWall->IsCollidingSOB(bOPlay))
 					{
 						if (!hasCollidedPlayer)
 						{
@@ -138,6 +138,7 @@ void MyBoundingObjectManager::CheckColissions()
 						bOWall->SetColor(REGREEN);
 					}
 				}
+				
 				/*
 				if (boundingObjects[i]->IsColliding(boundingObjects[j]))
 				{

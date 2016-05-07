@@ -56,12 +56,8 @@ MyBoundingObjectClass::MyBoundingObjectClass(float radius, std::string iname, st
 {
 	std::vector<vector3> a_lVectorList = std::vector<vector3>();
 
-	a_lVectorList.push_back(vector3(radius, 0, 0));
-	a_lVectorList.push_back(vector3(-radius, 0, 0));
 	a_lVectorList.push_back(vector3(0, radius, 0));
 	a_lVectorList.push_back(vector3(0, -radius, 0));
-	a_lVectorList.push_back(vector3(0, 0, radius));
-	a_lVectorList.push_back(vector3(0, 0, -radius));
 
 	SubConstruct(a_lVectorList, iname, incolID, inparent);
 }
@@ -285,17 +281,29 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	}
 
 	m_v3CenterG = (m_v3MinG + m_v3MaxG) / 2.0f;
-	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f; //we calculate the distance between all the values of min and max vectors
-	m_fRadius = glm::distance(m_v3CenterG, m_v3MaxG);
 
-	m_v3NAxis[0] = vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
-	m_v3NAxis[1] = vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
-	m_v3NAxis[2] = vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]);
+	m_v3NAxis[0] = glm::normalize(vector3(m_m4ToWorld * vector4(1.0f, 0.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]));
+	m_v3NAxis[1] = glm::normalize(vector3(m_m4ToWorld * vector4(0.0f, 1.0f, 0.0f, 1.0f)) - vector3(m_m4ToWorld[3]));
+	m_v3NAxis[2] = glm::normalize(vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]));
 }
 
 bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 {
-	return false;
+	vector3 distVect;
+
+	for (int j = 0; j < 3; j++)	//For each axis
+	{
+		distVect[j] = abs(glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j])) - m_v3ChangingSize[j] / 2;
+		if (distVect[j] < 0)
+			distVect[j] = 0;
+	}
+
+	if (glm::length(distVect) > a_otherObj->m_fRadius)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 // Collision methods
@@ -386,15 +394,6 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther)
 	vector3 v3MinO = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Min, 1.0f));
 	vector3 v3MaxO = vector3(a_pOther->m_m4ToWorld * vector4(a_pOther->m_v3Max, 1.0f));
 
-	/*
-	Are they colliding?
-	For Objects we will assume they are colliding, unless at least one of the following conditions is not met
-	*/
-
-	//first check the bounding sphere, if that is not colliding we can guarantee that there are no collision
-	if ((m_fRadius + a_pOther->m_fRadius) < glm::distance(m_v3CenterG, a_pOther->m_v3CenterG))
-		return false;
-
 	//next check the axis-aligned bounding boxes.
 
 	//Check for X
@@ -463,6 +462,6 @@ void MyBoundingObjectClass::Render(void)
 		meshManager->AddCubeToRenderList(GetGlobalCenterMatrix() * glm::scale(vector3(GetSize())), m_v3Color, WIRE);
 		SetChangingCubeSize();
 		meshManager->AddCubeToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(GetChangingSize())), m_v3Color, WIRE);
-		meshManager->AddSphereToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(m_fRadius)), m_v3Color, WIRE);
+		meshManager->AddSphereToRenderList(glm::translate(GetGlobalCenter()) * glm::scale(vector3(m_fRadius * 2)), m_v3Color, WIRE);
 	}
 }
