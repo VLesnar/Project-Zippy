@@ -21,6 +21,7 @@ private:
 	vector3 m_v3Center;	// The center of the model
 	float m_fRadius;	// Radius of the bounding sphere
 	vector3 m_v3Size;	// The size of the bounding box
+	vector3 m_v3SizeScaled;		// The size of the bounding box after scaling.
 	std::vector<vector3> m_bList;	// Holds a list of the axis-aligned bounding box points
 	vector3 m_v3ChangingSize;	// The size of the axis-aligned bounding box
 	vector3 m_v3ChangingMin;	// The minimum of the axis-aligned bounding box

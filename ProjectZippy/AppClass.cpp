@@ -53,6 +53,16 @@ void AppClass::InitVariables(void)
 		"wall",
 		glm::translate(vector3(-17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)));
 	GOMngr->SetGO(
+		"Tower1 RampA",
+		"TowerWall.obj",
+		"wall",
+		glm::translate(vector3(-17.5f, 0.5f, -14.0f)) * glm::rotate(45.0f, vector3(1, 0, 0)) * glm::scale(vector3(6.0f, 9.9f, 9.9f)));
+	GOMngr->SetGO(
+		"Tower1 RampB",
+		"TowerWall.obj",
+		"wall",
+		glm::translate(vector3(-14.0f, 0.5f, -17.5f)) * glm::rotate(45.0f, vector3(0, 0, -1)) * glm::scale(vector3(9.9f, 9.9f, 6.0f)));
+	GOMngr->SetGO(
 		"Tower2",
 		"TowerWall.obj",
 		"wall",
@@ -62,6 +72,16 @@ void AppClass::InitVariables(void)
 		"TowerWall.obj",
 		"wall",
 		glm::translate(vector3(17.5f, 4.0f, -17.5f)) * glm::scale(vector3(7.0f, 7.0f, 7.0f)));
+	GOMngr->SetGO(
+		"Tower3 RampA",
+		"TowerWall.obj",
+		"wall",
+		glm::translate(vector3(17.5f, 0.5f, 14.0f)) * glm::rotate(45.0f, vector3(-1, 0, 0)) * glm::scale(vector3(6.0f, 9.9f, 9.9f)));
+	GOMngr->SetGO(
+		"Tower3 RampB",
+		"TowerWall.obj",
+		"wall",
+		glm::translate(vector3(14.0f, 0.5f, 17.5f)) * glm::rotate(45.0f, vector3(0, 0, 1)) * glm::scale(vector3(9.9f, 9.9f, 6.0f)));
 	GOMngr->SetGO(
 		"Tower4",
 		"TowerWall.obj",
@@ -230,7 +250,7 @@ void AppClass::Update(void)
 
 	// End the game if the player's or the core's health drops to zero
 	if (BOMngr->playerhealth <= 0 || BOMngr->coreHealth <= 0) {
-		state = GameState::end;
+		//state = GameState::end;
 	}
 }
 
