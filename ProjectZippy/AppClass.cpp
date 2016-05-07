@@ -149,6 +149,9 @@ void AppClass::Update(void)
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
 
+	//dt for updating.
+	fTimeSpan = m_pSystem->LapClock();
+
 	if (state == GameState::start) {
 		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
 		m_pMeshMngr->PrintLine("", REBLUE);
@@ -208,9 +211,6 @@ void AppClass::Update(void)
 		ArcBall();
 
 		GOMngr->Render();
-
-		//update enemies
-		fTimeSpan = m_pSystem->LapClock();
 
 		spawner1->Update(fTimeSpan);
 		spawner2->Update(fTimeSpan);

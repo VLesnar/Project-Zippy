@@ -59,6 +59,7 @@ void Player::Translate(vector3 dir)
 void Player::MovePhysics(double dt)
 {
 	vel += acc * static_cast<float>(dt);
-	vel -= vel * static_cast<float>(dt) * 0.2f;
+	vel.x -= vel.x * static_cast<float>(dt) * 6.0f;
+	vel.z -= vel.z * static_cast<float>(dt) * 6.0f;
 	Translate(vel * static_cast<float>(dt));
 }
