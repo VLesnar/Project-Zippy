@@ -104,8 +104,6 @@ void MyBoundingObjectManager::Render()
 
 void MyBoundingObjectManager::CheckColissions()
 {
-	bool hasCollidedPlayer = false;
-
 	for (int i = 0; i < BOnum; i++)
 	{
 		for (int j = i; j < BOnum; j++)
@@ -113,7 +111,6 @@ void MyBoundingObjectManager::CheckColissions()
 			if (boundingObjects[i]->GetColID() != boundingObjects[j]->GetColID())
 			{
 				if (
-					!hasCollidedPlayer &&
 					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "wall") ||
 					(boundingObjects[i]->GetColID() == "wall" && boundingObjects[j]->GetColID() == "play"))
 				{
@@ -122,19 +119,10 @@ void MyBoundingObjectManager::CheckColissions()
 
 					if (bOWall->IsCollidingSOB(bOPlay))
 					{
-						if (!hasCollidedPlayer)
-						{
-							bOPlay->SetColor(RERED);
-							hasCollidedPlayer = true;
-						}
 						bOWall->SetColor(RERED);
 					}
 					else
 					{
-						if (!hasCollidedPlayer)
-						{
-							bOPlay->SetColor(REGREEN);
-						}
 						bOWall->SetColor(REGREEN);
 					}
 				}

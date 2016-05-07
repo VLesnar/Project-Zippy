@@ -291,21 +291,40 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
 bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 {
 	vector3 distVect;
+	vector3 pythVect;
 
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
 		distVect[j] = abs(glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j])) - m_v3ChangingSize[j] / 2;
-		if (distVect[j] < 0)
-			distVect[j] = 0;
+		pythVect[j] = distVect[j];
+		if (pythVect[j] < 0)
+			pythVect[j] = 0;
 	}
 
-	if (glm::length(distVect) > a_otherObj->m_fRadius)
+	if (glm::length(pythVect) > a_otherObj->m_fRadius)
 	{
 		return false;
 	}
 	else
 	{
-		a_otherObj->parent->Translate(vector3(0, 0.01, 0));
+		vector3 push = vector3(0);
+		for (int j = 0; j < 3; j++)	//For each axis
+		{
+			if (pythVect[j] != 0)
+			{
+				push[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
+
+				if (push[j] < 0)
+				{
+					push[j] += m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius;
+				}
+				else
+				{
+					push[j] -= m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius;
+				}
+			}
+		}
+		a_otherObj->parent->Translate(-push);
 	}
 
 	return true;
