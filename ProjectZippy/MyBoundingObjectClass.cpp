@@ -5,6 +5,7 @@ MyBoundingObjectClass.h - Contains methods to
 	create sphere and box colliders
 -----------------------------------------------*/
 #include "MyBoundingObjectClass.h"
+#include "GameObject.h"
 
 // Allocates member fields
 void MyBoundingObjectClass::Init()
@@ -301,6 +302,10 @@ bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 	if (glm::length(distVect) > a_otherObj->m_fRadius)
 	{
 		return false;
+	}
+	else
+	{
+		parent->Translate(vector3(0, 0, 0));
 	}
 
 	return true;

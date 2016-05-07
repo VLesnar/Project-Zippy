@@ -4,6 +4,8 @@
 #include "RE/ReEng.h"
 #include "MyBoundingObjectManager.h"
 
+class MyBoundingObjectManager;
+
 class GameObject
 {
 protected:
