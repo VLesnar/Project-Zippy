@@ -1,28 +1,28 @@
-#ifndef __GAMEOBJECTMANAGER_H_
-#define __GAMEOBJECTMANAGER_H_
+#ifndef __EnvironmentManager_H_
+#define __EnvironmentManager_H_
 
 #include <SFML\Graphics.hpp>
 #include "GameObject.h"
 
-class GameObjectManager
+class EnvironmentManager
 {
-	static GameObjectManager* instance;
+	static EnvironmentManager* instance;
 public:
 	int GOnum = 0;
 	std::vector<GameObject*> gameObjects;
-	GameObjectManager();
-	~GameObjectManager();
+	EnvironmentManager();
+	~EnvironmentManager();
 
-	static GameObjectManager* GetInstance()
+	static EnvironmentManager* GetInstance()
 	{
 		if (instance == nullptr)
 		{
-			instance = new GameObjectManager();
+			instance = new EnvironmentManager();
 		}
 		return instance;
 	};
 
-	static GameObjectManager* ReleaseInstance()
+	static EnvironmentManager* ReleaseInstance()
 	{
 		if (instance != nullptr)
 		{

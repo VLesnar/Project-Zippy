@@ -54,8 +54,8 @@ public:
 	void SetChangingCubeSize(void);	// Changes the size of the axis-aligned bounding box
 	matrix4 GetModelMatrix(void);	// Gets the object's matrix
 	void SetModelMatrix(matrix4 a_m4ToWorld);	// Sets the object's matrix
-	bool IsCollidingSOB(MyBoundingObjectClass* a_otherObj);	//3D collision between sphere and OBB detection
-	bool IsCollidingSAT(MyBoundingObjectClass* a_otherObj);	// Checks for SAT collision
+	bool IsCollidingSOB(MyBoundingObjectClass* a_otherObj);		//3D collision between sphere and OBB detection
+	bool IsCollidingSAT(MyBoundingObjectClass* a_otherObj);		// Checks for SAT collision
 	bool IsColliding(MyBoundingObjectClass* const a_pOther);	// Checks to see if two objects are colliding
 	void FlipVisibility(void);	// Flips the visibility of the bounding object
 	void SetVisibility(bool bvis);	//sets the visibility to a specific value

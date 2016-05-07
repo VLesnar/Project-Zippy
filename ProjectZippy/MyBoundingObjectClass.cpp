@@ -288,42 +288,44 @@ void MyBoundingObjectClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	m_v3NAxis[2] = glm::normalize(vector3(m_m4ToWorld * vector4(0.0f, 0.0f, 1.0f, 1.0f)) - vector3(m_m4ToWorld[3]));
 }
 
+//Collision between sphere and OBB detection and resolution
 bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 {
 	vector3 vectCent;	//Relative position of the sphere to the center of the BO
 	vector3 distEdge;	//Distance vector between the sphere and the BO
 
+	//Form distEdge vector
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
 		vectCent[j] = glm::dot(a_otherObj->m_v3CenterG - m_v3CenterG, m_v3NAxis[j]);
 		distEdge[j] = abs(vectCent[j]) - m_v3ChangingSize[j] / 2;
-		if (distEdge[j] < 0)
+		if (distEdge[j] < 0)	//Axis discarding
 			distEdge[j] = 0;
 	}
 
+	//If the distance to the edge is greater than the radius, no collision.
 	if (glm::length(distEdge) > a_otherObj->m_fRadius)
 	{
 		return false;
 	}
-	else
+
+	vector3 push = vector3(0);	//Vector to push the sphere back into position.
+
+	//Set push direction to be away from the OBB
+	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		vector3 push = vector3(0);
-		for (int j = 0; j < 3; j++)	//For each axis
+		if (distEdge[j] != 0)
 		{
-			if (distEdge[j] != 0)
-			{
-				push[j] = vectCent[j] + std::copysign(m_v3ChangingSize[j] / 2 + a_otherObj->m_fRadius, -vectCent[j]);
-			}
+			push[j] = -vectCent[j];
 		}
-
-		if(glm::length(push) > 0)
-			push = glm::normalize(push) * (a_otherObj->m_fRadius - glm::length(distEdge));
-
-		std::cout << push.x << " " << push.y << " " << push.z << std::endl;
-
-		a_otherObj->parent->Translate(-push);
-		a_otherObj->parent->HaltVel(push);
 	}
+
+	//Distance to push is the radius of the sphere minus the distance to the edge
+	if(glm::length(push) > 0)
+		push = glm::normalize(push) * (a_otherObj->m_fRadius - glm::length(distEdge));
+
+	a_otherObj->parent->Translate(-push);	//Push the sphere back into position.
+	a_otherObj->parent->HaltVel(push);		//Negate any physics velocity in that direction.
 
 	return true;
 }

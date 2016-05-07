@@ -15,7 +15,7 @@ Application: Project Zippy
 #include <SFML\Graphics.hpp>
 #include "EnemyManager.h"
 #include "MyBoundingObjectManager.h"
-#include "GameObjectManager.h"
+#include "EnvironmentManager.h"
 #include "Player.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
@@ -25,7 +25,7 @@ class AppClass : public ReEngAppClass
 	double fTimeSpan = 0;
 
 	MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
-	GameObjectManager* GOMngr = GameObjectManager::GetInstance();
+	EnvironmentManager* GOMngr = EnvironmentManager::GetInstance();
 	Player* player = nullptr;
 
 	enum class GameState {
