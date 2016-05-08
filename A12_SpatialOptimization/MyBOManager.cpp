@@ -224,6 +224,24 @@ void MyBOManager::CheckCollisions(void)
 	}
 }
 
+void MyBOManager::CheckOctreeCollisions(MyBOClass* obj1, MyBOClass* obj2) {
+	if (obj1->IsColliding(obj2)) {
+		uint index1 = 0;
+		uint index2 = 0;
+		for (uint i = 0; i < m_lObject.size(); i++) {
+			if (obj1 == m_lObject[i]) {
+				index1 = i;
+			}
+			if (obj2 == m_lObject[i]) {
+				index2 = i;
+			}
+		}
+
+		m_llCollidingIndices[index1].push_back(index2);
+		m_llCollidingIndices[index2].push_back(index1);
+	}
+}
+
 std::vector<int> MyBOManager::GetCollidingVector(String a_sIndex)
 {
 	int nIndex = GetIndex(a_sIndex);

@@ -76,6 +76,21 @@ void AppClass::Update(void)
 
 	m_pMeshMngr->Print("Selection: ");
 	m_pMeshMngr->PrintLine(m_pMeshMngr->GetInstanceGroupName(m_selection.first, m_selection.second), REYELLOW);
+	m_pMeshMngr->Print("<K> Check Collisions: ");
+	if(bSOCheck)
+		m_pMeshMngr->PrintLine("Spatial Optimization", REGREEN);
+	else
+		m_pMeshMngr->PrintLine("Brute Force", RERED);
+	m_pMeshMngr->Print("<H> Display Octree: ");
+	if (bVisibleH)
+		m_pMeshMngr->PrintLine("ON", REGREEN);
+	else
+		m_pMeshMngr->PrintLine("OFF", RERED);
+	m_pMeshMngr->Print("Display Collisions: ");
+	if (bVisibleJ)
+		m_pMeshMngr->PrintLine("ON", REGREEN);
+	else
+		m_pMeshMngr->PrintLine("OFF", RERED);
 	
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(nFPS), RERED);

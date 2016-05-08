@@ -21,6 +21,9 @@ class AppClass : public ReEngAppClass
 	bool bKeyJ = false;
 	int nKeyJ = 0;
 	bool bVisibleJ = false;
+	bool bKeyK = false;
+	int nKeyK = 0;
+	bool bSOCheck = false;
 public:
 	typedef ReEngAppClass super;
 
