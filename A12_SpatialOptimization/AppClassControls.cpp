@@ -74,6 +74,22 @@ void AppClass::ProcessKeyboard(void)
 		bKeyJ = false;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+		if (!bKeyK) {
+			nKeyK++;
+			if (nKeyK % 2 == 0) {
+				bSOCheck = false;
+			}
+			else if (nKeyJ % 2 == 1) {
+				bSOCheck = true;
+			}
+		}
+		bKeyK = true;
+	}
+	else {
+		bKeyK = false;
+	}
+
 #pragma endregion
 
 #pragma region Other Actions
