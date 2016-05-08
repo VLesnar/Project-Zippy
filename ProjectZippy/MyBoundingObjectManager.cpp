@@ -110,7 +110,6 @@ void MyBoundingObjectManager::CheckColissions()
 		{
 			if (boundingObjects[i]->GetColID() != boundingObjects[j]->GetColID())
 			{
-				/*
 				if (
 					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "wall") ||
 					(boundingObjects[i]->GetColID() == "wall" && boundingObjects[j]->GetColID() == "play"))
@@ -118,26 +117,40 @@ void MyBoundingObjectManager::CheckColissions()
 					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
 					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "wall" ? boundingObjects[i] : boundingObjects[j];
 
-					if (bOWall->IsCollidingSOB(bOPlay))
+					if (bOWall->IsCollidingABB(bOPlay))
 					{
-						bOWall->SetColor(RERED);
+						if (bOWall->IsCollidingSOB(bOPlay))
+						{
+							bOWall->SetColor(RERED);
+						}
+						else
+						{
+							bOWall->SetColor(REGREEN);
+						}
 					}
 					else
 					{
 						bOWall->SetColor(REGREEN);
 					}
 				}
-
-				else*/ if (
+				
+				else if (
 					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "core") ||
 					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "play"))
 				{
 					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
 					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "core" ? boundingObjects[i] : boundingObjects[j];
 
-					if (bOWall->IsCollidingSOB(bOPlay))
+					if (bOWall->IsCollidingABB(bOPlay))
 					{
-						bOWall->SetColor(RERED);
+						if (bOWall->IsCollidingSOB(bOPlay))
+						{
+							bOWall->SetColor(RERED);
+						}
+						else
+						{
+							bOWall->SetColor(REGREEN);
+						}
 					}
 					else
 					{
@@ -149,7 +162,7 @@ void MyBoundingObjectManager::CheckColissions()
 					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "core") ||
 					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "enem"))
 				{
-					if (boundingObjects[i]->IsColliding(boundingObjects[j]))
+					if (boundingObjects[i]->IsCollidingABB(boundingObjects[j]))
 					{
 						coreHealth -= 1;
 					}

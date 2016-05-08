@@ -96,10 +96,17 @@ void MyBoundingObjectClass::SubConstruct(std::vector<vector3> a_lVectorList, std
 		m_v3Min = m_vList[0];
 	}
 
+	m_fRadius = 0;
+
 	// Set the max and the min vectors
 	for (uint i = 0; i < nVertexCount; i++)
 	{
 		vector3 tempVect = m_vList[i];
+
+		// Radius
+		float tempLength = glm::length(tempVect);
+		if(tempLength  > m_fRadius)
+			m_fRadius = tempLength;
 
 		// X
 		if (tempVect.x > m_v3Max.x)
@@ -121,7 +128,6 @@ void MyBoundingObjectClass::SubConstruct(std::vector<vector3> a_lVectorList, std
 	}
 
 	m_v3Center = (m_v3Max + m_v3Min) / 2.0f;
-	m_fRadius = glm::distance(m_v3Center, m_v3Max);
 	m_v3Size.x = glm::distance(vector3(m_v3Min.x, 0.0, 0.0), vector3(m_v3Max.x, 0.0, 0.0));
 	m_v3Size.y = glm::distance(vector3(0.0, m_v3Min.y, 0.0), vector3(0.0, m_v3Max.y, 0.0));
 	m_v3Size.z = glm::distance(vector3(0.0f, 0.0, m_v3Min.z), vector3(0.0, 0.0, m_v3Max.z));
@@ -327,14 +333,11 @@ bool MyBoundingObjectClass::IsCollidingSOB(MyBoundingObjectClass * a_otherObj)
 	//Set push direction to be away from the OBB
 	for (int j = 0; j < 3; j++)	//For each axis
 	{
-		std::cout << m_v3SizeScaled[j] << " ";
 		if (distEdge[j] != 0)
 		{
 			push[j] = -vectCent[j];
 		}
 	}
-
-	std::cout << std::endl;
 
 	//Distance to push is the radius of the sphere minus the distance to the edge
 	if(glm::length(push) > 0)
@@ -425,7 +428,7 @@ bool MyBoundingObjectClass::IsCollidingSAT(MyBoundingObjectClass* a_otherObj)
 }
 
 // Checks to see if two objects are colliding
-bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther)
+bool MyBoundingObjectClass::IsCollidingABB(MyBoundingObjectClass* const a_pOther)
 {
 	//Get all vectors in global space
 	vector3 v3Min = vector3(m_m4ToWorld * vector4(m_v3Min, 1.0f));
@@ -453,13 +456,6 @@ bool MyBoundingObjectClass::IsColliding(MyBoundingObjectClass* const a_pOther)
 		return false;
 	if (m_v3MinG.z > a_pOther->m_v3MaxG.z)
 		return false;
-
-	//Finally, check the oriented bounding boxes.
-
-	if (!IsCollidingSAT(a_pOther))
-	{
-		return false;
-	}
 
 	return true;
 }
