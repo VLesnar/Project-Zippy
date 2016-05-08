@@ -18,6 +18,7 @@ void MyBoundingObjectClass::Init()
 	m_v3Size = vector3(0.0f);
 	m_v3SizeScaled = vector3(0.0f);
 	m_bList = std::vector<vector3>();
+	m_v3Color = vector3(1.0f);
 	m_v3ChangingSize = vector3(0.0f);
 	m_v3ChangingMin = vector3(0.0f);
 	m_v3ChangingMax = vector3(0.0f);
@@ -72,20 +73,23 @@ MyBoundingObjectClass::MyBoundingObjectClass(float radius, std::string iname, st
 //Sub constructor called by both constructors
 void MyBoundingObjectClass::SubConstruct(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent)
 {
-	//Set parent object
+	// Set parent object
 	parent = inparent;
 
 	// Store the list of vertices from the model
 	m_vList = a_lVectorList;
 
-	//store the name of the object
+	// store the name of the object
 	name = iname;
 
-	//store the collision ID
+	// store the collision ID
 	colID = incolID;
 
-	//set the visibility
+	// set the visibility
 	m_bIsVisible = true;
+
+	// Set color
+	m_v3Color = vector3(1.0f);
 
 	// Calculate the max, min, center, radius, and size
 	uint nVertexCount = m_vList.size();
