@@ -15,9 +15,7 @@ class MyOctant
 	vector3 m_v3Position;
 	float m_fSize = 0.0f;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
-	MyBOManager* m_pBOMngr = nullptr;
-
-	
+	MyBOManager* m_pBOMngr = nullptr;	
 	
 public:
 	static bool m_bHead;

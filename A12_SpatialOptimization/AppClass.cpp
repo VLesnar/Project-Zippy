@@ -67,8 +67,6 @@ void AppClass::Update(void)
 
 	m_pBOMngr->Update();
 
-	m_pOctreeHead->Display();
-
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
 	//print info into the console
@@ -81,6 +79,14 @@ void AppClass::Update(void)
 	
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(nFPS), RERED);
+
+	if (bVisibleH == true) {
+		m_pOctreeHead->Display();
+	}
+
+	if (bVisibleJ == true) {
+		m_pBOMngr->DisplayReAlligned();
+	}
 }
 
 void AppClass::Display(void)

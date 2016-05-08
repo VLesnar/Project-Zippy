@@ -15,6 +15,12 @@ class AppClass : public ReEngAppClass
 {
 	MyOctant* m_pOctreeHead = nullptr;
 	MyBOManager* m_pBOMngr = nullptr;
+	bool bKeyH = false;
+	int nKeyH = 0;
+	bool bVisibleH = false;
+	bool bKeyJ = false;
+	int nKeyJ = 0;
+	bool bVisibleJ = false;
 public:
 	typedef ReEngAppClass super;
 
