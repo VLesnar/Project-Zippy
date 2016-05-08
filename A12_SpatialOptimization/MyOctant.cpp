@@ -167,9 +167,40 @@ bool MyOctant::Populate(MyBOClass* bO)
 	}
 }
 
-void MyOctant::CheckCollisions()
+void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 {
+	//Internal collision
+	int selfCount = m_lObjects.size();
+	for (int j = 0; j < selfCount; j++)
+	{
+		for (int i = j; i < selfCount; i++)
+		{
+			if (m_lObjects[j]->IsColliding(m_lObjects[i]))
+			{
+				//DO THING
+			}
+		}
+	}
 
+	//External collision
+	int otherCount = bOs.size();
+	for (int j = 0; j < otherCount; j++)
+	{
+		for (int i = j; i < selfCount; i++)
+		{
+			if (bOs[j]->IsColliding(m_lObjects[i]))
+			{
+				//DO THING
+			}
+		}
+	}
+
+	std::vector<MyBOClass*> combined = bOs;
+	combined.insert(combined.end(), m_lObjects.begin(), m_lObjects.end());
+	for (int i = 0; i < m_nChildCount; i++)
+	{
+		m_pChildren[i].CheckCollisions(combined);
+	}
 }
 
 void MyOctant::Subdivide(void)

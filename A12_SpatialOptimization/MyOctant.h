@@ -68,7 +68,7 @@ public:
 
 	bool Populate(MyBOClass* bO);
 
-	void CheckCollisions();
+	void CheckCollisions(std::vector<MyBOClass*> bOs);
 
 	void Subdivide(void);
 	void ReleaseChildren(void);
