@@ -1,6 +1,7 @@
 #include "AppClass.h"
 
 MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
+
 void AppClass::ProcessKeyboard(void)
 {
 	bool bModifier = false;
@@ -27,6 +28,15 @@ void AppClass::ProcessKeyboard(void)
 	if(bModifier)
 		fSpeed *= 10.0f;
 	if (state == GameState::play) {
+
+		//shoot
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && bulletTimer > bulletTimerStart + 1) {
+			bulletTimerStart = bulletTimer;
+			std::cout << "shoot" << std::endl;
+			bulletPos = m_pCameraMngr->GetPosition();
+			bulletForward = m_pCameraMngr->GetForward();
+			Bullet->SetModelMatrix(glm::translate(bulletPos));
+		}
 
 		//Move forward
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
