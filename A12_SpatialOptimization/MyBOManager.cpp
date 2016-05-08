@@ -221,6 +221,7 @@ void MyBOManager::CheckCollisions(void)
 		}
 	}
 }
+
 std::vector<int> MyBOManager::GetCollidingVector(String a_sIndex)
 {
 	int nIndex = GetIndex(a_sIndex);

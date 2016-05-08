@@ -63,6 +63,7 @@ MyOctant::MyOctant(MyOctant const& other)
 {
 
 }
+
 MyOctant& MyOctant::operator=(MyOctant const& other)
 {
 	if(this != &other)
