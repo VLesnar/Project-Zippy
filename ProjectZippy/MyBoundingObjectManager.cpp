@@ -159,6 +159,30 @@ void MyBoundingObjectManager::CheckColissions()
 				}
 
 				else if (
+					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "enem") ||
+					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "play"))
+				{
+					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
+					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "enem" ? boundingObjects[i] : boundingObjects[j];
+
+					if (bOWall->IsCollidingABB(bOPlay))
+					{
+						if (bOWall->IsCollidingSOB(bOPlay))
+						{
+							bOWall->SetColor(RERED);
+						}
+						else
+						{
+							bOWall->SetColor(REGREEN);
+						}
+					}
+					else
+					{
+						bOWall->SetColor(REGREEN);
+					}
+				}
+
+				else if (
 					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "core") ||
 					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "enem"))
 				{
