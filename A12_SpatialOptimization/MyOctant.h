@@ -62,7 +62,13 @@ public:
 
 	void Display(void);
 
+	void InitiatePopulation();
+
+	void PrintPopulation();
+
 	bool Populate(MyBOClass* bO);
+
+	void CheckCollisions();
 
 	void Subdivide(void);
 	void ReleaseChildren(void);

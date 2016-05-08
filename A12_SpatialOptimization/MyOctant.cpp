@@ -87,6 +87,27 @@ void MyOctant::Display(void)
 	m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
 }
 
+void MyOctant::InitiatePopulation()
+{
+	int nObjectCont = m_pBOMngr->GetObjectCount();
+	for (int i = 0; i < nObjectCont; i++)
+	{
+		Populate(m_pBOMngr->GetBoundingObject(i));
+	}
+}
+
+void MyOctant::PrintPopulation()
+{
+	std::cout << m_lObjects.size() << std::endl;
+	if (m_nChildCount > 0)
+	{
+		for (int i = 0; i < m_nChildCount; i++)
+		{
+			m_pChildren[i].PrintPopulation();
+		}
+	}
+}
+
 bool MyOctant::Populate(MyBOClass* bO)
 {
 	bool childrenContainBO = false;
@@ -144,6 +165,11 @@ bool MyOctant::Populate(MyBOClass* bO)
 
 		return true;
 	}
+}
+
+void MyOctant::CheckCollisions()
+{
+
 }
 
 void MyOctant::Subdivide(void)

@@ -42,6 +42,9 @@ void AppClass::InitVariables(void)
 			m_pOctreeHead->m_pChildren[j].m_pChildren[i].Subdivide();
 		}
 	}
+
+	m_pOctreeHead->InitiatePopulation();
+	m_pOctreeHead->PrintPopulation();
 }
 
 void AppClass::Update(void)
