@@ -46,10 +46,10 @@ void AppClass::ProcessKeyboard(void)
 		if (!bKeyH) {
 			nKeyH++;
 			if (nKeyH % 2 == 0) {
-				bVisibleH = true;
+				bVisibleH = false;
 			}
 			else if (nKeyH % 2 == 1) {
-				bVisibleH = false;
+				bVisibleH = true;
 			}
 		}
 		bKeyH = true;
@@ -62,10 +62,10 @@ void AppClass::ProcessKeyboard(void)
 		if (!bKeyJ) {
 			nKeyJ++;
 			if (nKeyJ % 2 == 0) {
-				bVisibleJ = true;
+				bVisibleJ = false;
 			}
 			else if (nKeyJ % 2 == 1) {
-				bVisibleJ = false;
+				bVisibleJ = true;
 			}
 		}
 		bKeyJ = true;
