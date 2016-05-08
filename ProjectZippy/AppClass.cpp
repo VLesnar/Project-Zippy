@@ -170,7 +170,15 @@ void AppClass::Update(void)
 	m_pMeshMngr->Update();
 
 	//dt for updating.
-	fTimeSpan = m_pSystem->LapClock();
+	if (updateRelianceCounter < updateRelianceDelay)
+	{
+		updateRelianceCounter++;
+		fTimeSpan = m_pSystem->LapClock();
+	}
+	else
+	{
+		fTimeSpan = 1.0 / m_pSystem->GetFPS();
+	}
 
 	if (state == GameState::start) {
 		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
@@ -241,7 +249,7 @@ void AppClass::Update(void)
 		BOMngr->CheckColissions();
 		BOMngr->Render();
 		//Indicate the FPS
-		int nFPS = m_pSystem->GetFPS();
+		int nFPS = 1.0 / fTimeSpan;
 
 		//Print info on the screen
 		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REWHITE);

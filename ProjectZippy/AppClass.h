@@ -28,6 +28,9 @@ class AppClass : public ReEngAppClass
 	EnvironmentManager* GOMngr = EnvironmentManager::GetInstance();
 	Player* player = nullptr;
 
+	int updateRelianceDelay = 120;	//Number of frames before app uses system FPS for dt instead of LapClock
+	int updateRelianceCounter = 0;	//Counter for those frames
+
 	enum class GameState {
 		start,
 		play,
