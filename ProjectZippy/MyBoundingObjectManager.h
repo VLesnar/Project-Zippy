@@ -5,6 +5,7 @@
 #include <SFML\Graphics.hpp>
 #include "MyBoundingObjectClass.h"
 
+
 class MyBoundingObjectManager
 {
 	static MyBoundingObjectManager* instance;
