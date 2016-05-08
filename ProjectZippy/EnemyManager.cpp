@@ -23,8 +23,20 @@ void EnemyManager::Render()
 
 void EnemyManager::Spawn() 
 {
-	enemies.push_back(new Enemy(position));
-	numEnemies++;
+	if (numEnemies <= maxEnemies) {
+		enemies.push_back(new Enemy(position));
+		numEnemies++;
+	}
+	else {
+		for (int i = 0; i < numEnemies; i++)
+		{
+			if (enemies[i]->isAlive == false)
+			{
+				enemies[i]->spawn(position);
+				break; 
+			}
+		}
+	}
 }
 
 void EnemyManager::Update(double fTimeSpan)

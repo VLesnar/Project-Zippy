@@ -12,7 +12,7 @@ static EnemyManager* instance;
 public:
 	std::vector<Enemy*> enemies;
 	vector3 position;
-	int maxEnemies;
+	int maxEnemies = 3;
 	int numEnemies;
 	float spawntime = 5.0f;
 	double fRunTime;
