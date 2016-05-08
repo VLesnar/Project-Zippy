@@ -110,6 +110,7 @@ void MyBoundingObjectManager::CheckColissions()
 		{
 			if (boundingObjects[i]->GetColID() != boundingObjects[j]->GetColID())
 			{
+				/*
 				if (
 					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "wall") ||
 					(boundingObjects[i]->GetColID() == "wall" && boundingObjects[j]->GetColID() == "play"))
@@ -127,7 +128,7 @@ void MyBoundingObjectManager::CheckColissions()
 					}
 				}
 
-				if (
+				else*/ if (
 					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "core") ||
 					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "play"))
 				{
@@ -144,7 +145,7 @@ void MyBoundingObjectManager::CheckColissions()
 					}
 				}
 
-				if (
+				else if (
 					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "core") ||
 					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "enem"))
 				{

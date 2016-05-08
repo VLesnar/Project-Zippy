@@ -59,8 +59,12 @@ MyBoundingObjectClass::MyBoundingObjectClass(float radius, std::string iname, st
 {
 	std::vector<vector3> a_lVectorList = std::vector<vector3>();
 
+	a_lVectorList.push_back(vector3(radius, 0, 0));
+	a_lVectorList.push_back(vector3(-radius, 0, 0));
 	a_lVectorList.push_back(vector3(0, radius, 0));
 	a_lVectorList.push_back(vector3(0, -radius, 0));
+	a_lVectorList.push_back(vector3(0, 0, radius));
+	a_lVectorList.push_back(vector3(0, 0, -radius));
 
 	SubConstruct(a_lVectorList, iname, incolID, inparent);
 }

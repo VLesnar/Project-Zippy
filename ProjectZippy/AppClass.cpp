@@ -237,7 +237,7 @@ void AppClass::Update(void)
 		spawner3->Update(fTimeSpan);
 		spawner4->Update(fTimeSpan);
 
-		player->MovePhysics(fTimeSpan);
+		//player->MovePhysics(fTimeSpan);
 		BOMngr->CheckColissions();
 		BOMngr->Render();
 		//Indicate the FPS
