@@ -16,9 +16,8 @@ class MyOctant
 	float m_fSize = 0.0f;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
 	MyBOManager* m_pBOMngr = nullptr;
+	std::vector<MyBOClass*> m_lObjects;
 
-	
-	
 public:
 	static bool m_bHead;
 	MyOctant* m_pChildren = nullptr;
@@ -62,6 +61,8 @@ public:
 	void Swap(MyOctant& other);
 
 	void Display(void);
+
+	bool Populate(MyBOClass* bO);
 
 	void Subdivide(void);
 	void ReleaseChildren(void);

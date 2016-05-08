@@ -27,21 +27,21 @@ void AppClass::InitVariables(void)
 	{
 		String sName = "Creeper" + std::to_string(n);
 		vector3 v3Position = glm::sphericalRand(10.0f);
-		m_pMeshMngr->LoadModel("Minecraft\\Creeper.obj", sName, false, 
-			glm::translate(v3Position + vector3(5,0,0)));
+		m_pMeshMngr->LoadModel("Minecraft\\Creeper.obj", sName, false,
+			glm::translate(v3Position + vector3(5, 0, 0)));
 		m_pBOMngr->AddObject(sName);
 	}
 
 	m_pOctreeHead = new MyOctant();
 	m_pOctreeHead->Subdivide();
-	m_pOctreeHead->m_pChildren[0].Subdivide();
-
-	//MyOctant octant = m_pOctreeHead->m_pChildren[0];
-	//for (uint i = 0; i < 1000; i++)
-	//{
-	//	octant.Subdivide();
-	//	octant = octant.m_pChildren[0];
-	//}
+	for (int j = 0; j < 8; j++)
+	{
+		m_pOctreeHead->m_pChildren[j].Subdivide();
+		for (int i = 0; i < 8; i++)
+		{
+			m_pOctreeHead->m_pChildren[j].m_pChildren[i].Subdivide();
+		}
+	}
 }
 
 void AppClass::Update(void)

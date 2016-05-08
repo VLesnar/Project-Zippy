@@ -1,4 +1,5 @@
 #include "MyOctant.h"
+
 using namespace ReEng;
 //  MyOctant
 bool MyOctant::m_bHead = true;
@@ -84,6 +85,65 @@ void MyOctant::Display(void)
 		m_pChildren[n].Display();
 	}
 	m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
+}
+
+bool MyOctant::Populate(MyBOClass* bO)
+{
+	bool childrenContainBO = false;
+
+	//Check if any children contain the bO
+	if (m_nChildCount > 0)
+	{
+		for (int i = 0; i < m_nChildCount; i++)
+		{
+			if (m_pChildren[i].Populate(bO))
+			{
+				childrenContainBO = true;
+				break;
+			}
+		}
+	}
+
+	if (childrenContainBO)
+	{
+		return true;
+	}
+	else
+	{
+		vector3 v3MinG = bO->GetMinG();
+		vector3 v3MaxG = bO->GetMaxG();
+
+		if (v3MinG.x < m_v3Position.x - m_fSize)
+		{
+			return false;
+		}
+		if (v3MaxG.x > m_v3Position.x + m_fSize)
+		{
+			return false;
+		}
+
+		if (v3MinG.y < m_v3Position.y - m_fSize)
+		{
+			return false;
+		}
+		if (v3MaxG.y > m_v3Position.y + m_fSize)
+		{
+			return false;
+		}
+
+		if (v3MinG.z < m_v3Position.y - m_fSize)
+		{
+			return false;
+		}
+		if (v3MaxG.z > m_v3Position.y + m_fSize)
+		{
+			return false;
+		}
+
+		m_lObjects.push_back(bO);
+
+		return true;
+	}
 }
 
 void MyOctant::Subdivide(void)
