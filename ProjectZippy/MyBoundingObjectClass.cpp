@@ -166,7 +166,7 @@ MyBoundingObjectClass& MyBoundingObjectClass::operator=(MyBoundingObjectClass co
 }
 
 // Destructor
-MyBoundingObjectClass::MyBoundingObjectClass()
+MyBoundingObjectClass::~MyBoundingObjectClass()
 {
 	Release();
 }

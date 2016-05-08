@@ -46,7 +46,7 @@ public:
 	void SubConstruct(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject * inparent);		// Sub constructor called by both constructors
 	MyBoundingObjectClass(MyBoundingObjectClass const &other);	// Copy Constructor
 	MyBoundingObjectClass& operator=(MyBoundingObjectClass const& other);	// Copy Assignment Operator
-	MyBoundingObjectClass(void);	// Destructor
+	~MyBoundingObjectClass(void);	// Destructor
 	vector3 GetGlobalCenter(void);	// Gets the center in global coordinates
 	matrix4 GetGlobalCenterMatrix(void);	// Gets the matrix of the center in global coordinates
 	float GetRadius(void);	// Gets the object's radius
