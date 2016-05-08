@@ -156,6 +156,12 @@ public:
 	OUTPUT: ---
 	*/
 	void Update(void);
+	/*
+	USAGE: Calculates the collision between two objects
+	ARGUMENTS: Two object pointers
+	OUTPUT: ---
+	*/
+	void CheckOctreeCollisions(MyBOClass* obj1, MyBOClass* obj2);
 
 private:
 	/*
@@ -200,12 +206,6 @@ private:
 	OUTPUT: ---
 	*/
 	void CheckCollisions(void);
-	/*
-	USAGE: Calculates the collision between two objects
-	ARGUMENTS: Two object pointers
-	OUTPUT: ---
-	*/
-	void CheckOctreeCollisions(MyBOClass* obj1, MyBOClass* obj2);
 };
 
 #endif //__MYBOMANAGER_H_

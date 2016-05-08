@@ -215,11 +215,14 @@ void MyBOManager::CheckCollisions(void)
 	{
 		for (uint nObjectB = nObjectA + 1; nObjectB < m_nObjectCount; nObjectB++)
 		{
+			CheckOctreeCollisions(m_lObject[nObjectA], m_lObject[nObjectB]);
+			/*
 			if (m_lObject[nObjectA]->IsColliding(m_lObject[nObjectB]))
 			{
 				m_llCollidingIndices[nObjectA].push_back(nObjectB);
 				m_llCollidingIndices[nObjectB].push_back(nObjectA);
 			}
+			*/
 		}
 	}
 }

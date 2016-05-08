@@ -175,10 +175,8 @@ void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 	{
 		for (int i = j; i < selfCount; i++)
 		{
-			if (m_lObjects[j]->IsColliding(m_lObjects[i]))
-			{
-				//DO THING
-			}
+			if(j != i)
+				m_pBOMngr->CheckOctreeCollisions(m_lObjects[j], m_lObjects[i]);
 		}
 	}
 
@@ -188,10 +186,7 @@ void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 	{
 		for (int i = j; i < selfCount; i++)
 		{
-			if (bOs[j]->IsColliding(m_lObjects[i]))
-			{
-				//DO THING
-			}
+			m_pBOMngr->CheckOctreeCollisions(bOs[j], m_lObjects[i]);
 		}
 	}
 

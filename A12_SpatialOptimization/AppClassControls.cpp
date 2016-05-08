@@ -80,7 +80,7 @@ void AppClass::ProcessKeyboard(void)
 			if (nKeyK % 2 == 0) {
 				bSOCheck = false;
 			}
-			else if (nKeyJ % 2 == 1) {
+			else if (nKeyK % 2 == 1) {
 				bSOCheck = true;
 			}
 		}

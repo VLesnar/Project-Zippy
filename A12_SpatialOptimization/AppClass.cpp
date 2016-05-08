@@ -44,7 +44,6 @@ void AppClass::InitVariables(void)
 	}
 
 	m_pOctreeHead->InitiatePopulation();
-	m_pOctreeHead->PrintPopulation();
 }
 
 void AppClass::Update(void)
@@ -68,7 +67,13 @@ void AppClass::Update(void)
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
-	m_pBOMngr->Update();
+	if (bSOCheck)
+	{
+		std::vector<MyBOClass*> empty;
+		m_pOctreeHead->CheckCollisions(empty);
+	}
+	else
+		m_pBOMngr->Update();
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
@@ -89,7 +94,7 @@ void AppClass::Update(void)
 		m_pMeshMngr->PrintLine("ON", REGREEN);
 	else
 		m_pMeshMngr->PrintLine("OFF", RERED);
-	m_pMeshMngr->Print("Display Collisions: ");
+	m_pMeshMngr->Print("<J> Display Collisions: ");
 	if (bVisibleJ)
 		m_pMeshMngr->PrintLine("ON", REGREEN);
 	else
