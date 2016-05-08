@@ -21,7 +21,13 @@ void AppClass::InitVariables(void)
 	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f));
 	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
 	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
-
+	
+	Bullet = new GameObject(
+		"Bullet",
+		"Bullet.obj",
+		"Bullet",
+		glm::translate(vector3(0.0f, 0.0f, 0.0f)));
+		
 	GOMngr->SetGO(
 		"MainCube",
 		"CenterFloorCube.obj",
@@ -237,8 +243,12 @@ void AppClass::Update(void)
 
 		//Call the arcball method
 		ArcBall();
-
+		Bullet->Render();
 		GOMngr->Render();
+
+		//timer for bullets
+		bulletTimer += fTimeSpan;
+		Bullet->Translate(bulletForward);
 
 		spawner1->Update(fTimeSpan);
 		spawner2->Update(fTimeSpan);

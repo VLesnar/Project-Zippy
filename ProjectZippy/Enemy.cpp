@@ -39,18 +39,20 @@ void Enemy::Update(double fTimeSpan)
 		
 		move(fTimeSpan);
 		//if its has no health make it dead and remove it from the bounding object vector
-		if (health <= 0)
-		{isAlive = false;
-		BOMngr->RemoveBO(BO);
-		}
+
 	}
+}
+
+void Enemy::Die() {
+	isAlive = false;
+	BOMngr->RemoveBO(BO);
 }
 
 void Enemy::spawn(vector3 ipos)
 {
 	fRunTime = 0;
-	pos.y = 0;
 	pos = ipos;
+	pos.y = 1;
 	isAlive = true;
 }
 
