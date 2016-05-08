@@ -24,7 +24,9 @@ void EnemyManager::Render()
 void EnemyManager::Spawn() 
 {
 	if (numEnemies <= maxEnemies) {
-		enemies.push_back(new Enemy(position));
+		String name = "Enemy";
+		name += std::to_string(rand());
+		enemies.push_back(new Enemy(position, name));
 		numEnemies++;
 	}
 	else {

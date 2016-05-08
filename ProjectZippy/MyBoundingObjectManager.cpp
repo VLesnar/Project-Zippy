@@ -2,6 +2,7 @@
 
 MyBoundingObjectManager* MyBoundingObjectManager::instance = nullptr;
 
+
 MyBoundingObjectManager::MyBoundingObjectManager()
 {
 
@@ -163,22 +164,22 @@ void MyBoundingObjectManager::CheckColissions()
 					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "play"))
 				{
 					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
-					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "enem" ? boundingObjects[i] : boundingObjects[j];
+					MyBoundingObjectClass* bOEnem = boundingObjects[i]->GetColID() == "enem" ? boundingObjects[i] : boundingObjects[j];
 
-					if (bOWall->IsCollidingABB(bOPlay))
+					if (bOEnem->IsCollidingABB(bOPlay))
 					{
-						if (bOWall->IsCollidingSOB(bOPlay))
+						if (bOEnem->IsCollidingSOB(bOPlay))
 						{
-							bOWall->SetColor(RERED);
+							bOEnem->SetColor(RERED);
 						}
 						else
 						{
-							bOWall->SetColor(REGREEN);
+							bOEnem->SetColor(REGREEN);
 						}
 					}
 					else
 					{
-						bOWall->SetColor(REGREEN);
+						bOEnem->SetColor(REGREEN);
 					}
 				}
 
