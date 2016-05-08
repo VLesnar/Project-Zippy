@@ -244,8 +244,8 @@ void AppClass::Update(void)
 		int nFPS = m_pSystem->GetFPS();
 
 		//Print info on the screen
-		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REBLACK);
-		m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REBLACK);
+		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REWHITE);
+		m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REWHITE);
 	}
 
 	// End the game if the player's or the core's health drops to zero

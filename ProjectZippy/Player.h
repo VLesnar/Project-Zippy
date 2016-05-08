@@ -12,7 +12,7 @@ public:
 		1.50f,
 		"play",
 		glm::translate(vector3(0.0f, 2.5f, 15.0f)),
-		vector3(0, -10, 0),
+		vector3(0, -20, 0),
 		vector3(0, 0, 0))
 
 	{

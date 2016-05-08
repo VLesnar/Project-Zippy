@@ -42,7 +42,7 @@ void Player::MoveRight(double dt)
 
 void Player::Jump()
 {
-	vel += vector3(0, 10, 0);
+	vel += vector3(0, 12, 0);
 }
 
 void Player::Translate(vector3 dir)
