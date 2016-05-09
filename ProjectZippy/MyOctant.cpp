@@ -202,7 +202,7 @@ bool MyOctant::Remove(MyBoundingObjectClass* bO)
 	{
 		if (bO == m_lObjects[i])
 		{
-			m_lObjects.erase(m_lObjects.begin + 1);
+			m_lObjects.erase(m_lObjects.begin() + 1);
 			return true;
 		}
 	}

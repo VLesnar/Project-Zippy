@@ -61,6 +61,8 @@ void AppClass::Update(void)
 	{
 		std::vector<MyBOClass*> empty;
 		m_pOctreeHead->CheckCollisions(empty);
+		m_pOctreeHead->Clear();
+		m_pOctreeHead->Remove(new MyBOClass(std::vector<vector3>()));
 	}
 	else
 		m_pBOMngr->Update();

@@ -195,6 +195,52 @@ bool MyOctant::Populate(MyBOClass* bO)
 	return true;
 }
 
+//Remove a bO from the octant.
+bool MyOctant::Remove(MyBOClass* bO)
+{
+	uint objectCount = m_lObjects.size();
+	for (int i = 0; i < objectCount; i++)
+	{
+		if (bO == m_lObjects[i])
+		{
+			m_lObjects.erase(m_lObjects.begin() + 1);
+			return true;
+		}
+	}
+
+	for (int i = 0; i < m_nChildCount; i++)
+	{
+		if (m_pChildren[i].Remove(bO))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//Clear the octant of unused children
+bool MyOctant::Clear()
+{
+	//Recursively check if children have bOs and clear them.
+	for (int i = 0; i < m_nChildCount; i++)
+	{
+		if (!m_pChildren[i].Clear())
+		{
+			return false;	//Return false if there's still a bO
+		}
+	}
+
+	//Children have been checked, so if this is empty, remove its children and return true
+	if (m_lObjects.size() == 0)
+	{
+		ReleaseChildren();
+		return true;
+	}
+
+	return false;
+}
+
 //Check collisions within the octant and child octants.
 void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 {

@@ -69,6 +69,10 @@ public:
 
 	bool Populate(MyBOClass* bO);
 
+	bool Remove(MyBOClass * bO);
+
+	bool Clear();
+
 	void CheckCollisions(std::vector<MyBOClass*> bOs);
 
 	void Subdivide(void);
