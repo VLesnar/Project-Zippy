@@ -55,9 +55,12 @@ void MyOctant::Swap(MyOctant& other)
 {
 
 }
+
 void MyOctant::Release(void)
 {
+
 }
+
 //The big 3
 MyOctant::MyOctant(){Init();}
 MyOctant::MyOctant(float a_fSize) { Init(); m_fSize = a_fSize; }
@@ -79,6 +82,7 @@ MyOctant& MyOctant::operator=(MyOctant const& other)
 }
 MyOctant::~MyOctant(){Release();};
 
+//Display the octree
 void MyOctant::Display(void)
 {
 	for (uint n = 0; n < m_nChildCount; n++)
@@ -86,11 +90,15 @@ void MyOctant::Display(void)
 		m_pChildren[n].Display();
 	}
 
-		m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
+	m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
 }
 
+//Initiate populating the octree
 void MyOctant::InitiatePopulation()
 {
+	ReleaseChildren();	//BE FREE MY CHILDREN!
+
+	//For each object, populate the octree with it.
 	int nObjectCont = m_pBOMngr->GetObjectCount();
 	for (int i = 0; i < nObjectCont; i++)
 	{
@@ -98,6 +106,7 @@ void MyOctant::InitiatePopulation()
 	}
 }
 
+//Print the population of each octant in the tree
 void MyOctant::PrintPopulation()
 {
 	if (m_nChildCount > 0)
@@ -109,12 +118,14 @@ void MyOctant::PrintPopulation()
 	}
 }
 
+//Populate the octree with a given bO
 bool MyOctant::Populate(MyBOClass* bO)
 {
 	vector3 v3MinG = bO->GetMinG();	//Minimum vector of the bO	
 	vector3 v3MaxG = bO->GetMaxG();	//Maximum vector of the bO
 
 	//Check if bO is completely within the octant. Return false if it isn't.
+	//X-check
 	if (v3MinG.x < m_v3Position.x - m_fSize / 2)
 	{
 		return false;
@@ -124,6 +135,7 @@ bool MyOctant::Populate(MyBOClass* bO)
 		return false;
 	}
 
+	//Y-check
 	if (v3MinG.y < m_v3Position.y - m_fSize / 2)
 	{
 		return false;
@@ -133,6 +145,7 @@ bool MyOctant::Populate(MyBOClass* bO)
 		return false;
 	}
 
+	//Z-check
 	if (v3MinG.z < m_v3Position.z - m_fSize / 2)
 	{
 		return false;
@@ -148,9 +161,9 @@ bool MyOctant::Populate(MyBOClass* bO)
 		Subdivide();
 	}
 
-	//Check if children contain the bO
-	bool childrenContainBOThis = false;
-	bool childrenContainBOAny = false;
+	//Check if any children contain the current bO or any bO
+	bool childrenContainBOThis = false;		//If a child contains this bO
+	bool childrenContainBOAny = false;		//If a child contains any bO
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (m_pChildren[i].Populate(bO))
@@ -169,6 +182,8 @@ bool MyOctant::Populate(MyBOClass* bO)
 	{
 		return true;
 	}
+
+	//If no children contain any bOs, return false
 	if (!childrenContainBOAny)
 	{
 		m_pChildren = nullptr;
@@ -180,6 +195,7 @@ bool MyOctant::Populate(MyBOClass* bO)
 	return true;
 }
 
+//Check collisions within the octant and child octants.
 void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 {
 	//Internal collision
@@ -203,14 +219,17 @@ void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 		}
 	}
 
-	std::vector<MyBOClass*> combined = bOs;
-	combined.insert(combined.end(), m_lObjects.begin(), m_lObjects.end());
+	std::vector<MyBOClass*> combined = bOs;	//All bOs that are down the tree from this octant
+	combined.insert(combined.end(), m_lObjects.begin(), m_lObjects.end()); //Generate combined list of bOs
+
+	//Recurse into children
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		m_pChildren[i].CheckCollisions(combined);
 	}
 }
 
+//Create child octants of this octant.
 void MyOctant::Subdivide(void)
 {
 	m_bHead = false;
@@ -265,6 +284,8 @@ void MyOctant::Subdivide(void)
 	m_pChildren[7].m_v3Position.y -= fNewSize;
 	m_pChildren[7].m_v3Position.z -= fNewSize;
 }
+
+//Release all children
 void MyOctant::ReleaseChildren(void)
 {
 	if (m_pChildren != nullptr)
@@ -273,7 +294,4 @@ void MyOctant::ReleaseChildren(void)
 		m_pChildren = nullptr;
 	}
 }
-//Accessors
-
-//--- Non Standard Singleton Methods
 

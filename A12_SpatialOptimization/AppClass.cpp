@@ -33,17 +33,6 @@ void AppClass::InitVariables(void)
 	}
 
 	m_pOctreeHead = new MyOctant();
-	/*
-	m_pOctreeHead->Subdivide();
-	for (int j = 0; j < 8; j++)
-	{
-		m_pOctreeHead->m_pChildren[j].Subdivide();
-		for (int i = 0; i < 8; i++)
-		{
-			m_pOctreeHead->m_pChildren[j].m_pChildren[i].Subdivide();
-		}
-	}*/
-
 	m_pOctreeHead->InitiatePopulation();
 }
 

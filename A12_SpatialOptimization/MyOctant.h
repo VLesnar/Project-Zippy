@@ -72,6 +72,7 @@ public:
 	void CheckCollisions(std::vector<MyBOClass*> bOs);
 
 	void Subdivide(void);
+
 	void ReleaseChildren(void);
 
 private:
