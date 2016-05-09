@@ -5,6 +5,7 @@ using namespace ReEng;
 bool MyOctant::m_bHead = true;
 void MyOctant::Init(void)
 {
+	level = 0;
 	m_v3Position = vector3(0.0f);
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_fSize = 0.0f;
@@ -98,7 +99,6 @@ void MyOctant::InitiatePopulation()
 
 void MyOctant::PrintPopulation()
 {
-	std::cout << m_lObjects.size() << std::endl;
 	if (m_nChildCount > 0)
 	{
 		for (int i = 0; i < m_nChildCount; i++)
@@ -110,9 +110,42 @@ void MyOctant::PrintPopulation()
 
 bool MyOctant::Populate(MyBOClass* bO)
 {
-	bool childrenContainBO = false;
+	vector3 v3MinG = bO->GetMinG();
+	vector3 v3MaxG = bO->GetMaxG();
 
-	//Check if any children contain the bO
+	if (v3MinG.x < m_v3Position.x - m_fSize)
+	{
+		return false;
+	}
+	if (v3MaxG.x > m_v3Position.x + m_fSize)
+	{
+		return false;
+	}
+
+	if (v3MinG.y < m_v3Position.y - m_fSize)
+	{
+		return false;
+	}
+	if (v3MaxG.y > m_v3Position.y + m_fSize)
+	{
+		return false;
+	}
+
+	if (v3MinG.z < m_v3Position.y - m_fSize)
+	{
+		return false;
+	}
+	if (v3MaxG.z > m_v3Position.y + m_fSize)
+	{
+		return false;
+	}
+
+	if (m_nChildCount <= 0)
+	{
+		Subdivide();
+	}
+
+	bool childrenContainBO = false;
 	if (m_nChildCount > 0)
 	{
 		for (int i = 0; i < m_nChildCount; i++)
@@ -129,42 +162,10 @@ bool MyOctant::Populate(MyBOClass* bO)
 	{
 		return true;
 	}
-	else
-	{
-		vector3 v3MinG = bO->GetMinG();
-		vector3 v3MaxG = bO->GetMaxG();
 
-		if (v3MinG.x < m_v3Position.x - m_fSize)
-		{
-			return false;
-		}
-		if (v3MaxG.x > m_v3Position.x + m_fSize)
-		{
-			return false;
-		}
+	m_lObjects.push_back(bO);
 
-		if (v3MinG.y < m_v3Position.y - m_fSize)
-		{
-			return false;
-		}
-		if (v3MaxG.y > m_v3Position.y + m_fSize)
-		{
-			return false;
-		}
-
-		if (v3MinG.z < m_v3Position.y - m_fSize)
-		{
-			return false;
-		}
-		if (v3MaxG.z > m_v3Position.y + m_fSize)
-		{
-			return false;
-		}
-
-		m_lObjects.push_back(bO);
-
-		return true;
-	}
+	return true;
 }
 
 void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
@@ -206,6 +207,7 @@ void MyOctant::Subdivide(void)
 	float fNewSize = this->m_fSize / 2;
 	for (uint index = 0; index < 8; index++)
 	{
+		m_pChildren[index].level = level + 1;
 		m_pChildren[index].m_fSize = fNewSize;
 		m_pChildren[index].m_v3Position = m_v3Position;
 	}

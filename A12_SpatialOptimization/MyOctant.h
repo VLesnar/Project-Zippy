@@ -12,6 +12,7 @@ Date: 2015/06
 class MyOctant
 {
 	int m_nChildCount = 0;
+	int level = 0;
 	vector3 m_v3Position;
 	float m_fSize = 0.0f;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
