@@ -77,7 +77,7 @@ void MyBoundingObjectManager::RemoveBO(MyBoundingObjectClass* iBO)
 	{
 		if (boundingObjects[i] == iBO)
 		{
-			//boundingObjects.erase(boundingObjects.begin + i);	//This breaks stuff
+			boundingObjects.erase(boundingObjects.begin() + i);
 		}
 	}
 }
