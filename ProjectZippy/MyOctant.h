@@ -11,6 +11,7 @@ Date: 2015/06
 //System Class
 class MyOctant
 {
+	int level = 0;
 	int m_nChildCount = 0;
 	vector3 m_v3Position;
 	float m_fSize = 0.0f;

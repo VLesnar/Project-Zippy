@@ -5,6 +5,7 @@ using namespace ReEng;
 bool MyOctant::m_bHead = true;
 void MyOctant::Init(void)
 {
+	level = 0;
 	m_v3Position = vector3(0.0f);
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_fSize = 0.0f;
@@ -13,41 +14,8 @@ void MyOctant::Init(void)
 
 	if (m_bHead)
 	{
-		int nObjectCont = m_pBOMngr->GetBOCount();
-		vector3 v3MinG = m_pBOMngr->GetBO(0)->GetMinG();
-		vector3 v3MaxG = m_pBOMngr->GetBO(0)->GetMaxG();
-		for (uint i = 1; i < nObjectCont; i++)
-		{
-			vector3 v3Min = m_pBOMngr->GetBO(i)->GetMinG();
-			vector3 v3Max = m_pBOMngr->GetBO(i)->GetMaxG();
-			//for x
-			if (v3MinG.x > v3Min.x)
-				v3MinG.x = v3Min.x;
-			else if (v3MaxG.x < v3Max.x)
-				v3MaxG.x = v3Max.x;
-
-			//for y
-			if (v3MinG.y > v3Min.y)
-				v3MinG.y = v3Min.y;
-			else if (v3MaxG.y < v3Max.y)
-				v3MaxG.y = v3Max.y;
-
-			//for z
-			if (v3MinG.z > v3Min.z)
-				v3MinG.z = v3Min.z;
-			else if (v3MaxG.z < v3Max.z)
-				v3MaxG.z = v3Max.z;
-		}
-		m_v3Position = (v3MaxG + v3MinG) / 2.0f;
-		float fSizeX = glm::distance(vector3(v3MinG.x, 0, 0), vector3(v3MaxG.x, 0, 0));
-		float fSizeY = glm::distance(vector3(0, v3MinG.y, 0), vector3(0, v3MaxG.y, 0));
-		float fSizeZ = glm::distance(vector3(0, 0, v3MinG.z), vector3(0, 0, v3MaxG.z));
-
-		m_fSize = fSizeX;
-		if (m_fSize < fSizeY)
-			m_fSize = fSizeY;
-		if (m_fSize < fSizeZ)
-			m_fSize = fSizeZ;
+		m_fSize = 98;
+		m_v3Position = vector3(0, 24.5, 0);
 	}
 }
 void MyOctant::Swap(MyOctant& other)
@@ -97,7 +65,7 @@ void MyOctant::InitiatePopulation()
 {
 	ReleaseChildren();	//BE FREE MY CHILDREN!
 
-						//For each object, populate the octree with it.
+	//For each object, populate the octree with it.
 	int nObjectCont = m_pBOMngr->GetBOCount();
 	for (int i = 0; i < nObjectCont; i++)
 	{
@@ -123,8 +91,8 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 	vector3 v3MinG = bO->GetMinG();	//Minimum vector of the bO	
 	vector3 v3MaxG = bO->GetMaxG();	//Maximum vector of the bO
 
-									//Check if bO is completely within the octant. Return false if it isn't.
-									//X-check
+	//Check if bO is completely within the octant. Return false if it isn't.
+	//X-check
 	if (v3MinG.x < m_v3Position.x - m_fSize / 2)
 	{
 		return false;
@@ -283,6 +251,7 @@ void MyOctant::Subdivide(void)
 	float fNewSize = this->m_fSize / 2;
 	for (uint index = 0; index < 8; index++)
 	{
+		m_pChildren[index].level = level + 1;
 		m_pChildren[index].m_fSize = fNewSize;
 		m_pChildren[index].m_v3Position = m_v3Position;
 	}

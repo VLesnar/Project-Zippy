@@ -5,7 +5,7 @@ class Player : public GameObject
 {
 private:
 	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();
-	float speed = 10.0f;
+	float speed = 100.0f;
 public:
 	Player() : GameObject(
 		"player",

@@ -17,6 +17,7 @@ Application: Project Zippy
 #include "MyBoundingObjectManager.h"
 #include "EnvironmentManager.h"
 #include "Player.h"
+#include "MyOctant.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
@@ -31,6 +32,7 @@ class AppClass : public ReEngAppClass
 	MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();
 	EnvironmentManager* GOMngr = EnvironmentManager::GetInstance();
 	Player* player = nullptr;
+	MyOctant* mainOctant = nullptr;
 
 	int updateRelianceDelay = 120;	//Number of frames before app uses system FPS for dt instead of LapClock
 	int updateRelianceCounter = 0;	//Counter for those frames

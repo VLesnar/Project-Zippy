@@ -164,6 +164,9 @@ void AppClass::InitVariables(void)
 		"core",
 		glm::translate(vector3(0.0f, 2.5f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)));
 
+	mainOctant = new MyOctant();
+	mainOctant->InitiatePopulation();
+
 	state = GameState::start;
 }
 
@@ -245,6 +248,7 @@ void AppClass::Update(void)
 		ArcBall();
 		Bullet->Render();
 		GOMngr->Render();
+		mainOctant->Display();
 
 		//timer for bullets
 		bulletTimer += fTimeSpan;
@@ -255,9 +259,10 @@ void AppClass::Update(void)
 		spawner3->Update(fTimeSpan);
 		spawner4->Update(fTimeSpan);
 
-		player->MovePhysics(fTimeSpan);
-		BOMngr->CheckColissions();
-		BOMngr->Render();
+		//player->MovePhysics(fTimeSpan);
+		//BOMngr->CheckColissions();
+		//BOMngr->Render();
+		
 		//Indicate the FPS
 		int nFPS = 1.0 / fTimeSpan;
 
