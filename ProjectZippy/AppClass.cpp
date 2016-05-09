@@ -165,7 +165,7 @@ void AppClass::InitVariables(void)
 		glm::translate(vector3(0.0f, 2.5f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)));
 
 	mainOctant = new MyOctant();
-	mainOctant->InitiatePopulation();
+	//mainOctant->InitiatePopulation();
 
 	state = GameState::start;
 }
@@ -258,6 +258,10 @@ void AppClass::Update(void)
 		spawner2->Update(fTimeSpan);
 		spawner3->Update(fTimeSpan);
 		spawner4->Update(fTimeSpan);
+
+		mainOctant->Remove(player->GetBO());
+		mainOctant->Clear();
+		mainOctant->Populate(player->GetBO());
 
 		player->MovePhysics(fTimeSpan);
 		BOMngr->CheckColissions();

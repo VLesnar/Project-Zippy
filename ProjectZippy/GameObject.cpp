@@ -6,6 +6,7 @@ GameObject::GameObject(std::string objectName, std::string modelName, std::strin
 	name = objectName;
 	m_pMeshMngr->LoadModel(modelName, objectName);
 	BOMngr->SetBO(m_pMeshMngr->GetVertexList(objectName), objectName, colID, this);
+	//BO = BOMngr->GetBO()
 	SetModelMatrix(intransform);
 
 	acc = vector3(0, 0, 0);
@@ -30,6 +31,11 @@ GameObject::~GameObject()
 	delete BO;
 	BOMngr->ReleaseInstance();
 	m_pMeshMngr->ReleaseInstance();
+}
+
+MyBoundingObjectClass* GameObject::GetBO()
+{
+	return BO;
 }
 
 //Set the matrix of the object and its components
