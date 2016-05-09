@@ -26,8 +26,6 @@ void Enemy::move(double fTimeSpan)
 	vector3 v3lerp = glm::lerp(pos, vector3(0,1,0), flerp);
 	GameObject::SetModelMatrix(glm::translate(v3lerp));
 
-	std::cout << "MOVE" << std::endl;
-
 	/*
 	meshManager->SetModelMatrix(glm::translate(v3lerp), name);
 	BOMngr->SetModelMatrix(name, meshManager->GetModelMatrix(name));*/
