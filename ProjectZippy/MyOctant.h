@@ -68,6 +68,10 @@ public:
 
 	bool Populate(MyBoundingObjectClass* bO);
 
+	bool Remove(MyBoundingObjectClass * bO);
+
+	void Clear();
+
 	void CheckCollisions(std::vector<MyBoundingObjectClass*> bOs);
 
 	void Subdivide(void);

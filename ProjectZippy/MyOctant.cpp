@@ -182,7 +182,7 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 		return true;
 	}
 
-	//If no children contain any bOs, return false
+	//If no children contain any bOs, clear all children
 	if (!childrenContainBOAny)
 	{
 		m_pChildren = nullptr;
@@ -192,6 +192,36 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 	//Add the bO to this and return true
 	m_lObjects.push_back(bO);
 	return true;
+}
+
+//Remove a bO from the octant.
+bool MyOctant::Remove(MyBoundingObjectClass* bO)
+{
+	uint objectCount = m_lObjects.size();
+	for (int i = 0; i < objectCount; i++)
+	{
+		if (bO == m_lObjects[i])
+		{
+			m_lObjects.erase(m_lObjects.begin + 1);
+			return true;
+		}
+	}
+
+	for (int i = 0; i < m_nChildCount; i++)
+	{
+		if (m_pChildren[i].Remove(bO))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//Clear the octant of unused children
+void MyOctant::Clear()
+{
+
 }
 
 //Check collisions within the octant and child octants.
