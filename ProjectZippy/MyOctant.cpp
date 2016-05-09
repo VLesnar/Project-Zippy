@@ -290,6 +290,7 @@ void MyOctant::ReleaseChildren(void)
 	{
 		delete[] m_pChildren;
 		m_pChildren = nullptr;
+		m_nChildCount = 0;
 	}
 }
 
