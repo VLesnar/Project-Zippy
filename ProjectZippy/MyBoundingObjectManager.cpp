@@ -103,6 +103,14 @@ void MyBoundingObjectManager::Render()
 	}
 }
 
+MyBoundingObjectClass* MyBoundingObjectManager::GetBO(uint a_nIndex)
+{
+	if (a_nIndex < GetBOCount())
+		return boundingObjects[a_nIndex];
+
+	return nullptr;
+}
+
 void MyBoundingObjectManager::CheckColissions()
 {
 	for (int i = 0; i < BOnum; i++)

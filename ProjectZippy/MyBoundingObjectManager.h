@@ -56,13 +56,14 @@ public:
 
 	//render all bounding objects
 	void Render();
+
+	MyBoundingObjectClass * GetBO(uint a_nIndex);
 	
 	//render a specific bounding object
 	void Render(MyBoundingObjectClass* iBO);
 	void Render(std::string iname);
 
 	//returns a bounding object when given a name
-	BoundingObjectClass* GetBO(std::string iname) { }
 
 	void CheckColissions();
 	void CheckSingleCollision(MyBoundingObjectClass * obj1, MyBoundingObjectClass * obj2);

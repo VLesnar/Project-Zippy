@@ -71,6 +71,7 @@ public:
 	void CheckCollisions(std::vector<MyBoundingObjectClass*> bOs);
 
 	void Subdivide(void);
+
 	void ReleaseChildren(void);
 
 private:
