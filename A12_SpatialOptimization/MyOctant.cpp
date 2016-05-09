@@ -85,7 +85,8 @@ void MyOctant::Display(void)
 	{
 		m_pChildren[n].Display();
 	}
-	m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
+
+		m_pMeshMngr->AddCubeToRenderList(glm::translate(m_v3Position) * glm::scale(vector3(m_fSize)), REWHITE, WIRE);
 }
 
 void MyOctant::InitiatePopulation()
@@ -110,61 +111,72 @@ void MyOctant::PrintPopulation()
 
 bool MyOctant::Populate(MyBOClass* bO)
 {
-	vector3 v3MinG = bO->GetMinG();
-	vector3 v3MaxG = bO->GetMaxG();
+	vector3 v3MinG = bO->GetMinG();	//Minimum vector of the bO	
+	vector3 v3MaxG = bO->GetMaxG();	//Maximum vector of the bO
 
-	if (v3MinG.x < m_v3Position.x - m_fSize)
+	//Check if bO is completely within the octant. Return false if it isn't.
+	if (v3MinG.x < m_v3Position.x - m_fSize / 2)
 	{
 		return false;
 	}
-	if (v3MaxG.x > m_v3Position.x + m_fSize)
-	{
-		return false;
-	}
-
-	if (v3MinG.y < m_v3Position.y - m_fSize)
-	{
-		return false;
-	}
-	if (v3MaxG.y > m_v3Position.y + m_fSize)
+	if (v3MaxG.x > m_v3Position.x + m_fSize / 2)
 	{
 		return false;
 	}
 
-	if (v3MinG.z < m_v3Position.y - m_fSize)
+	if (v3MinG.y < m_v3Position.y - m_fSize / 2)
 	{
 		return false;
 	}
-	if (v3MaxG.z > m_v3Position.y + m_fSize)
+	if (v3MaxG.y > m_v3Position.y + m_fSize / 2)
 	{
 		return false;
 	}
 
-	if (m_nChildCount <= 0)
+	if (v3MinG.z < m_v3Position.z - m_fSize / 2)
+	{
+		return false;
+	}
+	if (v3MaxG.z > m_v3Position.z + m_fSize / 2)
+	{
+		return false;
+	}
+
+	//If the bO is in the octant and the octant isn't subdivided subdivide the octant.
+	if (m_nChildCount == 0)
 	{
 		Subdivide();
 	}
 
-	bool childrenContainBO = false;
-	if (m_nChildCount > 0)
+	//Check if children contain the bO
+	bool childrenContainBOThis = false;
+	bool childrenContainBOAny = false;
+	for (int i = 0; i < m_nChildCount; i++)
 	{
-		for (int i = 0; i < m_nChildCount; i++)
+		if (m_pChildren[i].Populate(bO))
 		{
-			if (m_pChildren[i].Populate(bO))
-			{
-				childrenContainBO = true;
-				break;
-			}
+			childrenContainBOThis = true;
+			break;
+		}
+		if (m_pChildren[i].m_lObjects.size() != 0)
+		{
+			childrenContainBOAny = true;
 		}
 	}
 
-	if (childrenContainBO)
+	//If any of the children contain the bO, this doesn't, so return true;
+	if (childrenContainBOThis)
 	{
 		return true;
 	}
+	if (!childrenContainBOAny)
+	{
+		m_pChildren = nullptr;
+		m_nChildCount = 0;
+	}
 
+	//Add the bO to this and return true
 	m_lObjects.push_back(bO);
-
 	return true;
 }
 
