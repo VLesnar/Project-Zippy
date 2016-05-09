@@ -165,6 +165,7 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyBoundingObjectClass.cpp" />
     <ClCompile Include="MyBoundingObjectManager.cpp" />
+    <ClCompile Include="MyOctant.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
@@ -176,6 +177,7 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameWorldManager.h" />
     <ClInclude Include="EnvironmentManager.h" />
+    <ClInclude Include="MyOctant.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MyBoundingObjectClass.h" />
     <ClInclude Include="MyBoundingObjectManager.h" />

@@ -111,88 +111,93 @@ void MyBoundingObjectManager::CheckColissions()
 		{
 			if (boundingObjects[i]->GetColID() != boundingObjects[j]->GetColID())
 			{
-				if (
-					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "wall") ||
-					(boundingObjects[i]->GetColID() == "wall" && boundingObjects[j]->GetColID() == "play"))
-				{
-					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
-					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "wall" ? boundingObjects[i] : boundingObjects[j];
-
-					if (bOWall->IsCollidingABB(bOPlay))
-					{
-						if (bOWall->IsCollidingSOB(bOPlay))
-						{
-							bOWall->SetColor(RERED);
-						}
-						else
-						{
-							bOWall->SetColor(REGREEN);
-						}
-					}
-					else
-					{
-						bOWall->SetColor(REGREEN);
-					}
-				}
-				
-				else if (
-					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "core") ||
-					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "play"))
-				{
-					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
-					MyBoundingObjectClass* bOWall = boundingObjects[i]->GetColID() == "core" ? boundingObjects[i] : boundingObjects[j];
-
-					if (bOWall->IsCollidingABB(bOPlay))
-					{
-						if (bOWall->IsCollidingSOB(bOPlay))
-						{
-							bOWall->SetColor(RERED);
-						}
-						else
-						{
-							bOWall->SetColor(REGREEN);
-						}
-					}
-					else
-					{
-						bOWall->SetColor(REGREEN);
-					}
-				}
-
-				else if (
-					(boundingObjects[i]->GetColID() == "play" && boundingObjects[j]->GetColID() == "enem") ||
-					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "play"))
-				{
-					MyBoundingObjectClass* bOPlay = boundingObjects[i]->GetColID() == "play" ? boundingObjects[i] : boundingObjects[j];
-					MyBoundingObjectClass* bOEnem = boundingObjects[i]->GetColID() == "enem" ? boundingObjects[i] : boundingObjects[j];
-
-					if (bOEnem->IsCollidingABB(bOPlay))
-					{
-						if (bOEnem->IsCollidingSOB(bOPlay))
-						{
-							bOEnem->SetColor(RERED);
-						}
-						else
-						{
-							bOEnem->SetColor(REGREEN);
-						}
-					}
-					else
-					{
-						bOEnem->SetColor(REGREEN);
-					}
-				}
-
-				else if (
-					(boundingObjects[i]->GetColID() == "enem" && boundingObjects[j]->GetColID() == "core") ||
-					(boundingObjects[i]->GetColID() == "core" && boundingObjects[j]->GetColID() == "enem"))
-				{
-					if (boundingObjects[i]->IsCollidingABB(boundingObjects[j]))
-					{
-						coreHealth -= 1;
-					}
-				}
+				CheckSingleCollision(boundingObjects[i], boundingObjects[j]);
 			}
 		}	
+	}
+}
+
+void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, MyBoundingObjectClass* obj2)
+{
+	if (
+		(obj1->GetColID() == "play" && obj2->GetColID() == "wall") ||
+		(obj1->GetColID() == "wall" && obj2->GetColID() == "play"))
+	{
+		MyBoundingObjectClass* bOPlay = obj1->GetColID() == "play" ? obj1 : obj2;
+		MyBoundingObjectClass* bOWall = obj1->GetColID() == "wall" ? obj1 : obj2;
+
+		if (bOWall->IsCollidingABB(bOPlay))
+		{
+			if (bOWall->IsCollidingSOB(bOPlay))
+			{
+				bOWall->SetColor(RERED);
+			}
+			else
+			{
+				bOWall->SetColor(REGREEN);
+			}
+		}
+		else
+		{
+			bOWall->SetColor(REGREEN);
+		}
+	}
+
+	else if (
+		(obj1->GetColID() == "play" && obj2->GetColID() == "core") ||
+		(obj1->GetColID() == "core" && obj2->GetColID() == "play"))
+	{
+		MyBoundingObjectClass* bOPlay = obj1->GetColID() == "play" ? obj1 : obj2;
+		MyBoundingObjectClass* bOWall = obj1->GetColID() == "core" ? obj1 : obj2;
+
+		if (bOWall->IsCollidingABB(bOPlay))
+		{
+			if (bOWall->IsCollidingSOB(bOPlay))
+			{
+				bOWall->SetColor(RERED);
+			}
+			else
+			{
+				bOWall->SetColor(REGREEN);
+			}
+		}
+		else
+		{
+			bOWall->SetColor(REGREEN);
+		}
+	}
+
+	else if (
+		(obj1->GetColID() == "play" && obj2->GetColID() == "enem") ||
+		(obj1->GetColID() == "enem" && obj2->GetColID() == "play"))
+	{
+		MyBoundingObjectClass* bOPlay = obj1->GetColID() == "play" ? obj1 : obj2;
+		MyBoundingObjectClass* bOEnem = obj1->GetColID() == "enem" ? obj1 : obj2;
+
+		if (bOEnem->IsCollidingABB(bOPlay))
+		{
+			if (bOEnem->IsCollidingSOB(bOPlay))
+			{
+				bOEnem->SetColor(RERED);
+			}
+			else
+			{
+				bOEnem->SetColor(REGREEN);
+			}
+		}
+		else
+		{
+			bOEnem->SetColor(REGREEN);
+		}
+	}
+
+	else if (
+		(obj1->GetColID() == "enem" && obj2->GetColID() == "core") ||
+		(obj1->GetColID() == "core" && obj2->GetColID() == "enem"))
+	{
+		if (obj1->IsCollidingABB(obj2))
+		{
+			coreHealth -= 1;
+		}
 	}
 }

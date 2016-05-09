@@ -9,17 +9,17 @@ void MyOctant::Init(void)
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_fSize = 0.0f;
 	m_nChildCount = 0;
-	m_pBOMngr = MyBOManager::GetInstance();
+	m_pBOMngr = MyBoundingObjectManager::GetInstance();
 
 	if (m_bHead)
 	{
-		int nObjectCont = m_pBOMngr->GetObjectCount();
-		vector3 v3MinG = m_pBOMngr->GetBoundingObject(0)->GetMinG();
-		vector3 v3MaxG = m_pBOMngr->GetBoundingObject(0)->GetMaxG();
+		int nObjectCont = m_pBOMngr->GetBOCount();
+		vector3 v3MinG = m_pBOMngr->boundingObjects[0]->GetMinG();
+		vector3 v3MaxG = m_pBOMngr->boundingObjects[0]->GetMaxG();
 		for (uint i = 1; i < nObjectCont; i++)
 		{
-			vector3 v3Min = m_pBOMngr->GetBoundingObject(i)->GetMinG();
-			vector3 v3Max = m_pBOMngr->GetBoundingObject(i)->GetMaxG();
+			vector3 v3Min = m_pBOMngr->boundingObjects[i]->GetMinG();
+			vector3 v3Max = m_pBOMngr->boundingObjects[i]->GetMaxG();
 			//for x
 			if (v3MinG.x > v3Min.x)
 				v3MinG.x = v3Min.x;
@@ -89,10 +89,10 @@ void MyOctant::Display(void)
 
 void MyOctant::InitiatePopulation()
 {
-	int nObjectCont = m_pBOMngr->GetObjectCount();
+	int nObjectCont = m_pBOMngr->GetBOCount();
 	for (int i = 0; i < nObjectCont; i++)
 	{
-		Populate(m_pBOMngr->GetBoundingObject(i));
+		Populate(m_pBOMngr->boundingObjects[i]);
 	}
 }
 
@@ -108,7 +108,7 @@ void MyOctant::PrintPopulation()
 	}
 }
 
-bool MyOctant::Populate(MyBOClass* bO)
+bool MyOctant::Populate(MyBoundingObjectClass* bO)
 {
 	bool childrenContainBO = false;
 
@@ -167,7 +167,7 @@ bool MyOctant::Populate(MyBOClass* bO)
 	}
 }
 
-void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
+void MyOctant::CheckCollisions(std::vector<MyBoundingObjectClass*> bOs)
 {
 	//Internal collision
 	int selfCount = m_lObjects.size();
@@ -176,7 +176,7 @@ void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 		for (int i = j; i < selfCount; i++)
 		{
 			if (j != i)
-				m_pBOMngr->CheckOctreeCollisions(m_lObjects[j], m_lObjects[i]);
+				m_pBOMngr->CheckSingleCollision(m_lObjects[j], m_lObjects[i]);
 		}
 	}
 
@@ -186,11 +186,11 @@ void MyOctant::CheckCollisions(std::vector<MyBOClass*> bOs)
 	{
 		for (int i = j; i < selfCount; i++)
 		{
-			m_pBOMngr->CheckOctreeCollisions(bOs[j], m_lObjects[i]);
+			m_pBOMngr->CheckSingleCollision(bOs[j], m_lObjects[i]);
 		}
 	}
 
-	std::vector<MyBOClass*> combined = bOs;
+	std::vector<MyBoundingObjectClass*> combined = bOs;
 	combined.insert(combined.end(), m_lObjects.begin(), m_lObjects.end());
 	for (int i = 0; i < m_nChildCount; i++)
 	{

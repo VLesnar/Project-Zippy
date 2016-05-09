@@ -65,6 +65,7 @@ public:
 	BoundingObjectClass* GetBO(std::string iname) { }
 
 	void CheckColissions();
+	void CheckSingleCollision(MyBoundingObjectClass * obj1, MyBoundingObjectClass * obj2);
 };
 #endif
 

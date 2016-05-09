@@ -52,6 +52,8 @@ public:
 	float GetRadius(void);	// Gets the object's radius
 	vector3 GetSize(void);	// Gets the object's bounding box's size
 	vector3 GetChangingSize(void);	// Gets the object's axis-aligned bounding box's size
+	vector3 GetMaxG(void);
+	vector3 GetMinG(void);
 	void SetChangingCubeSize(void);	// Changes the size of the axis-aligned bounding box
 	matrix4 GetModelMatrix(void);	// Gets the object's matrix
 	void SetModelMatrix(matrix4 a_m4ToWorld);	// Sets the object's matrix

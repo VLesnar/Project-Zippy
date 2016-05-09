@@ -6,7 +6,7 @@ Date: 2015/06
 #define __MyOctant_H_
 
 #include "RE\ReEng.h"
-#include "MyBOManager.h"
+#include "MyBoundingObjectManager.h"
 
 //System Class
 class MyOctant
@@ -15,8 +15,8 @@ class MyOctant
 	vector3 m_v3Position;
 	float m_fSize = 0.0f;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
-	MyBOManager* m_pBOMngr = nullptr;
-	std::vector<MyBOClass*> m_lObjects;
+	MyBoundingObjectManager* m_pBOMngr = nullptr;
+	std::vector<MyBoundingObjectClass*> m_lObjects;
 
 public:
 	static bool m_bHead;
@@ -66,9 +66,9 @@ public:
 
 	void PrintPopulation();
 
-	bool Populate(MyBOClass* bO);
+	bool Populate(MyBoundingObjectClass* bO);
 
-	void CheckCollisions(std::vector<MyBOClass*> bOs);
+	void CheckCollisions(std::vector<MyBoundingObjectClass*> bOs);
 
 	void Subdivide(void);
 	void ReleaseChildren(void);

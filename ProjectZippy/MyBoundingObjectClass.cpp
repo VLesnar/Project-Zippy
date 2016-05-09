@@ -215,6 +215,16 @@ vector3 MyBoundingObjectClass::GetChangingSize()
 	return m_v3ChangingSize;
 }
 
+vector3 MyBoundingObjectClass::GetMaxG(void)
+{
+	return m_v3MaxG;
+}
+
+vector3 MyBoundingObjectClass::GetMinG(void)
+{
+	return m_v3MinG;
+}
+
 // Changes the size of the axis-aligned bounding box
 void MyBoundingObjectClass::SetChangingCubeSize()
 {
