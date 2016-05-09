@@ -219,9 +219,25 @@ bool MyOctant::Remove(MyBoundingObjectClass* bO)
 }
 
 //Clear the octant of unused children
-void MyOctant::Clear()
+bool MyOctant::Clear()
 {
+	//Recursively check if children have bOs and clear them.
+	for (int i = 0; i < m_nChildCount; i++)
+	{
+		if (!m_pChildren[i].Clear())
+		{
+			return false;	//Return false if there's still a bO
+		}
+	}
 
+	//Children have been checked, so if this is empty, remove its children and return true
+	if (m_lObjects.size() == 0)
+	{
+		ReleaseChildren();
+		return true;
+	}
+
+	return false;
 }
 
 //Check collisions within the octant and child octants.

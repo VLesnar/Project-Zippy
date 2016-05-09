@@ -70,7 +70,7 @@ public:
 
 	bool Remove(MyBoundingObjectClass * bO);
 
-	void Clear();
+	bool Clear();
 
 	void CheckCollisions(std::vector<MyBoundingObjectClass*> bOs);
 
