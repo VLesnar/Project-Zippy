@@ -165,7 +165,7 @@ void AppClass::InitVariables(void)
 		glm::translate(vector3(0.0f, 2.5f, 0.0f)) * glm::scale(vector3(3.0f, 3.0f, 3.0f)));
 
 	mainOctant = new MyOctant();
-	//mainOctant->InitiatePopulation();
+	mainOctant->InitiatePopulation();
 
 	state = GameState::start;
 }
@@ -264,8 +264,10 @@ void AppClass::Update(void)
 		mainOctant->Populate(player->GetBO());
 
 		player->MovePhysics(fTimeSpan);
-		BOMngr->CheckColissions();
+		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
+		//BOMngr->CheckColissions();
 		BOMngr->Render();
+		mainOctant->PrintPopulation();
 		
 		//Indicate the FPS
 		int nFPS = 1.0 / fTimeSpan;

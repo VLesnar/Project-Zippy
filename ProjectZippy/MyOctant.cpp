@@ -78,6 +78,8 @@ void MyOctant::PrintPopulation()
 {
 	if (m_nChildCount > 0)
 	{
+		std::cout << m_lObjects.size() << std::endl;
+
 		for (int i = 0; i < m_nChildCount; i++)
 		{
 			m_pChildren[i].PrintPopulation();
@@ -198,10 +200,11 @@ bool MyOctant::Clear()
 		}
 	}
 
-	//Children have been checked, so if this is empty, remove its children and return true
+	ReleaseChildren();
+
+	//Return true if there's no bO here.
 	if (m_lObjects.size() == 0)
 	{
-		ReleaseChildren();
 		return true;
 	}
 
