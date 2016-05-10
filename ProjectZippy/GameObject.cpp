@@ -6,7 +6,7 @@ GameObject::GameObject(std::string objectName, std::string modelName, std::strin
 	name = objectName;
 	m_pMeshMngr->LoadModel(modelName, objectName);
 	BOMngr->SetBO(m_pMeshMngr->GetVertexList(objectName), objectName, colID, this);
-	//BO = BOMngr->GetBO()
+	BO = BOMngr->GetBO(BOMngr->GetBOCount() - 1);
 	SetModelMatrix(intransform);
 
 	acc = vector3(0, 0, 0);
@@ -18,6 +18,7 @@ GameObject::GameObject(std::string objectName, float radius, std::string colID, 
 {
 	name = objectName;
 	BOMngr->SetBO(radius, objectName, colID, this);
+	BO = BOMngr->GetBO(BOMngr->GetBOCount() - 1);
 	SetModelMatrix(intransform);
 
 	acc = inAcc;
