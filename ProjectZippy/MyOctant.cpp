@@ -132,7 +132,6 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 
 	//Check if any children contain the current bO or any bO
 	bool childrenContainBOThis = false;		//If a child contains this bO
-	bool childrenContainBOAny = false;		//If a child contains any bO
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (m_pChildren[i].Populate(bO))
@@ -140,23 +139,12 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 			childrenContainBOThis = true;
 			break;
 		}
-		if (m_pChildren[i].m_lObjects.size() != 0)
-		{
-			childrenContainBOAny = true;
-		}
 	}
 
 	//If any of the children contain the bO, this doesn't, so return true;
 	if (childrenContainBOThis)
 	{
 		return true;
-	}
-
-	//If no children contain any bOs, clear all children
-	if (!childrenContainBOAny)
-	{
-		m_pChildren = nullptr;
-		m_nChildCount = 0;
 	}
 
 	//Add the bO to this and return true
@@ -192,13 +180,17 @@ bool MyOctant::Remove(MyBoundingObjectClass* bO)
 bool MyOctant::Clear()
 {
 	//Recursively check if children have bOs and clear them.
+	bool fun = true;
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (!m_pChildren[i].Clear())
 		{
-			return false;	//Return false if there's still a bO
+			fun = false;	//Return false if there's still a bO
 		}
 	}
+
+	if (!fun)
+		return false;
 
 	ReleaseChildren();
 
@@ -229,7 +221,7 @@ void MyOctant::CheckCollisions(std::vector<MyBoundingObjectClass*> bOs)
 	int otherCount = bOs.size();
 	for (int j = 0; j < otherCount; j++)
 	{
-		for (int i = j; i < selfCount; i++)
+		for (int i = 0; i < selfCount; i++)
 		{
 			m_pBOMngr->CheckSingleCollision(bOs[j], m_lObjects[i]);
 		}
