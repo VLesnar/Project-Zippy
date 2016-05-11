@@ -266,6 +266,10 @@ void AppClass::Update(void)
 		mainOctant->Clear();
 		mainOctant->Populate(player->GetBO());
 
+		mainOctant->Remove(BOMngr->GetBO("Bullet"));
+		mainOctant->Clear();
+		mainOctant->Populate(BOMngr->GetBO("Bullet"));
+
 		player->MovePhysics(fTimeSpan);
 		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
 		//BOMngr->CheckColissions();
