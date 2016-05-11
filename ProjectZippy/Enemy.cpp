@@ -28,7 +28,7 @@ void Enemy::move(double fTimeSpan)
 	/*
 	meshManager->SetModelMatrix(glm::translate(v3lerp), name);
 	BOMngr->SetModelMatrix(name, meshManager->GetModelMatrix(name));*/
-	Render();
+	GameObject::Render();
 	
 
 }
@@ -36,7 +36,7 @@ void Enemy::move(double fTimeSpan)
 void Enemy::Update(double fTimeSpan)
 {
 	
-	if (isAlive)
+	if (visibility)
 	{
 		move(fTimeSpan);
 		//if its has no health make it dead and remove it from the bounding object vector
@@ -44,10 +44,7 @@ void Enemy::Update(double fTimeSpan)
 	}
 }
 
-void Enemy::Die() {
-	isAlive = false;
-	BOMngr->RemoveBO(BO);
-}
+
 
 void Enemy::spawn(vector3 ipos, float rot)
 {
@@ -55,16 +52,8 @@ void Enemy::spawn(vector3 ipos, float rot)
 	fRunTime = 0;
 	pos = ipos;
 	pos.y = 1;
-	isAlive = true;
+	visibility = true;
+	BO->setCollisions(true);
 }
 
-void Enemy::Render() 
-{
-	//meshManager->AddCubeToRenderList(glm::translate(pos), REBLUE, SOLID);
-	//meshManager->AddInstanceToRenderList(name);
-	if (isAlive)
-	{
-		GameObject::Render();
-	}
-		
-}
+

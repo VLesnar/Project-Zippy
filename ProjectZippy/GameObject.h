@@ -16,6 +16,7 @@ protected:
 	MyBoundingObjectClass* BO = nullptr;										//Bounding object of the player
 	MyBoundingObjectManager* BOMngr = MyBoundingObjectManager::GetInstance();	//Bom singleton
 	MeshManagerSingleton* m_pMeshMngr = MeshManagerSingleton::GetInstance();	//Mm singleton
+	bool visibility;
 public:
 	GameObject(std::string objectName, std::string modelName, std::string colID, matrix4 intransform);						//Constructor based on model for static objects
 	GameObject(std::string objectName, float radius, std::string colID, matrix4 intransform, vector3 inAcc, vector3 inVel);	//Constructor based on radius and other player properties
@@ -26,6 +27,9 @@ public:
 	void EstablishModelMatrix();				//Move the object's model and BO to match itself
 	void MovePhysics(double dt);				//Move the object based on its acceleration and velocity
 	void HaltVel(vector3 dir);					//Stop the object's velocity, flattening it in a given direction.
+	void setVisibility(bool bvis) { visibility = bvis; }
+	bool getVisibility() { return visibility; }
+	
 	void Render();								//Render the object
 };
 #endif

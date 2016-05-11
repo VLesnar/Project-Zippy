@@ -39,6 +39,7 @@ private:
 	vector3 m_v3MaxG = vector3(0.0f); //Will store the maximum vector of the Object Class
 	vector3 m_v3Corners[8];	// OBB Corners
 	vector3 m_v3NAxis[3];	// OBB axis (x, y, z)
+	bool calcColissions;
 public:
 	void Swap(MyBoundingObjectClass& other);	// Changes the object's contents with another
 	MyBoundingObjectClass(std::vector<vector3> a_lVectorList, std::string iname, std::string incolID, GameObject* inparent);	// Constructor
@@ -62,10 +63,13 @@ public:
 	bool IsCollidingABB(MyBoundingObjectClass * const a_pOther);	// Checks for ABB collision
 	void FlipVisibility(void);	// Flips the visibility of the bounding object
 	void SetVisibility(bool bvis);	//sets the visibility to a specific value
+	void setParentVisibility(bool bvis);
 	vector3 GetColor(void);	// Gets the color of the bounding object
 	void SetColor(vector3 a_v3Color);	// Sets the color of the bounding object
 	void Render(void);	// Renders the bounding object
 	std::string GetName() { return name; }
 	std::string GetColID() { return colID; }
+	void setCollisions(bool bvis) { calcColissions = bvis; }
+	bool getCollisions() { return calcColissions; }
 };
 #endif // __MYBOUNDINGOBJECTCLASS_H_

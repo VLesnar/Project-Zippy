@@ -207,15 +207,42 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 		MyBoundingObjectClass* bOPlay = obj1->GetColID() == "play" ? obj1 : obj2;
 		MyBoundingObjectClass* bOEnem = obj1->GetColID() == "enem" ? obj1 : obj2;
 
-		if (bOEnem->IsCollidingABB(bOPlay))
-		{
-			if (bOEnem->IsCollidingSOB(bOPlay))
+		if (bOEnem->getCollisions()) {
+
+			if (bOEnem->IsCollidingABB(bOPlay))
 			{
-				bOEnem->SetColor(RERED);
+				if (bOEnem->IsCollidingSOB(bOPlay))
+				{
+					bOEnem->SetColor(RERED);
+				}
+				else
+				{
+					bOEnem->SetColor(REGREEN);
+				}
 			}
 			else
 			{
 				bOEnem->SetColor(REGREEN);
+			}
+		}
+	}
+
+	if (
+		(obj1->GetColID() == "Bullet" && obj2->GetColID() == "enem") ||
+		(obj1->GetColID() == "enem" && obj2->GetColID() == "Bullet"))
+	{
+		MyBoundingObjectClass* bObullet = obj1->GetColID() == "Bullet" ? obj1 : obj2;
+		MyBoundingObjectClass* bOEnem = obj1->GetColID() == "enem" ? obj1 : obj2;
+		std::cout << bOEnem->getCollisions() << std::endl;
+		if (bOEnem->getCollisions())
+		{
+			std::cout << "has collision" << std::endl;
+			if (bOEnem->IsCollidingABB(bObullet))
+			{
+				std::cout << "colliding" << std::endl;
+				bOEnem->setParentVisibility(false);
+				bOEnem->SetVisibility(false);
+				bOEnem->setCollisions(false);
 			}
 		}
 		else

@@ -29,10 +29,7 @@ public:
 		rotation = rot;
 		pos = ipos;
 		pos.y = 1;
-		isAlive = true;
 	}
-
-	bool isAlive = false;
 	//Enemy(vector3 ipos);
 	~Enemy();
 	void move(double fTimeSpan);

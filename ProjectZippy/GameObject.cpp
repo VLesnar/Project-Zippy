@@ -9,7 +9,7 @@ GameObject::GameObject(std::string objectName, std::string modelName, std::strin
 	BOMngr->SetBO(m_pMeshMngr->GetVertexList(objectName), objectName, colID, this);
 	BO = BOMngr->GetBO(BOMngr->GetBOCount() - 1);
 	SetModelMatrix(intransform);
-
+	visibility = true;
 	acc = vector3(0, 0, 0);
 	vel = vector3(0, 0, 0);
 }
@@ -82,5 +82,9 @@ void GameObject::HaltVel(vector3 dir)
 //Render the object
 void GameObject::Render()
 {
-	m_pMeshMngr->AddInstanceToRenderList(name);
+	if (visibility)
+	{
+		m_pMeshMngr->AddInstanceToRenderList(name);
+	}
+		
 }

@@ -90,6 +90,9 @@ void MyBoundingObjectClass::SubConstruct(std::vector<vector3> a_lVectorList, std
 
 	// Set color
 	m_v3Color = vector3(1.0f);
+	
+	//bool if colisions should be checked
+	calcColissions = true;
 
 	// Calculate the max, min, center, radius, and size
 	uint nVertexCount = m_vList.size();
@@ -490,6 +493,10 @@ void MyBoundingObjectClass::FlipVisibility()
 void MyBoundingObjectClass::SetVisibility(bool bvis)
 {
 	m_bIsVisible = bvis;
+}
+
+void MyBoundingObjectClass::setParentVisibility(bool bvis) {
+	parent->setVisibility(bvis);
 }
 
 // Gets the color of the bounding object

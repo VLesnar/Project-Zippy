@@ -1,16 +1,24 @@
-﻿  MyBoundingObjectManager.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\myboundingobjectmanager.h(2): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+﻿  GameObject.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\gameobject.h(4): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
+  Player.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\gameobject.h(4): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
+  MyOctant.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\myoctant.h(8): fatal error C1083: Cannot open include file: 'RE\ReEng.h': No such file or directory
+  MyBoundingObjectManager.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\myboundingobjectmanager.h(4): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
   MyBoundingObjectClass.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\myboundingobjectclass.h(10): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\myboundingobjectclass.h(10): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
   Main.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+  GameWorldManager.cpp
+  EnvironmentManager.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\environmentmanager.h(4): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
   EnemyManager.cpp
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\enemymanager.h(3): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
   Enemy.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\enemy.h(2): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
-  Camera.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\camera.h(4): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\enemy.h(3): fatal error C1083: Cannot open include file: 'RE/ReEng.h': No such file or directory
   AppClassControls.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
   AppClass.cpp
-c:\users\steven\desktop\github\project-zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
+\\banner.main.ad.rit.edu\students\sts7613\igmprofile\desktop\zippy\projectzippy\appclass.h(14): fatal error C1083: Cannot open include file: 'RE\ReEngAppClass.h': No such file or directory
   Generating Code...

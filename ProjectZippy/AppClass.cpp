@@ -272,7 +272,8 @@ void AppClass::Update(void)
 		mainOctant->Clear();
 		for (uint i = 0; i < enemies.size(); i++)
 		{
-			mainOctant->Populate(enemies[i]);
+			if(enemies[i]->getCollisions())	//Only add active enemies
+				mainOctant->Populate(enemies[i]);
 		}
 		mainOctant->Populate(player->GetBO());
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));

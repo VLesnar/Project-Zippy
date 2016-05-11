@@ -35,7 +35,7 @@ void EnemyManager::Spawn()
 	else {
 		for (int i = 0; i < numEnemies; i++)
 		{
-			if (enemies[i]->isAlive == false)
+			if (enemies[i]->getVisibility() == false)
 			{
 				enemies[i]->spawn(position, rotation);
 				break; 
