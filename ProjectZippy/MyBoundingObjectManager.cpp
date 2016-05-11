@@ -176,7 +176,7 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 		}
 	}
 
-	if (
+	else if (
 		(obj1->GetColID() == "play" && obj2->GetColID() == "core") ||
 		(obj1->GetColID() == "core" && obj2->GetColID() == "play"))
 	{
@@ -200,7 +200,7 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 		}
 	}
 
-	if (
+	else if (
 		(obj1->GetColID() == "play" && obj2->GetColID() == "enem") ||
 		(obj1->GetColID() == "enem" && obj2->GetColID() == "play"))
 	{
@@ -227,19 +227,16 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 		}
 	}
 
-	if (
+	else if (
 		(obj1->GetColID() == "Bullet" && obj2->GetColID() == "enem") ||
 		(obj1->GetColID() == "enem" && obj2->GetColID() == "Bullet"))
 	{
 		MyBoundingObjectClass* bObullet = obj1->GetColID() == "Bullet" ? obj1 : obj2;
 		MyBoundingObjectClass* bOEnem = obj1->GetColID() == "enem" ? obj1 : obj2;
-		std::cout << bOEnem->getCollisions() << std::endl;
 		if (bOEnem->getCollisions())
 		{
-			std::cout << "has collision" << std::endl;
 			if (bOEnem->IsCollidingABB(bObullet))
 			{
-				std::cout << "colliding" << std::endl;
 				bOEnem->setParentVisibility(false);
 				bOEnem->SetVisibility(false);
 				bOEnem->setCollisions(false);
@@ -251,13 +248,21 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 		}
 	}
 
-	if (
+	else if (
 		(obj1->GetColID() == "enem" && obj2->GetColID() == "core") ||
 		(obj1->GetColID() == "core" && obj2->GetColID() == "enem"))
 	{
-		if (obj1->IsCollidingABB(obj2))
+		MyBoundingObjectClass* bOCore = obj1->GetColID() == "core" ? obj1 : obj2;
+		MyBoundingObjectClass* bOEnem = obj1->GetColID() == "enem" ? obj1 : obj2;
+		if (bOEnem->getCollisions())
 		{
-			//coreHealth -= 1;
+			if (bOEnem->IsCollidingABB(bOCore))
+			{
+				bOEnem->setParentVisibility(false);
+				bOEnem->SetVisibility(false);
+				bOEnem->setCollisions(false);
+				coreHealth -= 1;
+			}
 		}
 	}
 }

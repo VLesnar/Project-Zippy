@@ -12,6 +12,7 @@ void AppClass::InitWindow(String a_sWindowName)
 void AppClass::InitVariables(void)
 {
 	player = new Player();
+	BOMngr->coreHealth = 10;
 
 	//Reset the selection to -1, -1
 	m_selection = std::pair<int, int>(-1, -1);
@@ -223,6 +224,7 @@ void AppClass::Update(void)
 	}
 
 	if (state == GameState::end) {
+		BOMngr->coreHealth = 10;
 		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
 		m_pMeshMngr->PrintLine("", REBLUE);
 		m_pMeshMngr->PrintLine("", REBLUE);
@@ -289,7 +291,8 @@ void AppClass::Update(void)
 
 		//Print info on the screen
 		m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REWHITE);
-		m_pMeshMngr->Print("FPS: " + std::to_string(nFPS), REWHITE);
+		m_pMeshMngr->PrintLine("FPS: " + std::to_string(nFPS), REWHITE);
+		m_pMeshMngr->Print("Core Health: " + std::to_string(BOMngr->coreHealth), REWHITE);
 	}
 
 	// End the game if the player's or the core's health drops to zero

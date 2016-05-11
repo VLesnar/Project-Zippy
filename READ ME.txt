@@ -65,6 +65,12 @@ Steven Siewert: Debug
 
 Project Milestone 4 Contributions, See Above + The following:
 Alex Bronner: Refactoring/Reoptimization, Implemented Player/Physics, Collision Resolution
-Joseph Horsmann:
-Veronica Lesnar:
+Joseph Horsmann: Cleanup, Tweaks/Additions
+Veronica Lesnar: Cleanup, Tweaks/Additions
 Steven Siewert: Shooting/Bullets
+
+Controls:
+	-Spacebar to play game (Play)
+	-P to play/pause (Pause)
+	-X to quit (End)
+	-O to turn on/off octree visibility
