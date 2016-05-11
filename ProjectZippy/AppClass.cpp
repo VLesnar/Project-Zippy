@@ -17,10 +17,10 @@ void AppClass::InitVariables(void)
 	m_selection = std::pair<int, int>(-1, -1);
 
 	//Load a model onto the Mesh manager
-	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f));
-	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f));
-	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
-	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
+	spawner1 = new EnemyManager(vector3(0.0f, 2.0f, -30.0f), 180.0f, 12);
+	spawner2 = new EnemyManager(vector3(0.0f, 2.0f, 30.0f), 0.0f, 8);
+	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f), -90.0f, 4);
+	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f), 90.0f, 0);
 	
 	Bullet = new GameObject(
 		"Bullet",
@@ -278,8 +278,8 @@ void AppClass::Update(void)
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));
 
 		player->MovePhysics(fTimeSpan);
-		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
-		//BOMngr->CheckColissions();
+		//mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
+		BOMngr->CheckColissions();
 		//BOMngr->Render();
 		//mainOctant->PrintPopulation();
 		
