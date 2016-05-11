@@ -191,35 +191,35 @@ void AppClass::Update(void)
 
 	if (state == GameState::start) {
 		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("                       Welcome to Project Zippy.", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("                          Press Space to play.", REBLUE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("                       Welcome to Project Zippy.", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("                          Press Space to play.", REWHITE);
 	}
 
 	if (state == GameState::pause) {
 		m_v4ClearColor = vector4(0.051f, 0.412f, 0.671f, 0.0f);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("                             Game Paused.", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("", REBLUE);
-		m_pMeshMngr->PrintLine("                         Press P to continue.", REBLUE);
-		m_pMeshMngr->PrintLine("                           Press X to quit.", REBLUE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("                             Game Paused.", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("", REWHITE);
+		m_pMeshMngr->PrintLine("                         Press P to continue.", REBLACK);
+		m_pMeshMngr->PrintLine("                           Press X to quit.", REBLACK);
 	}
 
 	if (state == GameState::end) {
@@ -271,8 +271,8 @@ void AppClass::Update(void)
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));
 
 		player->MovePhysics(fTimeSpan);
-		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
-		//BOMngr->CheckColissions();
+		//mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
+		BOMngr->CheckColissions();
 		//BOMngr->Render();
 		//mainOctant->PrintPopulation();
 		
@@ -285,8 +285,8 @@ void AppClass::Update(void)
 	}
 
 	// End the game if the player's or the core's health drops to zero
-	if (BOMngr->playerhealth <= 0 || BOMngr->coreHealth <= 0) {
-		//state = GameState::end;
+	if (BOMngr->playerHealth <= 0 || BOMngr->coreHealth <= 0) {
+		state = GameState::end;
 	}
 }
 

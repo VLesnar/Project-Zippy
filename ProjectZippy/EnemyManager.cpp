@@ -18,7 +18,7 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Render()
 {
-	meshManager->AddSphereToRenderList( glm::translate(position) * glm::scale(vector3(3.0f)), RERED, SOLID);
+	meshManager->AddCubeToRenderList( glm::translate(position) * glm::scale(vector3(3.0f)), vector3(0.1176f, 0.8039f, 0.8392f), SOLID);
 }
 
 void EnemyManager::Spawn() 
