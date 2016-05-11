@@ -119,6 +119,23 @@ MyBoundingObjectClass* MyBoundingObjectManager::GetBO(std::string a_sName) {
 	}
 }
 
+
+
+std::vector<MyBoundingObjectClass*> MyBoundingObjectManager::GetBOsByID(std::string a_id)
+{
+	std::vector<MyBoundingObjectClass*> tempBOs;
+
+	for (uint i = 0; i < boundingObjects.size(); i++)
+	{
+		if (boundingObjects[i]->GetColID() == a_id)
+		{
+			tempBOs.push_back(boundingObjects[i]);
+		}
+	}
+
+	return tempBOs;
+}
+
 void MyBoundingObjectManager::CheckColissions()
 {
 	for (int i = 0; i < BOnum; i++)

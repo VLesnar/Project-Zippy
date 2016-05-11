@@ -259,12 +259,19 @@ void AppClass::Update(void)
 		spawner3->Update(fTimeSpan);
 		spawner4->Update(fTimeSpan);
 
+		std::vector<MyBoundingObjectClass*> enemies = BOMngr->GetBOsByID("enem");
+		for (uint i = 0; i < enemies.size(); i++)
+		{
+			mainOctant->Remove(enemies[i]);
+		}
 		mainOctant->Remove(player->GetBO());
-		mainOctant->Clear();
-		mainOctant->Populate(player->GetBO());
-
 		mainOctant->Remove(BOMngr->GetBO("Bullet"));
 		mainOctant->Clear();
+		for (uint i = 0; i < enemies.size(); i++)
+		{
+			mainOctant->Populate(enemies[i]);
+		}
+		mainOctant->Populate(player->GetBO());
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));
 
 		player->MovePhysics(fTimeSpan);
