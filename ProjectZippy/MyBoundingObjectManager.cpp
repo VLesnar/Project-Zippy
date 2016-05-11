@@ -111,9 +111,9 @@ MyBoundingObjectClass* MyBoundingObjectManager::GetBO(uint a_nIndex)
 	return nullptr;
 }
 
-MyBoundingObjectClass * MyBoundingObjectManager::GetBO(std::string a_sName) {
+MyBoundingObjectClass* MyBoundingObjectManager::GetBO(std::string a_sName) {
 	for (uint i = 0; i < boundingObjects.size(); i++) {
-		if (boundingObjects[i]->GetName == a_sName) {
+		if (boundingObjects[i]->GetName() == a_sName) {
 			return boundingObjects[i];
 		}
 	}
