@@ -5,9 +5,12 @@ EnemyManager::EnemyManager()
 
 }
 
-EnemyManager::EnemyManager(vector3 pos)
+EnemyManager::EnemyManager(vector3 pos, float rot, float offset)
 {
+	
 	position = pos;
+	rotation = rot;
+	spawnDelay = offset;
 	fRunTime = 0.0f;
 }
 
@@ -26,7 +29,7 @@ void EnemyManager::Spawn()
 	if (numEnemies <= maxEnemies) {
 		String name = "Enemy";
 		name += std::to_string(rand());
-		enemies.push_back(new Enemy(position, name));
+		enemies.push_back(new Enemy(position, name, rotation));
 		numEnemies++;
 	}
 	else {
@@ -34,7 +37,7 @@ void EnemyManager::Spawn()
 		{
 			if (enemies[i]->isAlive == false)
 			{
-				enemies[i]->spawn(position);
+				enemies[i]->spawn(position, rotation);
 				break; 
 			}
 		}
@@ -44,11 +47,15 @@ void EnemyManager::Spawn()
 void EnemyManager::Update(double fTimeSpan)
 {
 	fRunTime += fTimeSpan;
-	if (fRunTime >= spawntime)
+	if (fRunTime >= spawntime + spawnDelay)
 	{
+
+				Spawn();
+				spawntime += spawntime;
+				firstSpawn = false;
+
+
 		
-		Spawn();
-		spawntime += spawntime;
 	}
 
 	for (int i = 0; i < numEnemies; i++)

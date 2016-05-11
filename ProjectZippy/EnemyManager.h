@@ -15,10 +15,14 @@ public:
 	int maxEnemies = 3;
 	int numEnemies;
 	float spawntime = 5.0f;
+	float spawnDelay = 0.0f;
+	float rotation = 0.0f;
 	double fRunTime;
+	bool firstSpawn = true;
 	MeshManagerSingleton* meshManager = MeshManagerSingleton::GetInstance();
 	EnemyManager();
-	EnemyManager(vector3 position);
+	EnemyManager(vector3 position, float rot, float offset);
+	
 	
 	~EnemyManager();
 
