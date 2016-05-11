@@ -58,6 +58,7 @@ public:
 	void Render();
 
 	MyBoundingObjectClass * GetBO(uint a_nIndex);
+	MyBoundingObjectClass * GetBO(std::string a_sName);
 	
 	//render a specific bounding object
 	void Render(MyBoundingObjectClass* iBO);

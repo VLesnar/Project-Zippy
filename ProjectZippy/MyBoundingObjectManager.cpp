@@ -111,6 +111,14 @@ MyBoundingObjectClass* MyBoundingObjectManager::GetBO(uint a_nIndex)
 	return nullptr;
 }
 
+MyBoundingObjectClass * MyBoundingObjectManager::GetBO(std::string a_sName) {
+	for (uint i = 0; i < boundingObjects.size(); i++) {
+		if (boundingObjects[i]->GetName == a_sName) {
+			return boundingObjects[i];
+		}
+	}
+}
+
 void MyBoundingObjectManager::CheckColissions()
 {
 	for (int i = 0; i < BOnum; i++)
