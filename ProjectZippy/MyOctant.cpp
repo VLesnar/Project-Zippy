@@ -93,6 +93,8 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 	vector3 v3MinG = bO->GetMinG();	//Minimum vector of the bO	
 	vector3 v3MaxG = bO->GetMaxG();	//Maximum vector of the bO
 
+	std::cout << glm::distance(v3MinG, v3MaxG) << std::endl;
+
 	//Check if bO is completely within the octant. Return false if it isn't.
 	//X-check
 	if (v3MinG.x < m_v3Position.x - m_fSize / 2)

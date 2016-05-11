@@ -22,12 +22,11 @@ void AppClass::InitVariables(void)
 	spawner3 = new EnemyManager(vector3(-30.0f, 2.0f, 0.0f));
 	spawner4 = new EnemyManager(vector3(30.0f, 2.0f, 0.0f));
 	
-	/*
 	Bullet = new GameObject(
 		"Bullet",
 		"Bullet.obj",
 		"Bullet",
-		glm::translate(vector3(0.0f, 0.0f, 0.0f)));*/
+		glm::translate(vector3(0.0f, -1.0f, 0.0f)));
 		
 	GOMngr->SetGO(
 		"MainCube",
@@ -247,13 +246,13 @@ void AppClass::Update(void)
 
 		//Call the arcball method
 		ArcBall();
-		//Bullet->Render();
+		Bullet->Render();
 		GOMngr->Render();
 		mainOctant->Display();
 
 		//timer for bullets
 		bulletTimer += fTimeSpan;
-		//Bullet->Translate(bulletForward);
+		Bullet->Translate(bulletForward);
 
 		spawner1->Update(fTimeSpan);
 		spawner2->Update(fTimeSpan);
@@ -264,7 +263,7 @@ void AppClass::Update(void)
 		mainOctant->Clear();
 		mainOctant->Populate(player->GetBO());
 
-		//player->MovePhysics(fTimeSpan);
+		player->MovePhysics(fTimeSpan);
 		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
 		//BOMngr->CheckColissions();
 		//BOMngr->Render();

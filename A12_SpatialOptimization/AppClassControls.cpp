@@ -44,13 +44,7 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
 		if (!bKeyH) {
-			nKeyH++;
-			if (nKeyH % 2 == 0) {
-				bVisibleH = false;
-			}
-			else if (nKeyH % 2 == 1) {
-				bVisibleH = true;
-			}
+			bVisibleH = !bVisibleH;
 		}
 		bKeyH = true;
 	}
@@ -60,13 +54,7 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
 		if (!bKeyJ) {
-			nKeyJ++;
-			if (nKeyJ % 2 == 0) {
-				bVisibleJ = false;
-			}
-			else if (nKeyJ % 2 == 1) {
-				bVisibleJ = true;
-			}
+			bVisibleJ = !bVisibleJ;
 		}
 		bKeyJ = true;
 	}
@@ -76,13 +64,7 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
 		if (!bKeyK) {
-			nKeyK++;
-			if (nKeyK % 2 == 0) {
-				bSOCheck = false;
-			}
-			else if (nKeyK % 2 == 1) {
-				bSOCheck = true;
-			}
+			bSOCheck = !bSOCheck;
 		}
 		bKeyK = true;
 	}
