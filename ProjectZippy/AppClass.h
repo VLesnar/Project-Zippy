@@ -37,6 +37,9 @@ class AppClass : public ReEngAppClass
 	int updateRelianceDelay = 120;	//Number of frames before app uses system FPS for dt instead of LapClock
 	int updateRelianceCounter = 0;	//Counter for those frames
 
+	bool bKeyO = false;
+	bool bVisibleO = false;
+
 	enum class GameState
 	{
 		start,

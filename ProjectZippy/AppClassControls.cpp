@@ -86,6 +86,16 @@ void AppClass::ProcessKeyboard(void)
 		// Enter end
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 			state = GameState::end;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+			if (!bKeyO) {
+				bVisibleO = !bVisibleO;
+			}
+			bKeyO = true;
+		}
+		else {
+			bKeyO = false;
+		}
 	}
 
 	if (state == GameState::start) {
@@ -163,17 +173,6 @@ void AppClass::ProcessMouse(void)
 		std::pair<vector3, vector3> pair =
 			m_pCameraMngr->GetClickAndDirectionOnWorldSpace(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		float fDistance = 0;//Stores the distance to the first colliding object
-		m_selection = m_pMeshMngr->IsColliding(pair.first, pair.second, fDistance);
-
-		//If there is a collision
-		if (m_selection.first >= 0)
-		{
-			//Turn on the BO of the group
-			m_pMeshMngr->SetVisibleBO(BD_OB, m_selection.first, m_selection.second);
-
-			//Turn of the BO of the instance but not the group
-			m_pMeshMngr->SetVisibleBO(BD_NONE, m_selection.first, -2);
-		}
 	}
 	
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
