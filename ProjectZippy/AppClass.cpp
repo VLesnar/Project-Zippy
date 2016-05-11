@@ -292,7 +292,7 @@ void AppClass::Update(void)
 	}
 
 	// End the game if the player's or the core's health drops to zero
-	if (BOMngr->playerHealth <= 0 || BOMngr->coreHealth <= 0) {
+	if (BOMngr->coreHealth <= 0) {
 		state = GameState::end;
 	}
 }

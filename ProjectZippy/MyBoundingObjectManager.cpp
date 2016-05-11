@@ -233,14 +233,4 @@ void MyBoundingObjectManager::CheckSingleCollision(MyBoundingObjectClass* obj1, 
 			//coreHealth -= 1;
 		}
 	}
-
-	if (
-		(obj1->GetColID() == "enem" && obj2->GetColID() == "play") ||
-		(obj1->GetColID() == "play" && obj2->GetColID() == "enem"))
-	{
-		if (obj1->IsCollidingABB(obj2))
-		{
-			//playerHealth -= 1;
-		}
-	}
 }
