@@ -264,7 +264,7 @@ void AppClass::Update(void)
 		mainOctant->Clear();
 		mainOctant->Populate(player->GetBO());
 
-		player->MovePhysics(fTimeSpan);
+		//player->MovePhysics(fTimeSpan);
 		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
 		//BOMngr->CheckColissions();
 		//BOMngr->Render();

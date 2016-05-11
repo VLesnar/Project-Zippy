@@ -163,7 +163,6 @@ bool MyOctant::Populate(MyBOClass* bO)
 
 	//Check if any children contain the current bO or any bO
 	bool childrenContainBOThis = false;		//If a child contains this bO
-	bool childrenContainBOAny = false;		//If a child contains any bO
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (m_pChildren[i].Populate(bO))
@@ -171,23 +170,12 @@ bool MyOctant::Populate(MyBOClass* bO)
 			childrenContainBOThis = true;
 			break;
 		}
-		if (m_pChildren[i].m_lObjects.size() != 0)
-		{
-			childrenContainBOAny = true;
-		}
 	}
 
 	//If any of the children contain the bO, this doesn't, so return true;
 	if (childrenContainBOThis)
 	{
 		return true;
-	}
-
-	//If no children contain any bOs, return false
-	if (!childrenContainBOAny)
-	{
-		m_pChildren = nullptr;
-		m_nChildCount = 0;
 	}
 
 	//Add the bO to this and return true
@@ -198,16 +186,18 @@ bool MyOctant::Populate(MyBOClass* bO)
 //Remove a bO from the octant.
 bool MyOctant::Remove(MyBOClass* bO)
 {
+	//Check this octant if it contains the bO. Return true if it does.
 	uint objectCount = m_lObjects.size();
 	for (int i = 0; i < objectCount; i++)
 	{
 		if (bO == m_lObjects[i])
 		{
-			m_lObjects.erase(m_lObjects.begin() + 1);
+			m_lObjects.erase(m_lObjects.begin() + i);	//Remove the bO when found.
 			return true;
 		}
 	}
 
+	//Check each child if they contain the bO. Return true if one does.
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (m_pChildren[i].Remove(bO))
@@ -216,6 +206,7 @@ bool MyOctant::Remove(MyBOClass* bO)
 		}
 	}
 
+	//Return false if neither this nor its children have the bO
 	return false;
 }
 
@@ -223,18 +214,23 @@ bool MyOctant::Remove(MyBOClass* bO)
 bool MyOctant::Clear()
 {
 	//Recursively check if children have bOs and clear them.
+	bool fun = true;
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (!m_pChildren[i].Clear())
 		{
-			return false;	//Return false if there's still a bO
+			fun = false;	//Return false if there's still a bO
 		}
 	}
 
-	//Children have been checked, so if this is empty, remove its children and return true
+	if (!fun)
+		return false;
+
+	ReleaseChildren();
+
+	//Return true if there's no bO here.
 	if (m_lObjects.size() == 0)
 	{
-		ReleaseChildren();
 		return true;
 	}
 

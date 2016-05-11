@@ -4,8 +4,9 @@
 class Player : public GameObject
 {
 private:
-	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();
-	float speed = 10.0f;
+	CameraManagerSingleton* m_pCameraMngr = CameraManagerSingleton::GetInstance();	//Camera that is centered at the player
+	float speed = 10.0f;															//Movement speed of the player
+	float jumpPulse = 12.0f;														//Velocity given to the player in jump
 public:
 	Player() : GameObject(
 		"player",
@@ -23,11 +24,11 @@ public:
 			REAXISY);//What is up
 	}
 	
-	void MoveForward(double dt);
-	void MoveBackwards(double dt);
-	void MoveLeft(double dt);
-	void MoveRight(double dt);
-	void Jump();
-	void Translate(vector3 dir);
-	void MovePhysics(double dt);
+	void MoveForward(double dt);	//Move
+	void MoveBackwards(double dt);	//Move
+	void MoveLeft(double dt);		//Move
+	void MoveRight(double dt);		//Move
+	void Jump();					//Jump
+	void Translate(vector3 dir);	//Translate the player in a direction
+	void MovePhysics(double dt);	//Perform physics calculations on the player
 };

@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include <iomanip>
 
 //Constructor based on model for static objects
 GameObject::GameObject(std::string objectName, std::string modelName, std::string colID, matrix4 intransform)

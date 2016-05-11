@@ -155,16 +155,18 @@ bool MyOctant::Populate(MyBoundingObjectClass* bO)
 //Remove a bO from the octant.
 bool MyOctant::Remove(MyBoundingObjectClass* bO)
 {
+	//Check this octant if it contains the bO. Return true if it does.
 	uint objectCount = m_lObjects.size();
 	for (int i = 0; i < objectCount; i++)
 	{
 		if (bO == m_lObjects[i])
 		{
-			m_lObjects.erase(m_lObjects.begin() + i);
+			m_lObjects.erase(m_lObjects.begin() + i);	//Remove the bO when found.
 			return true;
 		}
 	}
 
+	//Check each child if they contain the bO. Return true if one does.
 	for (int i = 0; i < m_nChildCount; i++)
 	{
 		if (m_pChildren[i].Remove(bO))
@@ -173,6 +175,7 @@ bool MyOctant::Remove(MyBoundingObjectClass* bO)
 		}
 	}
 
+	//Return false if neither this nor its children have the bO
 	return false;
 }
 
