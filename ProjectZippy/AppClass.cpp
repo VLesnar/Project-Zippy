@@ -281,8 +281,8 @@ void AppClass::Update(void)
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));
 
 		player->MovePhysics(fTimeSpan);
-		//mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
-		BOMngr->CheckColissions();
+		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
+		//BOMngr->CheckColissions();
 		//BOMngr->Render();
 		//mainOctant->PrintPopulation();
 		
