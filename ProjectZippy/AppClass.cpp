@@ -271,7 +271,6 @@ void AppClass::Update(void)
 		}
 		mainOctant->Remove(player->GetBO());
 		mainOctant->Remove(BOMngr->GetBO("Bullet"));
-		mainOctant->Clear();
 		for (uint i = 0; i < enemies.size(); i++)
 		{
 			if(enemies[i]->getCollisions())	//Only add active enemies
@@ -279,6 +278,7 @@ void AppClass::Update(void)
 		}
 		mainOctant->Populate(player->GetBO());
 		mainOctant->Populate(BOMngr->GetBO("Bullet"));
+		mainOctant->Clear();
 
 		player->MovePhysics(fTimeSpan);
 		mainOctant->CheckCollisions(std::vector<MyBoundingObjectClass*>());
